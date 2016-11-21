@@ -29,6 +29,6 @@ MD-RIN consists of a suite of Python scripts that have been designed to analyze 
 
 ###1. Network analysis
 
-###2. Pertubation Response Scanning
+###2. Perturbation Response Scanning
 
 ###3. MD Correlation
