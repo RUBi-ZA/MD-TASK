@@ -7,12 +7,12 @@ MD-RIN consists of a suite of Python scripts that have been developed to analyze
 
 ##2. Installation
 
-### Download the project
+*Download the project:*
 ```bash
 git clone https://github.com/RUBi-ZA/JMS.git
 cd MD-RIN
 ```
-### Install dependencies and set up Python virtual environment
+*Install dependencies and set up Python virtual environment:*
 ```bash
 sudo apt-get install virtualenvwrapper python-dev libblas-dev liblapack-dev libatlas-base-dev gfortran libpng12-dev libfreetype6-dev python-tk
 virtualenv venv
