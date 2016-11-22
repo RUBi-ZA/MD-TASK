@@ -14,6 +14,12 @@ Contribute
 - Source Code: https://github.com/RUBi-ZA/MD-RIN
 
 
+Citing MD-RIN
+---------------
+
+A publication is currently being prepared. For now, please site our GitHub page (https://github.com/RUBi-ZA/MD-RIN).
+
+
 License
 ---------------
 

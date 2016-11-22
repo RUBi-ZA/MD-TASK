@@ -17,6 +17,7 @@ MD-RIN documentation
    :caption: Usage
    
    Network Analysis <usage>
-   
+   prs
+   corr
 
 

@@ -1,7 +1,7 @@
 Network Analysis
 ==================
 
-Residue Interaction Networks (RIN) are analyzed using a branch of Mathematics known as graph theory. In a RIN, each residue in the protein is a node in the network. An edge (or connection) between two nodes exists if there is an interaction between the two residues that they represent. In RINs, an interaction between two residues exists if the residues are within a user-defined cut-off distance (usually around 6.5 – 7.5 Å) of each other. Once the network has been constructed, there are various network measures that can be used to analyze it. Currently, MD-RIN can be used to analyze the change in betweenness centrality (BC) and average shortest path (L) of residues in a protein over a molecular dynamics simulation.
+Residue Interaction Networks (RIN) are analyzed using a branch of Mathematics known as graph theory. In a RIN, each residue in the protein is a node in the network. An edge (or connection) between two nodes exists if there is an interaction between the two residues that they represent. In RINs, an interaction between two residues exists if the Carbon beta atoms of those residues are within a user-defined cut-off distance (usually around 6.5 – 7.5 Å) of each other. Once the network has been constructed, there are various network measures that can be used to analyze it. Currently, MD-RIN can be used to analyze the change in betweenness centrality (BC) and average shortest path (L) of residues in a protein over a molecular dynamics simulation.
 
 Measurements
 -----------------
@@ -14,12 +14,12 @@ Betweenness centrality (BC) is a measure of how important a residue is for commu
 
 The average shortest path (L) to a given residue is calculated by working out all the shortest paths to the given node and dividing by the number of paths. The average shortest path to a residue gives an idea of how accessible the residue is within the protein. This can be used to, for example, analyze SNPs. A mutation may result in a change in L of a number of residues in the protein. This may indicate that the mutation has an important effect on protein function e.g. previous studies have suggested that positions that result in high delta L values may steer conformational changes.
 
-Calculating the network
+Calculating BC and L
 ------------------------
 
 *Command:* ::
 	
-	python calc_network <options> <trajectory>
+	python calc_network <options> --topology <pdb file> <trajectory>
 
 *Inputs:*
 
@@ -66,6 +66,34 @@ The above command will calculate the network for every 100th frame in the trajec
 
 *Outputs:*
 
-For each frame in the the trajectory that a RIN was generated for, an 2 Nx1 matrices will be printed to file, one for BC and one for L (if both flags were set), where N is the number of residues in the protein. Each value in these matrices represents BC or L for the residue at that index.
+================  ===================================================================================================================================================================
+Output            Description
+================  ===================================================================================================================================================================
+BC Matrices       For each frame analyzed, an Nx1 matrix is produced, where N is the number of residues in the protein and each value represents the BC for the residue at that index
+L Matrices        For each frame analyzed, an Nx1 matrix is produced, where N is the number of residues in the protein and each value represents the L to the residue at that index
+BC & L Plots      If ``--generate-plots`` flag is set, PNG figures are produced for the BC and L matrices
+Network graphs    If ``--discard-graphs`` flag is set, do not save the networks produced for each frame
+================  ===================================================================================================================================================================
 
-Two PNG plots will also be generated for each frame if the ``--generate-plots`` flag was set.
+Calculating ΔL
+----------------------
+
+
+Calculating ΔBC
+-----------------------
+
+
+Calculating Average BC and L (and standard deviation)
+-----------------------------------------------------
+
+
+SNP Analysis - comparing mutant to wild type trajectories
+---------------------------------------------------------
+
+
+SNP Analysis - residue contact maps
+---------------------------------------------------------
+
+
+
+
