@@ -8,10 +8,15 @@ MD-RIN documentation
 
 .. toctree::
    :maxdepth: 2
-   :caption: Table of Contents
-	
-   Intro <home>
+   :caption: Getting started
+   
+   Introduction <home>
    installation
-   usage
+
+.. toctree::   
+   :caption: Usage
+   
+   Network Analysis <usage>
+   
 
 
