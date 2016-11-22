@@ -1,5 +1,5 @@
 # MD-RIN
-Tool suite for analysing molecular dynamics trajectories using network analysis and PRS
+Tool suite for analysing molecular dynamics trajectories using network analysis and PRS.
 
 ##1. Introduction
 
@@ -24,4 +24,7 @@ pip install matplotlib cython networkx natsort
 pip install mdtraj
 ```
 
+## Usage
+
+The scripts are located in the root directory of the project. To run the scripts, ensure that the virtual environment is activated. For me info, find detailed documentation [here](http://md-rin.readthedocs.io/en/latest/index.html). 
 
