@@ -16,8 +16,9 @@ MD-RIN documentation
 .. toctree::   
    :caption: Usage
    
-   Network Analysis <usage>
+   Network Analysis <network>
    prs
    corr
+
 
 
