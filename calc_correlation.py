@@ -21,8 +21,8 @@ import numpy as np
 
 
 
-def parse_traj(traj, pdb=None, step=1, selected_atoms=["CA"]):    
-    traj = md.load(traj, top=pdb)    
+def parse_traj(traj, topology=None, step=1, selected_atoms=["CA"]):    
+    traj = md.load(traj, top=topology)    
     
     residues = {}
     
@@ -131,7 +131,7 @@ def print_correlation(correlation, output_prefix):
 
 def main(args):
     log("Preparing a trajectory matrix...")
-    traj_matrix = parse_traj(args.trajectory, args.reference_pdb, args.step)
+    traj_matrix = parse_traj(args.trajectory, args.topology, args.step)
     
     log("Correlating...")
     correlation = correlate(traj_matrix)
@@ -167,7 +167,7 @@ if __name__ == "__main__":
     
     #custom arguments
     parser.add_argument("--trajectory", help="Trajectory file")
-    parser.add_argument("--reference-pdb", help="Referencce PDB file (must contain the same number of atoms as the trajectory)")
+    parser.add_argument("--topology", help="Referencce PDB file (must contain the same number of atoms as the trajectory)")
     parser.add_argument("--step", help="Size of the step to take when iterating the the trajectory frames", type=int)
 
     parser.add_argument("--prefix", help="Prefix for output files")

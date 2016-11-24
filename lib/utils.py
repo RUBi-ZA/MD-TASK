@@ -7,8 +7,8 @@ import mdtraj as md
 
 class MDIterator:
     
-    def __init__(self, traj_file, top, chunk=100):
-        self.iterator = md.iterload(traj_file, top=top, chunk=chunk)
+    def __init__(self, traj_file, top, chunk=100, stride=1):
+        self.iterator = md.iterload(traj_file, top=top, chunk=chunk, stride=stride)
         self.trajectory = None
         
         self.index = chunk - 1

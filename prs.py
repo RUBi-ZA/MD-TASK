@@ -78,9 +78,9 @@ def main(args):
     
     if args.num_frames:
         totalframes = args.num_frames
-        traj = MDIterator(args.trajectory, top=args.topology)   
+        traj = MDIterator(args.trajectory, top=args.topology, stride=args.step)   
     else:
-        traj = md.load(args.trajectory, top=args.topology)  
+        traj = md.load(args.trajectory, top=args.topology)[::args.step]  
         totalframes = traj.n_frames
     
     totalres = initial.n_residues
@@ -283,6 +283,7 @@ if __name__ == "__main__":
     #custom arguments
     parser.add_argument("trajectory", help="Trajectory file")
     parser.add_argument("--topology", help="Topology PDB file (required if trajectory does not contain topology information)")
+    parser.add_argument("--step", help="Size of step when iterating through trajectory frames", default=1, type=int)
     parser.add_argument("--initial", help="Initial state co-ordinate file (default: generated from first frame of trajectory)", default=None)
     parser.add_argument("--final", help="Final state co-ordinate file (must be provided)")
     parser.add_argument("--perturbations", help="Number of perturbations (default: 250)", type=int, default=250)
