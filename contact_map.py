@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# Compare network measurements such as BC and L by plotting a wild-type vs mutants heatmap
+# Generate weighted contact map around a given residue
 #
 # Script distributed under GNU GPL 3.0
 # 

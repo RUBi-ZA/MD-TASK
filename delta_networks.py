@@ -1,4 +1,11 @@
 #!/usr/bin/env python
+#
+# Compare network measurements such as BC and L by plotting a wild-type vs mutants heatmap
+#
+# Script distributed under GNU GPL 3.0
+# 
+# Author: David Brown
+# Date: 17-11-2016
 
 from natsort import natsorted
 
@@ -114,7 +121,7 @@ if __name__ == "__main__":
     
     #custom arguments
     parser.add_argument("--reference", help="The reference network (.dat)")
-    parser.add_argument("--reference-std", help="The reference standard deviation network (.dat)")
+    parser.add_argument("--reference-std", help="The reference standard deviation network (.dat) - should be in identical order as alternative networks")
     parser.add_argument("--alternatives", help="The alternative networks (.dat)", nargs="*")
     parser.add_argument("--alternatives-std", help="The alternative standard deviation networks (.dat) - should be in identical order as alternative networks", nargs="*", default=None)
     
