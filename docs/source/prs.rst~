@@ -18,7 +18,7 @@ Performing PRS
 Trajectory *                 File                               A trajectory from a molecular dynamics simulation. Can be in DCD or XTC format.
 Topology *                   File         ``--topology``        A PDB reference file for the trajectory.
 Initial                      File         ``--initial``         Co-ordinate file (.xyz) depicting the initial conformation (default: co-ordinate file is generated from the first frame of the trajectory)
-Final *                      File         ``--final``           Co-ordinate file (.xyz) depicting the target conformation
+Final                        File         ``--final``           Co-ordinate file (.xyz) depicting the target conformation
 Perturbations                Integer      ``--perturbations``   Number of perturbations to apply
 No. of frames in trajectory  Integer      ``--num-frames``      Optionally specify the number of frames in the trajectory. This will run the script in a memory efficient mode. Usefult for large trajectories that don't fit into memory.
 Step                         Integer      ``--step``            Step to use when iterating through trajectory frames i.e. how many frames will be skipped.
