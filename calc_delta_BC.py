@@ -14,6 +14,8 @@ from datetime import datetime
 import numpy as np
 import matplotlib.pyplot as plt
 
+from lib.utils import *
+
 import os, sys, argparse
 
 
@@ -56,7 +58,6 @@ def calc_delta_BC(reference_file, alternative_files, generate_plots=False):
             
             log("Plot generated: %s_delta_BC.png" % prefix)
     
-    log("Completed.")
     
     return delta_BC
 
@@ -108,8 +109,8 @@ if __name__ == "__main__":
     end = datetime.now()
     time_taken = format_seconds((end - start).seconds)
     
-    log("\nCompleted at: %s\n" % str(end))
-    log("- Total time: %s\n" % str(time_taken))
+    log("\nCompleted at: %s" % str(end))
+    log("- Total time: %s" % str(time_taken))
     
     #close logging stream
     stream.close()

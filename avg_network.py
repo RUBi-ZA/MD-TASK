@@ -15,6 +15,8 @@ from datetime import datetime
 
 import os, sys, argparse
 
+from lib.utils import *
+
 
 
 def split_array(arr, pos):
@@ -125,7 +127,7 @@ def main(args):
             
         else:    
             plot_graph(
-                avg_matrix, std, args.intial_x, args.title, args.x_label,
+                avg_matrix, std, args.initial_x, args.title, args.x_label,
                 args.y_label, ylim=ylim
             )
         
