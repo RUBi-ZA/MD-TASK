@@ -23,7 +23,7 @@ Molecular dynamics trajectories can be extremely large. However, MD-RIN tools on
 	animate read xtc example.xtc waitfor all
 	set s1 [atomselect top "name CA or name CB and not solvent"]
 	animate write dcd example_small.dcd waitfor all sel $s1
-	animate write pdb example_small.pdb sel $s1  
+	animate write pdb example.pdb sel $s1  
 	quit
 
 For very large trajectories that do not fit in memory, the above may be necessary. Note that both when reducing the trajectory, the same reduction should be applied to the topology PDB file i.e. the trajectory and topology files should have the exact same number of atoms.
@@ -33,10 +33,14 @@ Test Data
 
 There is test data located in the 'examples' directory. Four files are included here:
 
-*1. ``example_small.dcd`` - an example trajectory that has been reduced to alpha and beta carbons only
-*2. ``example.pdb`` - a PDB file that corresponds to the above trajectory (to be used for topology information)
-*3. ``Initial.txt`` - an XYZ co-ordinate file representing the initial conformation of a protein (used for PRS)
-*4. ``Final.txt`` - an XYZ co-ordinate file representing the target conformation of a protein (used for PRS)
+=====================  =======================================================================================================================================================
+File                    Description
+=====================  =======================================================================================================================================================
+``example_small.dcd``  An example trajectory that has been reduced to alpha and beta carbons only
+``example.pdb``        A PDB file that corresponds to the above trajectory (to be used for topology information)
+``Initial.txt``        An XYZ co-ordinate file representing the initial conformation of a protein (used for PRS)
+``Final.txt``          An XYZ co-ordinate file representing the target conformation of a protein (used for PRS)
+=====================  =======================================================================================================================================================
 
 Logging
 --------
@@ -46,6 +50,6 @@ All scripts in the suite have two arguments for logging. By default, logging is 
 ============  ==================  =====================================================================================================================================
 Input         Flag                Description
 ============  ==================  =====================================================================================================================================
-Log file      --log-file          Provide a path to a file that will store the logging output of the command. By default, the output will be written to the terminal.
-Silent        --silent            Switch off logging
+Log file      ``--log-file``      Provide a path to a file that will store the logging output of the command. By default, the output will be written to the terminal.
+Silent        ``--silent``        Switch off logging
 ============  ==================  =====================================================================================================================================
