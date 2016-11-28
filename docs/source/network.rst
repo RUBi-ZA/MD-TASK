@@ -8,7 +8,7 @@ Measurements
 
 **1. Betweenness Centrality (BC)**
 
-Betweenness centrality (BC) is a measure of how important a residue is for communication within a protein. It is equal to the number of shortest paths from all vertices to all others that pass through that node. Residues in a protein that have a high BC reveal locations that tend to be important for controlling inter-domain commuication in a protein.
+Betweenness centrality (BC) is a measure of how important a residue is for communication within a protein. It is equal to the number of shortest paths from all vertices to all others that pass through that node. Residues in a protein that have a high BC reveal locations that tend to be important for controlling inter-domain communication in a protein.
 
 **2. Average Shortest Path(L)**
 

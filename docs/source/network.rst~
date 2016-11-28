@@ -316,7 +316,7 @@ For each of the commands above, a contact map in PDF format will be produced, as
 =====================  ===================================================================================================================================================================
 Output                 Description
 =====================  ===================================================================================================================================================================
-Contact map            
-Contact network (CSV)
+Contact map            Network with weighted edges depicting how often residues are interacting with the selected residue over the course of the simulation
+Contact network (CSV)  Network in CSV format
 =====================  ===================================================================================================================================================================
 
