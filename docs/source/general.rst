@@ -17,7 +17,7 @@ Most of the MD-RIN tools require both a trajectory file and topology/structure f
 Reducing your trajectory
 -----------------------------
 
-Molecular dynamics trajectories can be extremely large. However, MD-RIN tools only require the alpha and beta carbon atoms to be present. To save space and improve performance, the following VMD script can be used to reduce a trajectory (in DCD format), to the bare essentials: ::
+Molecular dynamics trajectories can be extremely large. However, MD-RIN tools only require the alpha and beta carbon atoms to be present. To save space and improve performance, the following VMD script can be used to reduce a trajectory, to the bare essentials: ::
 
 	mol load pdb example.pdb
 	animate read xtc example.xtc waitfor all
@@ -26,7 +26,9 @@ Molecular dynamics trajectories can be extremely large. However, MD-RIN tools on
 	animate write pdb example.pdb sel $s1  
 	quit
 
-For very large trajectories that do not fit in memory, the above may be necessary. Note that both when reducing the trajectory, the same reduction should be applied to the topology PDB file i.e. the trajectory and topology files should have the exact same number of atoms.
+The above assumes that your topology file is a PDB file named ``example.pdb`` and that your trajectory is named ``example.xtc``. It then writes out the reduced structure and trajectory to ``example.pdb` and ``example_small.dcd`` respectively. You should change these names accordingly. You will also note that the above converts the trajectory from XTC to DCD format. This is not necessary. 
+
+For very large trajectories that do not fit in memory, reducing as shown above may be necessary. Note that when reducing the trajectory, the same reduction should be applied to the topology PDB file i.e. the trajectory and topology files should have the exact same number of atoms.
 
 Test Data
 ----------
