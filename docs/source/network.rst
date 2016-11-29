@@ -1,7 +1,7 @@
 Network Analysis
 ==================
 
-Residue Interaction Networks (RIN) are analyzed using a branch of Mathematics known as graph theory. In a RIN, each residue in the protein is a node in the network. An edge (or connection) between two nodes exists if there is an interaction between the two residues those nodes represent. MD-RIN considers an interaction between two residues to exist if the beta carbon atoms of the residues are within a user-defined cut-off distance (usually around 6.5 – 7.5 Å) of each other. Once the network has been constructed, there are various network measures that can be used to analyze it. Currently, MD-RIN can be used to analyze the change in betweenness centrality (BC) and average shortest path (L) of residues in a protein over a molecular dynamics simulation. This can be used to determine which residues are important for intra-protein communication and conformational changes. RINs can also be useful in the analysis of SNPs. Comparing changes in BC and L between the simulation of a wild-type and mutant protein can provide interesting insights into differences in intra-protein communication, which can affect the function of the protein.
+Residue Interaction Networks (RIN) are analyzed using a branch of Mathematics known as graph theory. In a RIN, each residue in the protein is a node in the network. An edge (or connection) between two nodes exists if there is an interaction between the two residues those nodes represent. MD-TASK considers an interaction between two residues to exist if the beta carbon atoms of the residues are within a user-defined cut-off distance (usually around 6.5 – 7.5 Å) of each other. Once the network has been constructed, there are various network measures that can be used to analyze it. Currently, MD-TASK can be used to analyze the change in betweenness centrality (BC) and average shortest path (L) of residues in a protein over a molecular dynamics simulation. This can be used to determine which residues are important for intra-protein communication and conformational changes. RINs can also be useful in the analysis of SNPs. Comparing changes in BC and L between the simulation of a wild-type and mutant protein can provide interesting insights into differences in intra-protein communication, which can affect the function of the protein.
 
 Measurements
 -----------------
@@ -58,9 +58,9 @@ Calculating BC and L
 |                        |            |                    |been calculated              |
 +------------------------+------------+--------------------+-----------------------------+ 
 
-Given a trajectory called ``minimized.dcd`` and a topology file called ``minimized.pdb``, the following command could be used: ::
+Given a trajectory called ``example_small.dcd`` and a topology file called ``example_small.pdb``, the following command could be used: ::
 
-	python calc_network.py --topology minimized.pdb --threshold 7.0 --step 100 --generate-plots --calc-BC --calc-L --discard-graphs minimized.dcd
+	python calc_network.py --topology example_small.pdb --threshold 7.0 --step 100 --generate-plots --calc-BC --calc-L --discard-graphs example_small.dcd
 
 The above command will calculate the network for every 100th frame in the trajectory. Depending on the size of your trajectory, you may want to increase this ``--step``. Edges in the network will be created between nodes that are within 7 Angstroms of each other. The average shortest path for each residue in each frame and the betweenness centrality of each residue in each frame will be calculated as both flags have been set in the above command. In addition, the ``--discard-graphs`` flag was set. As such, the networks for each frame will be discarded once BC and L have been calculated, saving disk space. By default, the networks for each frame are save in both ``gml`` and ``graphml`` format.
 
@@ -78,7 +78,7 @@ Network graphs    If ``--discard-graphs`` flag is set, do not save the networks 
 Calculating ΔL
 ----------------------
 
-If the ``--calc-L`` flag in the previous command is set, a number of Nx1 L matrices will be generated. Given the trajectory ``minimized.dcd``, the matrices will be named ``minimized_<frame>_avg_L.dat``, where ``<frame>`` is the frame index in the trajectory. 
+If the ``--calc-L`` flag in the previous command is set, a number of Nx1 L matrices will be generated. Given the trajectory ``example_small.dcd``, the matrices will be named ``example_small_<frame>_avg_L.dat``, where ``<frame>`` is the frame index in the trajectory. 
 
 **Command:** :: 
 	
@@ -95,9 +95,9 @@ Normalize                  Boolean      ``--normalize``       Set this flag to n
 Generate plots             Boolean      ``--generate-plots``  Set to generate figures
 =========================  ===========  ====================  ========================================================================================================================================================
 
-Given a set of average shortest path .dat files ``minimized_*_avg_L.dat`` (generated with ``calc_network.py``), the ``minimized_0_avg_L.dat`` file could be used as the reference and the rest could be used as the alternatives. If the reference .dat file is renamed to ``reference.dat``, the following command could be used: ::
+Given a set of average shortest path .dat files ``example_small_*_avg_L.dat`` (generated with ``calc_network.py``), the ``example_small_0_avg_L.dat`` file could be used as the reference and the rest could be used as the alternatives. If ``example_small_0_avg_L.dat`` is renamed to ``reference.dat``, the following command could be used: ::
 
-	python calc_delta_L.py --normalize --generate-plots --reference reference.dat --alternatives minimized_*_avg_L.dat
+	python calc_delta_L.py --normalize --generate-plots --reference reference.dat --alternatives example_small_*_avg_L.dat
 
 The above command will generate plots as well as Nx1 matrices representing the difference in L between each alternative and the reference frame. The values will be normalized by dividing by the reference values (ΔL/L).
 
@@ -113,7 +113,7 @@ Output            Description
 Calculating ΔBC
 -----------------------
 
-If the ``--calc-BC`` flag was set when running the ``calc_network.py`` script, a number of Nx1 BC matrices will be generated. Given the trajectory ``minimized.dcd``, the matrices will be named ``minimized_<frame>_bc.dat``, where ``<frame>`` is the frame index in the trajectory. 
+If the ``--calc-BC`` flag was set when running the ``calc_network.py`` script, a number of Nx1 BC matrices will be generated. Given the trajectory ``example_small.dcd``, the matrices will be named ``example_small_<frame>_bc.dat``, where ``<frame>`` is the frame index in the trajectory. 
 
 **Command:** :: 
 	
@@ -129,9 +129,9 @@ Alternative frames *       File/s       ``--alternatives``    The remaining Nx1 
 Generate plots             Boolean      ``--generate-plots``  Set to generate figures
 =========================  ===========  ====================  ========================================================================================================================================================
 
-Given a set of BC .dat files ``minimized_*_bc.dat`` (generated with ``calc_network.py``), the ``minimized_0_bc.dat`` file could be used as the reference and the rest could be used as the alternatives. If the reference .dat file is renamed to ``reference.dat``, the following command could be used: ::
+Given a set of BC .dat files ``example_small_*_bc.dat`` (generated with ``calc_network.py``), the ``example_small_0_bc.dat`` file could be used as the reference and the rest could be used as the alternatives. If the ``example_small_0_bc.dat`` is renamed to ``reference.dat``, the following command could be used: ::
 
-	python calc_delta_BC.py --generate-plots --reference reference.dat --alternatives minimized_*_bc.dat
+	python calc_delta_BC.py --generate-plots --reference reference.dat --alternatives example_small_*_bc.dat
 
 The above command will generate plots as well as Nx1 matrices representing the difference in BC between each alternative and the reference frame.
 
@@ -176,11 +176,11 @@ X-axis start value 1       Integer      ``--initial-x-1``     The start index of
 X-axis start value 2       Integer      ``--initial-x-2``     The start index of the x-axis for the second plot                
 =========================  ===========  ====================  ========================================================================================================================================================
 
-Given a set of .dat files generated by one of the previous commands (e.g. ``minimized_*_bc_delta_BC.dat``), the following command could be used: ::
+Given a set of .dat files generated by one of the previous commands (e.g. ``example_small_*_bc_delta_BC.dat``), the following command could be used: ::
 	
-	python avg_network.py --data minimized_*_bc_delta_BC.dat --data-type delta-BC --prefix minimized --generate-plots --x-label "Residues" --y-label "Avg delta BC" --title "My Protein"
+	python avg_network.py --data example_small_*_bc_delta_BC.dat --data-type delta-BC --prefix example_small --generate-plots --x-label "Residues" --y-label "Avg delta BC" --title "My Protein"
 
-The above command will generate two new .dat files and a PNG plot. The first .dat file, ``minimized_delta_bc_avg.dat``, contains an Nx1 matrix with the average ΔBC values for each residue over the course of the simulation. The second .dat file, ``minimized_delta_bc_std_dev.dat``, contains the standard deviation of ΔBC for each residue over the course of the simulation. The graph plots residues on the X axis and ΔBC on the Y axis. The average values are shown as a line and the standard deviation, representing the fluctuation of ΔBC over the course of the trajectory, are shown as error bars over each residue. **Note that in the above example, we have calculated the average and standard deviation of ΔBC, but avg_network.py can be used with any set of Nx1 matrix (BC/ΔBC/L/ΔL).
+The above command will generate two new .dat files and a PNG plot. The first .dat file, ``example_small_delta_bc_avg.dat``, contains an Nx1 matrix with the average ΔBC values for each residue over the course of the simulation. The second .dat file, ``example_small_delta_bc_std_dev.dat``, contains the standard deviation of ΔBC for each residue over the course of the simulation. The graph plots residues on the X axis and ΔBC on the Y axis. The average values are shown as a line and the standard deviation, representing the fluctuation of ΔBC over the course of the trajectory, are shown as error bars over each residue. *Note that in the above example, we have calculated the average and standard deviation of ΔBC, but avg_network.py can be used with any set of Nx1 matrix (BC/ΔBC/L/ΔL).*
 
 **Outputs:**
 

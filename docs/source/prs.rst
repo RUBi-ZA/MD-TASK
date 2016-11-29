@@ -25,9 +25,9 @@ Step                         Integer      ``--step``            Step to use when
 Prefix                       Text         ``--prefix``          Prefix used to name outputs 
 ===========================  ===========  ====================  ===========================================================================================================================================================================
 
-Given a trajectory, ``minimized.dcd``, with initial and target co-odinate files, ``initial.xyz`` and ``final.xyz``, respectively, the following command could be used: ::
+Given a trajectory, ``example_small.dcd``, with initial and target co-odinate files, ``initial.xyz`` and ``final.xyz``, respectively, and topology file, ``example_small.pdb``, the following command could be used: ::
 
-	python prs.py --initial initial.xyz --final final.xzy --perturbations 250 --step 100 --prefix result --trajectory minimized.dcd --topology minimized.pdb
+	python prs.py --initial initial.xyz --final final.xzy --perturbations 250 --step 100 --prefix result --trajectory example_small.dcd --topology example_small.pdb
 
 
 **Outputs:**

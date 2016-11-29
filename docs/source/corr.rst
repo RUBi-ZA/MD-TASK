@@ -21,9 +21,9 @@ Step                       Integer      ``--step``            Step to use when i
 Prefix                     Text         ``--prefix``          Prefix used to name outputs 
 =========================  ===========  ====================  ========================================================================================================================================================
 
-Given a trajectory, ``minimized.dcd``, the following command could be used: ::
+Given a trajectory, ``example_small.dcd``, and topology file, ``example_small.pdb``, the following command could be used: ::
 
-	python calc_correlation.py <options> --trajectory minimized.dcd --topology minimized.pdb
+	python calc_correlation.py <options> --trajectory example_small.dcd --topology example_small.pdb
 
 
 
