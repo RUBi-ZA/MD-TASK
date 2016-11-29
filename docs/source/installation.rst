@@ -19,7 +19,7 @@ Install dependencies
 
 Install system dependencies ::
 
-	sudo apt-get install virtualenvwrapper python-dev libblas-dev liblapack-dev libatlas-base-dev gfortran libpng12-dev libfreetype6-dev python-tk
+	sudo apt-get install virtualenvwrapper python-dev libblas-dev liblapack-dev libatlas-base-dev gfortran libpng12-dev libfreetype6-dev python-tk r-base
 
 
 We recommend using a Python virtual environment when using MD-RIN ::
@@ -33,4 +33,7 @@ We recommend using a Python virtual environment when using MD-RIN ::
 	pip install mdtraj
 
 
+Install the igraph package for R: ::
 
+	R
+	> install.packages("igraph")

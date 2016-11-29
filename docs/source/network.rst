@@ -89,7 +89,7 @@ If the ``--calc-L`` flag in the previous command is set, a number of Nx1 L matri
 =========================  ===========  ====================  ========================================================================================================================================================
  Input (*\*required*)      Input type   Flag                  Description                  
 =========================  ===========  ====================  ========================================================================================================================================================
-Reference frame *          File         ``--reference--``     Nx1 matrix to be used as the reference (normally the frame from time 0). Delta L will be worked out by comparing the alternative frames to this one.    
+Reference frame *          File         ``--reference``       Nx1 matrix to be used as the reference (normally the frame from time 0). Delta L will be worked out by comparing the alternative frames to this one.    
 Alternative frames *       File/s       ``--alternatives``    The remaining Nx1 matrices that should be compared to the reference matrix
 Normalize                  Boolean      ``--normalize``       Set this flag to normalize the values (ΔL/L)
 Generate plots             Boolean      ``--generate-plots``  Set to generate figures
@@ -124,7 +124,7 @@ If the ``--calc-BC`` flag was set when running the ``calc_network.py`` script, a
 =========================  ===========  ====================  ========================================================================================================================================================
  Input (*\*required*)      Input type   Flag                  Description                  
 =========================  ===========  ====================  ========================================================================================================================================================
-Reference frame *          File         ``--reference--``     Nx1 matrix to be used as the reference (normally the frame from time 0). Delta BC will be worked out by comparing the alternative frames to this one.    
+Reference frame *          File         ``--reference``       Nx1 matrix to be used as the reference (normally the frame from time 0). Delta BC will be worked out by comparing the alternative frames to this one.    
 Alternative frames *       File/s       ``--alternatives``    The remaining Nx1 matrices that should be compared to the reference matrix
 Generate plots             Boolean      ``--generate-plots``  Set to generate figures
 =========================  ===========  ====================  ========================================================================================================================================================

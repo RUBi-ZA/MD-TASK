@@ -20,10 +20,10 @@ Reducing your trajectory
 Molecular dynamics trajectories can be extremely large. However, MD-RIN tools only require the alpha and beta carbon atoms to be present. To save space and improve performance, the following VMD script can be used to reduce a trajectory, to the bare essentials: ::
 
 	mol load pdb example.pdb
-	animate read xtc example.xtc waitfor all
 	set s1 [atomselect top "name CA or name CB and not solvent"]
-	animate write dcd example_small.dcd waitfor all sel $s1
-	animate write pdb example.pdb sel $s1  
+	animate write pdb example.pdb sel $s1 
+	animate read xtc example.xtc waitfor all
+	animate write dcd example_small.dcd waitfor all sel $s1 
 	quit
 
 The above assumes that your topology file is a PDB file named ``example.pdb`` and that your trajectory is named ``example.xtc``. It then writes out the reduced structure and trajectory to ``example.pdb` and ``example_small.dcd`` respectively. You should change these names accordingly. You will also note that the above converts the trajectory from XTC to DCD format. This is not necessary. 

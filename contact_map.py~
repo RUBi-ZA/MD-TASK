@@ -138,12 +138,7 @@ def main(args):
     write_rscript(script_name, nframes, csv_file, contact_map)
         
     sp.call("R CMD BATCH %s" % script_name, shell=True)
-
-    if os.path.exists(contact_map):
-        os.remove(script_name)
-    else:
-        r_out = "%sout" % script_name
-        log("Contact map not generated. See contents of %s for details..." % r_out)
+    os.remove(script_name)
 
 
 
