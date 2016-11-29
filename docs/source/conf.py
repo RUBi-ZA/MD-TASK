@@ -270,7 +270,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'MD-TASK.tex', u'MD-TASK Documentation',
-     u'David Brown, David Penkler, Olivier Amamuddy, and Caroline Ross', 'manual'),
+     u'DK Brown, DL Penkler, OS Amamuddy, and CJ Ross', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
