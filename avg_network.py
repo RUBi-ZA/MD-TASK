@@ -125,7 +125,8 @@ def main(args):
                 args.title_1, args.title_2, args.x_label, args.y_label, ylim=ylim
             )
             
-        else:    
+        else:  
+            print args.x_label, args.y_label, args.title 
             plot_graph(
                 avg_matrix, std, args.initial_x, args.title, args.x_label,
                 args.y_label, ylim=ylim

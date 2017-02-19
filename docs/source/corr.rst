@@ -18,12 +18,13 @@ Calculating dynamic cross-correlation
 Trajectory *               File                               A trajectory from a molecular dynamics simulation. Can be in DCD or XTC format.
 Topology *                 File         ``--topology``        A PDB reference file for the trajectory.
 Step                       Integer      ``--step``            Step to use when iterating through trajectory frames i.e. how many frames will be skipped.
-Prefix                     Text         ``--prefix``          Prefix used to name outputs 
+Prefix                     Text         ``--prefix``          Prefix used to name outputs.
+Lazy load                  Boolean      ``--lazy-load``       Load trajectory frames in a memory efficient manner - use for large trajectories.
 =========================  ===========  ====================  ========================================================================================================================================================
 
 Given a trajectory, ``example_small.dcd``, and topology file, ``example_small.pdb``, the following command could be used: ::
 
-	python calc_correlation.py <options> --trajectory example_small.dcd --topology example_small.pdb
+	python calc_correlation.py --step 100 --prefix example_corr --trajectory example_small.dcd --topology example_small.pdb
 
 
 

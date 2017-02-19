@@ -9,11 +9,7 @@
 # Author: David Brown
 # Date: 17-11-2016
 
-
-#from prody import *
 import mdtraj as md
-
-#from natsort import natsorted
 
 from lib.utils import *
 
@@ -37,7 +33,6 @@ def calcDistance(frame, index1, index2):
     
     return abs(dist)
     
-
 
 def construct_graph(frame, ligands=None, prefix="frame", threshold=6.7, save_graph=True):
     filter = "(name CB and protein) or (name CA and resname GLY)"
@@ -72,6 +67,29 @@ def construct_graph(frame, ligands=None, prefix="frame", threshold=6.7, save_gra
     return protein_graph
 
 
+def calc_shortest_paths(traj, traj_name, total_frames, args):
+    log("Calculating shortest paths...\n")
+    
+    for current, frame in enumerate(traj):
+        try:
+            if total_frames:
+                log("Progress: %d/%d\r" % (current + 1, total_frames))
+            else:
+                log("Progress: %d frames completed\r" % (current + 1))
+        
+            prefix = "%s_%d" % (".".join(traj_name.split(".")[:-1]), frame.time)
+        
+            pg = construct_graph(frame, args.ligands, prefix, args.threshold, args.discard_graphs)
+            
+            calc_shortest_path(pg, prefix, args.generate_plots)
+            
+        except nx.exception.NetworkXNoPath, nex:
+            log("\nERROR::type=orphan_node:frame=%d:message=%s. Try increasing the threshold.\n" % (current + 1, str(nex)))
+            
+        except Exception, ex:
+            log("\nERROR::type=general:frame=%d:message=%s\n" % (current + 1, str(ex)))
+
+
 def calc_shortest_path(protein_graph, prefix, generate_plots=True):
     num_nodes = len(protein_graph.nodes())
     nodes_axis = range(1, num_nodes + 1)
@@ -100,6 +118,26 @@ def calc_shortest_path(protein_graph, prefix, generate_plots=True):
     return dj_path_matrix
 
 
+def calc_centralities(traj, traj_name, total_frames, args):
+    log("Calculating betweenness centralities...\n")
+    
+    for current, frame in enumerate(traj):
+        try:
+            if total_frames:
+                log("Progress: %d/%d\r" % (current + 1, total_frames))
+            else:
+                log("Progress: %d frames completed\r" % (current + 1))
+        
+            prefix = "%s_%d" % (".".join(traj_name.split(".")[:-1]), frame.time)
+        
+            pg = construct_graph(frame, args.ligands, prefix, args.threshold, args.discard_graphs)
+            
+            calc_BC(pg, prefix, args.generate_plots)
+            
+        except Exception, ex:
+            log("\nERROR::type=general:frame=%d:message=%s\n" % (current + 1, str(ex)))
+
+
 def calc_BC(protein_graph, prefix, generate_plots=True):
     bc = nx.betweenness_centrality(protein_graph, normalized=True)
     bc = np.asarray(list(bc.values()))
@@ -121,27 +159,37 @@ def calc_BC(protein_graph, prefix, generate_plots=True):
     return bc
 
 
-def main(args):
-    global stream
+def load_traj(args):    
+    if not args.lazy_load:
+        log("\nLoading trajectory...")
+        
+        traj = md.load(args.trajectory, top=args.topology)[::args.step]
+        total_frames = len(traj)
+        
+        log("done!\n")
+
+    else:
+        log("\nInstantiating trajectory iterator (lazy loader)...")
+        
+        traj = MDIterator(args.trajectory, top=args.topology, stride=args.step) 
+        total_frames = None  
+        
+        log("done!\n")
     
-    traj = md.load(args.trajectory, top=args.topology)[::args.step]
-    
-    total_frames = len(traj)
-    
+    return traj, total_frames
+
+
+def main(args):        
     traj_name = os.path.basename(args.trajectory)
     
-    for current, frame in enumerate(traj):
-        log("Progress: %d/%d\r" % (current + 1, total_frames)) 
+    if args.calc_BC:
+        traj, total_frames = load_traj(args)
+        calc_centralities(traj, traj_name, total_frames, args)
+    
+    if args.calc_L:
+        traj, total_frames = load_traj(args)
+        calc_shortest_paths(traj, traj_name, total_frames, args)
         
-        prefix = "%s_%d" % (".".join(traj_name.split(".")[:-1]), frame.time)
-        
-        pg = construct_graph(frame, args.ligands, prefix, args.threshold, args.discard_graphs)
-        if args.calc_L:
-            calc_shortest_path(pg, prefix, args.generate_plots)
-        if args.calc_BC:
-            calc_BC(pg, prefix, args.generate_plots)
-        
-        stream.flush()
 
 
 silent = False
@@ -152,7 +200,8 @@ def log(message):
     global stream
     
     if not silent:
-        stream.write(str(message))
+        stream.write(str(message)) 
+        stream.flush()
 
 
 
@@ -174,6 +223,7 @@ if __name__ == "__main__":
     parser.add_argument("--calc-L", help="Calculate delta L", action='store_true', default=False)
     parser.add_argument("--calc-BC", help="Calculate delta BC", action='store_true', default=False)
     parser.add_argument("--discard-graphs", help="Discard calculated networks when complete (default: save networks in graphml and gml formats)", action='store_false', default=True)
+    parser.add_argument("--lazy-load", help="Read frames as they are needed (memory efficient - use for big trajectories)", action='store_true', default=False)
     
     args = parser.parse_args()
     

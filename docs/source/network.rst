@@ -57,12 +57,22 @@ Calculating BC and L
 |                        |            |                    |once BC and L matrices have  | 
 |                        |            |                    |been calculated              |
 +------------------------+------------+--------------------+-----------------------------+ 
+|Lazy load               | Boolean    |``--lazy-load``     |Load trajectory frames in a  | 
+|                        |            |                    |memory efficient manner -    | 
+|                        |            |                    |use for large trajectories   |
++------------------------+------------+--------------------+-----------------------------+ 
 
-Given a trajectory called ``example_small.dcd`` and a topology file called ``example_small.pdb``, the following command could be used: ::
+*Note: using* ``--calc-L`` *is a time consuming operation, which, depending on the size of the trajectory and the specs of the machine, can take up to an hour per frame.*
 
-	python calc_network.py --topology example_small.pdb --threshold 7.0 --step 100 --generate-plots --calc-BC --calc-L --discard-graphs example_small.dcd
 
-The above command will calculate the network for every 100th frame in the trajectory. Depending on the size of your trajectory, you may want to increase this ``--step``. Edges in the network will be created between nodes that are within 7 Angstroms of each other. The average shortest path for each residue in each frame and the betweenness centrality of each residue in each frame will be calculated as both flags have been set in the above command. In addition, the ``--discard-graphs`` flag was set. As such, the networks for each frame will be discarded once BC and L have been calculated, saving disk space. By default, the networks for each frame are save in both ``gml`` and ``graphml`` format.
+*Note: for* ``--calc-L`` *to work, all nodes in the network must be accessbile from all other nodes in the network. When this is not the case, an error will occur. Try increasing the distance threshold when this happens.*
+
+Given a trajectory called ``wt.dcd`` and a topology file called ``wt.pdb``, the following command could be used: ::
+
+	python calc_network.py --topology wt.pdb --threshold 7.0 --step 100 --generate-plots --calc-BC --calc-L --discard-graphs --lazy-load wt.dcd
+
+The above command will calculate the network for every 100th frame in the trajectory. Depending on the size of your trajectory, you may want to increase this ``--step``. Because ``--lazy-load`` was used, the trajectory will be iterated through and frames will be loaded one-at-a-time and then discarded once the network for that frame has been calculated. Leaving out the ``--lazy-load`` argument will result in the entire trajectory being loaded into memory. This can be faster for small trajectories, but should be avoided when analysing large trajectories. Edges in the network will be created between nodes that are within 7 Angstroms of each other. The average shortest path for each residue in each frame and the betweenness centrality of each residue in each frame will be calculated as **both flags have been set** in the above command. In addition, the ``--discard-graphs`` flag was set. As such, the networks for each frame will be discarded once BC and L have been calculated, saving disk space. By default, the networks for each frame are saved in both ``gml`` and ``graphml`` format.
+
 
 **Outputs:**
 
@@ -78,7 +88,7 @@ Network graphs    If ``--discard-graphs`` flag is set, do not save the networks 
 Calculating ΔL
 ----------------------
 
-If the ``--calc-L`` flag in the previous command is set, a number of Nx1 L matrices will be generated. Given the trajectory ``example_small.dcd``, the matrices will be named ``example_small_<frame>_avg_L.dat``, where ``<frame>`` is the frame index in the trajectory. 
+If the ``--calc-L`` flag in the previous command is set, a number of Nx1 L matrices will be generated. Given the trajectory ``wt.dcd``, the matrices will be named ``wt_<frame>_avg_L.dat``, where ``<frame>`` is the frame index in the trajectory. 
 
 **Command:** :: 
 	
@@ -95,9 +105,9 @@ Normalize                  Boolean      ``--normalize``       Set this flag to n
 Generate plots             Boolean      ``--generate-plots``  Set to generate figures
 =========================  ===========  ====================  ========================================================================================================================================================
 
-Given a set of average shortest path .dat files ``example_small_*_avg_L.dat`` (generated with ``calc_network.py``), the ``example_small_0_avg_L.dat`` file could be used as the reference and the rest could be used as the alternatives. If ``example_small_0_avg_L.dat`` is renamed to ``reference.dat``, the following command could be used: ::
+Given a set of average shortest path .dat files ``wt_*_avg_L.dat`` (generated with ``calc_network.py``), the ``wt_0_avg_L.dat`` file could be used as the reference and the rest could be used as the alternatives. If ``wt_0_avg_L.dat`` is renamed to ``ref_wt_L.dat``, the following command could be used: ::
 
-	python calc_delta_L.py --normalize --generate-plots --reference reference.dat --alternatives example_small_*_avg_L.dat
+	python calc_delta_L.py --normalize --generate-plots --reference ref_wt_L.dat --alternatives wt_*_avg_L.dat
 
 The above command will generate plots as well as Nx1 matrices representing the difference in L between each alternative and the reference frame. The values will be normalized by dividing by the reference values (ΔL/L).
 
@@ -113,7 +123,7 @@ Output            Description
 Calculating ΔBC
 -----------------------
 
-If the ``--calc-BC`` flag was set when running the ``calc_network.py`` script, a number of Nx1 BC matrices will be generated. Given the trajectory ``example_small.dcd``, the matrices will be named ``example_small_<frame>_bc.dat``, where ``<frame>`` is the frame index in the trajectory. 
+If the ``--calc-BC`` flag was set when running the ``calc_network.py`` script, a number of Nx1 BC matrices will be generated. Given the trajectory ``wt.dcd``, the matrices will be named ``wt_<frame>_bc.dat``, where ``<frame>`` is the frame index in the trajectory. 
 
 **Command:** :: 
 	
@@ -129,9 +139,9 @@ Alternative frames *       File/s       ``--alternatives``    The remaining Nx1 
 Generate plots             Boolean      ``--generate-plots``  Set to generate figures
 =========================  ===========  ====================  ========================================================================================================================================================
 
-Given a set of BC .dat files ``example_small_*_bc.dat`` (generated with ``calc_network.py``), the ``example_small_0_bc.dat`` file could be used as the reference and the rest could be used as the alternatives. If the ``example_small_0_bc.dat`` is renamed to ``reference.dat``, the following command could be used: ::
+Given a set of BC .dat files ``wt_*_bc.dat`` (generated with ``calc_network.py``), the ``wt_0_bc.dat`` file could be used as the reference and the rest could be used as the alternatives. If the ``wt_0_bc.dat`` is renamed to ``ref_wt_bc.dat``, the following command could be used: ::
 
-	python calc_delta_BC.py --generate-plots --reference reference.dat --alternatives example_small_*_bc.dat
+	python calc_delta_BC.py --generate-plots --reference ref_wt_bc.dat --alternatives wt_*_bc.dat
 
 The above command will generate plots as well as Nx1 matrices representing the difference in BC between each alternative and the reference frame.
 
@@ -176,11 +186,11 @@ X-axis start value 1       Integer      ``--initial-x-1``     The start index of
 X-axis start value 2       Integer      ``--initial-x-2``     The start index of the x-axis for the second plot                
 =========================  ===========  ====================  ========================================================================================================================================================
 
-Given a set of .dat files generated by one of the previous commands (e.g. ``example_small_*_bc_delta_BC.dat``), the following command could be used: ::
+Given a set of .dat files generated by one of the previous commands (e.g. ``wt_*_bc_delta_BC.dat``), the following command could be used: ::
 	
-	python avg_network.py --data example_small_*_bc_delta_BC.dat --data-type delta-BC --prefix example_small --generate-plots --x-label "Residues" --y-label "Avg delta BC" --title "My Protein"
+	python avg_network.py --data wt_*_bc_delta_BC.dat --data-type delta-BC --prefix wt --generate-plots --x-label "Residues" --y-label "Avg delta BC" --title "Wild Type"
 
-The above command will generate two new .dat files and a PNG plot. The first .dat file, ``example_small_delta_bc_avg.dat``, contains an Nx1 matrix with the average ΔBC values for each residue over the course of the simulation. The second .dat file, ``example_small_delta_bc_std_dev.dat``, contains the standard deviation of ΔBC for each residue over the course of the simulation. The graph plots residues on the X axis and ΔBC on the Y axis. The average values are shown as a line and the standard deviation, representing the fluctuation of ΔBC over the course of the trajectory, are shown as error bars over each residue. *Note that in the above example, we have calculated the average and standard deviation of ΔBC, but avg_network.py can be used with any set of Nx1 matrix (BC/ΔBC/L/ΔL).*
+The above command will generate two new .dat files and a PNG plot. The first .dat file, ``wt_delta_bc_avg.dat``, contains an Nx1 matrix with the average ΔBC values for each residue over the course of the simulation. The second .dat file, ``wt_delta_bc_std_dev.dat``, contains the standard deviation of ΔBC for each residue over the course of the simulation. The graph plots residues on the X axis and ΔBC on the Y axis. The average values are shown as a line and the standard deviation, representing the fluctuation of ΔBC over the course of the trajectory, are shown as error bars over each residue. *Note that in the above example, we have calculated the average and standard deviation of ΔBC, but avg_network.py can be used with any set of Nx1 matrix (BC/ΔBC/L/ΔL).*
 
 **Outputs:**
 
@@ -216,17 +226,17 @@ Max Y axis value            Integer      ``--y-max``              Maximum value 
 Min Y axis value            Integer      ``--y-min``              Minimum value on y-axis
 ==========================  ===========  =======================  ========================================================================================================================================================
 
-For example, if we had two trajectories, ``WT.dcd`` and ``mutant.dcd``, and we analyzed both trajectories as discussed above, we would end up with 4 files:
+For example, if we had two trajectories, ``wt.dcd`` and ``mutant.dcd``, and we analyzed both trajectories as discussed above, we would end up with 4 files:
 
-* WT_delta_bc_avg.dat
-* WT_delta_bc_std_dev.dat
-* mutant_delta_bc_avg.dat
-* mutant_delta_bc_std_dev.dat
+* wt_delta_bc_avg.dat (and/or wt_delta_L_avg.dat)
+* wt_delta_bc_std_dev.dat (and/or wt_delta_L_std_dev.dat)
+* mutant_delta_bc_avg.dat (and/or mutant_delta_L_avg.dat)
+* mutant_delta_bc_std_dev.dat (and/or mutant_delta_L_std_dev.dat)
 
 We could compare the above files with the following two commands: ::
 	
-	python compare_networks.py --prefix "WT_mutant_avg" --reference-label Wild-type --alternative-label Mutant --y-label "Delta BC" --reference WT_delta_bc_avg.dat --alternative mutant_delta_bc_avg.dat
-	python compare_networks.py --prefix "WT_mutant_std_dev" --reference-label Wild-type --alternative-label Mutant --y-label "Delta BC" --reference WT_delta_bc_std_dev.dat --alternative mutant_delta_bc_std_dev.dat
+	python compare_networks.py --prefix "wt_mutant_avg" --reference-label Wild-type --alternative-label Mutant --y-label "Delta BC" --reference wt_delta_bc_avg.dat --alternative mutant_delta_bc_avg.dat
+	python compare_networks.py --prefix "wt_mutant_std_dev" --reference-label Wild-type --alternative-label Mutant --y-label "Delta BC" --reference wt_delta_bc_std_dev.dat --alternative mutant_delta_bc_std_dev.dat
 
 The output of these commands will provide two figures containing the average ΔBC of the mutant and wild type trajectories plotted against each other for comparison purposes.
 
@@ -271,7 +281,7 @@ X-axis start value 2              Integer      ``--initial-x-2``        The star
 
 Given a set of analyzed trajectories, they can be compared to a wild type trajectory using the following command: ::
 	
-	python delta_networks --reference WT_delta_bc_avg.dat --reference-std WT_delta_bc_std_dev.dat --alternatives mutant_*_delta_bc_avg.dat --alternatives-std mutant_*_delta_bc_std_dev.dat --absolute --prefix my_protein_delta --title "My Protein" --x-label "Residues" --y-label "Proteins" 
+	python delta_networks --reference wt_delta_bc_avg.dat --reference-std wt_delta_bc_std_dev.dat --alternatives mutant_*_delta_bc_avg.dat --alternatives-std mutant_*_delta_bc_std_dev.dat --absolute --prefix my_protein_delta --title "My Protein" --x-label "Residues" --y-label "Proteins" 
 
 The above command will produce a PNG with 2 heatmaps for comparing the average and standard deviation Nx1 BC matrices of the wild-type protein with those of the mutated proteins.
 

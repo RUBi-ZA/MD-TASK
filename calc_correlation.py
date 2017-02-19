@@ -10,6 +10,8 @@
 
 import os, sys, argparse, traceback
 
+from datetime import datetime
+
 import math, matplotlib
 import matplotlib.pyplot as plt
 
@@ -19,14 +21,19 @@ import mdtraj as md
 
 import numpy as np
 
+from lib.utils import *
 
 
-def parse_traj(traj, topology=None, step=1, selected_atoms=["CA"]):    
-    traj = md.load(traj, top=topology)    
+
+def parse_traj(traj, topology=None, step=1, selected_atoms=["CA"], lazy_load=False):
+    if lazy_load:
+        traj = MDIterator(traj, top=topology, stride=step)
+    else:    
+        traj = md.load(traj, top=topology)[::step]    
     
     residues = {}
     
-    for frame in traj[::step]:        
+    for frame in traj:        
         for atom in frame.topology.atoms:
             if atom.name in selected_atoms:
                 res = atom.residue.resSeq
@@ -169,6 +176,7 @@ if __name__ == "__main__":
     parser.add_argument("--trajectory", help="Trajectory file")
     parser.add_argument("--topology", help="Referencce PDB file (must contain the same number of atoms as the trajectory)")
     parser.add_argument("--step", help="Size of the step to take when iterating the the trajectory frames", type=int)
+    parser.add_argument("--lazy-load", help="Iterate through trajectory, loading one frame into memory at a time (memory-efficient for large trajectories)", action='store_true', default=False)
 
     parser.add_argument("--prefix", help="Prefix for output files")
     
@@ -180,8 +188,17 @@ if __name__ == "__main__":
     if args.log_file:
         stream = open(args.log_file, 'w')
     
+    start = datetime.now()
+    log("Started at: %s" % str(start))
+    
     #run script
     main(args)
+
+    end = datetime.now()
+    time_taken = format_seconds((end - start).seconds)
+    
+    log("\nCompleted at: %s\n" % str(end))
+    log("- Total time: %s\n" % str(time_taken))
     
     #close logging stream
     stream.close()

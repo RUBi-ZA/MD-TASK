@@ -48,8 +48,12 @@ There is test data located in the 'examples' directory. Four files are included 
 =====================  =======================================================================================================================================================
 File                    Description
 =====================  =======================================================================================================================================================
-``example_small.dcd``  An example trajectory that has been reduced to alpha and beta carbons only
-``example_small.pdb``  A PDB file that corresponds to the above trajectory (to be used for topology information)
+``wt.dcd``             An example trajectory that has been reduced to alpha and beta carbons only (used in the network analysis section)
+``wt.pdb``             A PDB file that corresponds to the above trajectory - to be used for topology information (used in the network analysis section)
+``mutant.dcd``         A mutated version of the above trajectory (used in the network analysis section)
+``mutant.pdb``         A mutated version of the above topology file (used in the network analysis section)
+``example_small.dcd``  An example trajectory that has been reduced to alpha and beta carbons only (used in the PRS section)
+``example_small.pdb``  A PDB file that corresponds to the above trajectory - to be used for topology information (used in the PRS section)
 ``initial.xyz``        An XYZ co-ordinate file representing the initial conformation of a protein (used for PRS)
 ``final.xyz``          An XYZ co-ordinate file representing the target conformation of a protein (used for PRS)
 =====================  =======================================================================================================================================================

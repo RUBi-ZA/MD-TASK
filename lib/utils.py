@@ -33,7 +33,7 @@ class MDIterator:
 
 
 
-def minimize_trajectory(trajectory, top=None, stride=1, output_path="minimized.dcd"):
+def reduce_trajectory(trajectory, top=None, stride=1, output_path="minimized.dcd"):
     traj = md.load(trajectory, top=top)[::int(stride)]
     traj.save(output_path)
 
@@ -87,7 +87,7 @@ if __name__ == "__main__":
         print i
     '''
     
-    minimize_trajectory(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])
+    reduce_trajectory(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])
 
 
 
