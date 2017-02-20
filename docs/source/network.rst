@@ -251,7 +251,7 @@ Comparison plot    Plot comparing Nx1 matrix of reference .dat file with alterna
 SNP Analysis - wild-type vs mutants heatmap
 ---------------------------------------------------------
 
-Where the above script allows the comparison of two matrices, the second comparison script, ``delta_networks.py``, allows the comparison of many trajectories via a heatmapin which the rows represent the trajectories and the columns represent residues.
+Where the above script allows the comparison of two matrices, the second comparison script, ``delta_networks.py``, allows the comparison of many trajectories via a heatmap in which the rows represent the trajectories and the columns represent residues.
 
 **Command:** ::
 
@@ -281,7 +281,7 @@ X-axis start value 2              Integer      ``--initial-x-2``        The star
 
 Given a set of analyzed trajectories, they can be compared to a wild type trajectory using the following command: ::
 	
-	python delta_networks --reference wt_delta_bc_avg.dat --reference-std wt_delta_bc_std_dev.dat --alternatives mutant_*_delta_bc_avg.dat --alternatives-std mutant_*_delta_bc_std_dev.dat --absolute --prefix my_protein_delta --title "My Protein" --x-label "Residues" --y-label "Proteins" 
+    python delta_networks.py --reference wt_delta_BC_avg.dat --reference-std wt_delta_BC_std_dev.dat --alternatives mutant_*_delta_BC_avg.dat --alternatives-std mutant_*_delta_BC_std_dev.dat --absolute --prefix my_protein_delta --title "My Protein" --x-label "Residues" --y-label "Proteins"
 
 The above command will produce a PNG with 2 heatmaps for comparing the average and standard deviation Nx1 BC matrices of the wild-type protein with those of the mutated proteins.
 
@@ -300,7 +300,7 @@ A weighted residue contact map allows the user to determine how often, throughou
 
 **Command:** ::
 
-	python contact_map.py <options> --trajectory <trajectory> --topology <pdd file>
+	python contact_map.py <options> --trajectory <trajectory> --topology <pdb file>
 
 **Input:**
 
