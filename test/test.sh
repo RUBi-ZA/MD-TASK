@@ -7,6 +7,7 @@ cd data
 
 cp $BIN_DIR/example/* .
 
+
 echo ""
 echo "#### BETWEENNESS CENTRALITY - WT ####"
 echo ""
@@ -48,3 +49,18 @@ echo ""
 python $BIN_DIR/compare_networks.py --prefix "wt_mutant_avg" --reference-label Wild-type --alternative-label Mutant --y-label "Delta BC" --reference wt_delta_bc_avg.dat --alternative mutant_delta_bc_avg.dat
 python $BIN_DIR/compare_networks.py --prefix "wt_mutant_std_dev" --reference-label Wild-type --alternative-label Mutant --y-label "Delta BC" --reference wt_delta_bc_std_dev.dat --alternative mutant_delta_bc_std_dev.dat
 
+
+echo ""
+echo ""
+echo "#### TEST PERTURBATION RESPONSE SCANNING ####"
+echo ""
+echo ""
+python $BIN_DIR/prs.py --initial initial.xyz --final final.xyz --perturbations 100 --step 100 --prefix result --topology example_small.pdb example_small.dcd
+
+
+echo ""
+echo ""
+echo "#### TEST DYNAMIC CROSS CORRELATION ####"
+echo ""
+echo ""
+python $BIN_DIR/calc_correlation.py --step 100 --prefix example_corr --trajectory example_small.dcd --topology example_small.pdb
