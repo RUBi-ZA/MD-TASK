@@ -15,9 +15,11 @@ from datetime import datetime
 from lib.utils import *
 
 import numpy as np
-import matplotlib.pyplot as plt
 
-import os, sys, argparse
+import os, sys, argparse, matplotlib
+
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 
 
 

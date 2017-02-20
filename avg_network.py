@@ -9,14 +9,15 @@
 # Date: 17-11-2016
 
 import numpy as np
-import matplotlib.pyplot as plt
 
 from datetime import datetime
 
-import os, sys, argparse
-
 from lib.utils import *
 
+import os, sys, argparse, matplotlib
+
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 
 
 def split_array(arr, pos):

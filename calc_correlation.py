@@ -8,12 +8,8 @@
 # Date: 17-11-2016
 
 
-import os, sys, argparse, traceback
 
 from datetime import datetime
-
-import math, matplotlib
-import matplotlib.pyplot as plt
 
 from matplotlib import cm
 
@@ -23,6 +19,10 @@ import numpy as np
 
 from lib.utils import *
 
+import os, sys, argparse, traceback, math, matplotlib
+
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 
 
 def parse_traj(traj, topology=None, step=1, selected_atoms=["CA"], lazy_load=False):

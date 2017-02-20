@@ -8,9 +8,11 @@
 # Date: 17-11-2016
 
 import numpy as np
-import matplotlib.pyplot as plt
 
-import sys, argparse
+import os, sys, argparse, matplotlib
+
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 
     
 

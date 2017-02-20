@@ -10,9 +10,11 @@
 from natsort import natsorted
 
 import numpy as np
-import matplotlib.pyplot as plt
 
-import os, sys, argparse, itertools
+import os, sys, argparse, itertools, matplotlib
+
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 
 
 

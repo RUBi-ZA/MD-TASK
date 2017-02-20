@@ -12,11 +12,13 @@ from natsort import natsorted
 from datetime import datetime
 
 import numpy as np
-import matplotlib.pyplot as plt
 
 from lib.utils import *
 
-import os, sys, argparse
+import os, sys, argparse, matplotlib
+
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 
 
 
