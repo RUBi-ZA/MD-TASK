@@ -8,7 +8,7 @@ Calculating dynamic cross-correlation
 
 **Command:** :: 
 	
-	python calc_correlation.py <options> --trajectory <trajectory> --topology <pdb>
+	calc_correlation.py <options> --trajectory <trajectory> --topology <pdb>
 
 **Inputs:**
 
@@ -24,7 +24,7 @@ Lazy load                  Boolean      ``--lazy-load``       Load trajectory fr
 
 Given a trajectory, ``example_small.dcd``, and topology file, ``example_small.pdb``, the following command could be used: ::
 
-	python calc_correlation.py --step 100 --prefix example_corr --trajectory example_small.dcd --topology example_small.pdb --lazy-load
+	calc_correlation.py --step 100 --prefix example_corr --trajectory example_small.dcd --topology example_small.pdb --lazy-load
 
 
 

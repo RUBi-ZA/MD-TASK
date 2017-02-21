@@ -8,7 +8,7 @@ Performing PRS
 
 **Command:** :: 
 	
-	python prs.py <options> --final <final.xyz> --trajectory <trajectory> --topology <pdb>
+	prs.py <options> --final <final.xyz> --trajectory <trajectory> --topology <pdb>
 
 **Inputs:**
 
@@ -27,7 +27,7 @@ Prefix                       Text         ``--prefix``          Prefix used to n
 
 Given a trajectory, ``example_small.dcd``, with initial and target co-odinate files, ``initial.xyz`` and ``final.xyz``, respectively, and topology file, ``example_small.pdb``, the following command could be used: ::
 
-	python prs.py --initial initial.xyz --final final.xyz --perturbations 100 --step 100 --prefix result --topology example_small.pdb example_small.dcd 
+	prs.py --initial initial.xyz --final final.xyz --perturbations 100 --step 100 --prefix result --topology example_small.pdb example_small.dcd 
 
 
 **Outputs:**
