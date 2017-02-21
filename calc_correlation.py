@@ -138,7 +138,7 @@ def print_correlation(correlation, output_prefix):
 
 def main(args):
     log("Preparing a trajectory matrix...")
-    traj_matrix = parse_traj(args.trajectory, args.topology, args.step)
+    traj_matrix = parse_traj(args.trajectory, args.topology, args.step, lazy_load=args.lazy_load)
     
     log("Correlating...")
     correlation = correlate(traj_matrix)
