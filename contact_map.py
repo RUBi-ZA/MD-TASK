@@ -124,7 +124,7 @@ def main(args):
 
     #Write one variant at a time
     csv_file = "%s_network.csv" % prefix
-    contact_map = "%s_map.pdb" % prefix
+    contact_map = "%s_map.pdf" % prefix
 
     log("Writing network to %s..." % csv_file)
 
@@ -142,7 +142,7 @@ def main(args):
     if os.path.exists(contact_map):
         os.remove(script_name)
     else:
-        r_out = "%sout" % script_name
+        r_out = "rscript.out" % script_name
         log("Contact map not generated. See contents of %s for details..." % r_out)
 
 
