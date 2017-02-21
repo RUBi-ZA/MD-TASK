@@ -21,7 +21,7 @@ import matplotlib.pyplot as plt
 def plot(num_plots, plot_num, data, data_std, initial_x, title, x_label, y_label):
     y_ticks = data.shape[0]
     num_nodes = data.shape[1]
-    
+
     plt.subplot(num_plots * 2, 1, plot_num * 2 - 1)
     plt.imshow(data, cmap='hot', interpolation='nearest', extent=[initial_x, initial_x + num_nodes, y_ticks, 1])
     
@@ -46,6 +46,7 @@ def main(args):
     alternatives_std = natsorted(args.alternatives_std)
     
     assert len(alternatives) == len(alternatives_std), "The number of files supplied to the --alternatives argument differs from the number supplied to --alternatives-std"
+    assert len(alternatives) > 1, "At least 2 files must be supplied to the alternatives argument"
     
     num_nodes = reference.shape[0]
     min_nodes = num_nodes
@@ -156,5 +157,3 @@ if __name__ == "__main__":
     
     #close logging stream
     stream.close()
-    
- 
