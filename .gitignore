@@ -90,3 +90,9 @@ ENV/
 
 # reStructuredText files
 *.rst~
+
+# Visual Studio Code settings file
+.vscode
+
+# test data directory
+test/data
