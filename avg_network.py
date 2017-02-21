@@ -127,10 +127,9 @@ def main(args):
             )
             
         else:  
-            print args.x_label, args.y_label, args.title 
             plot_graph(
-                avg_matrix, std, args.initial_x, args.title, args.x_label,
-                args.y_label, ylim=ylim
+                avg_matrix, std, args.initial_x, title=args.title, x_label=args.x_label,
+                y_label=args.y_label, ylim=ylim
             )
         
         plt.savefig("%s_avg.png" % prefix, dpi=300, bbox_inches='tight')
