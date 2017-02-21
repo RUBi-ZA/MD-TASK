@@ -1,6 +1,15 @@
 Installation
 ========================================
 
+Platform compatibility
+-------------------------------
+
+MD-TASK should be compatible with any Linux/Unix-based platform, although installation of system dependencies may differ. It has been successfully tested on the following platforms:
+
+- Ubuntu Linux
+- MacOS
+- Windows 10 (with bash)
+
 Download the project
 -------------------------------
 
@@ -12,7 +21,7 @@ MD-TASK can be cloned from it's GitHub repository ::
 Install dependencies
 ---------------------
 
-Install system dependencies ::
+Install system dependencies (e.g. Ubuntu) ::
 
 	sudo apt-get install virtualenvwrapper python-dev libblas-dev liblapack-dev libatlas-base-dev gfortran libpng12-dev libfreetype6-dev python-tk r-base
 
