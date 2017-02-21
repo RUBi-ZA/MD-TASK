@@ -316,8 +316,8 @@ Prefix                            Text         ``--prefix``             Prefix u
 
 Given two trajectories, ``wt.dcd`` and ``mutant.dcd``, where a mutation, ``THR405ALA``, occurs, the following could be used to build contact maps around position 405 in both trajectories: ::
 	
-	python contact_map.py --residue THR405 --prefix wild_type --trajectory wt.dcd --topology wt.pdb
-	python contact_map.py --residue ALA405 --prefix mutant --trajectory mutant.dcd --topology mutant.pdb
+	python contact_map.py --residue THR405 --prefix wt --topology wt.pdb wt.dcd
+	python contact_map.py --residue ALA405 --prefix mutant --topology mutant.pdb mutant.dcd
 
 For each of the commands above, a contact map in PDF format will be produced, as well as a CSV file containing the calculated values. The contact maps can be compared visually to give an idea of the changes cause by the mutation.
 
