@@ -59,8 +59,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'MD-TASK'
-copyright = u'2016, DK Brown, DL Penkler, and CJ Ross'
-author = u'DK Brown, DL Penkler, and CJ Ross'
+copyright = u'2016, DK Brown, DL Penkler, OS Amamuddy, CJ Ross, AR Atilgan, C Atilgan, and Ö Tastan Bishop'
+author = u'DK Brown, DL Penkler, OS Amamuddy, CJ Ross, AR Atilgan, C Atilgan, and Ö Tastan Bishop'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the

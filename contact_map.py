@@ -142,7 +142,7 @@ def main(args):
     if os.path.exists(contact_map):
         os.remove(script_name)
     else:
-        r_out = "rscript.out" % script_name
+        r_out = "rscript.out"
         log("Contact map not generated. See contents of %s for details..." % r_out)
 
 

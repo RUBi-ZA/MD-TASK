@@ -96,3 +96,6 @@ ENV/
 
 # test data directory
 test/data
+
+# shell
+*.sh~
