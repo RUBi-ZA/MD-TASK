@@ -94,11 +94,12 @@ def calc_shortest_path(protein_graph, prefix, generate_plots=True):
     num_nodes = len(protein_graph.nodes())
     nodes_axis = range(1, num_nodes + 1)
     
-    dj_path_matrix = np.zeros((num_nodes, num_nodes))
-    
+    path_dict = nx.all_pairs_shortest_path_length(protein_graph)  
+    dj_path_matrix = np.zeros((num_nodes, num_nodes))  
+
     for i in range(num_nodes):
         for j in range(num_nodes):
-            dj_path_matrix[i,j] = nx.dijkstra_path_length(protein_graph, i, j)
+            dj_path_matrix[i,j] = path_dict[i][j]
     
     np.savetxt("%s_L.dat" % prefix, dj_path_matrix)
             
@@ -161,7 +162,7 @@ def calc_BC(protein_graph, prefix, generate_plots=True):
 
 def load_traj(args):    
     if not args.lazy_load:
-        log("\nLoading trajectory...")
+        log("Loading trajectory...")
         
         traj = md.load(args.trajectory, top=args.topology)[::args.step]
         total_frames = len(traj)
@@ -169,7 +170,7 @@ def load_traj(args):
         log("done!\n")
 
     else:
-        log("\nInstantiating trajectory iterator (lazy loader)...")
+        log("Instantiating trajectory iterator (lazy loader)...")
         
         traj = MDIterator(args.trajectory, top=args.topology, stride=args.step) 
         total_frames = None  
