@@ -8,6 +8,7 @@
 # Author: David Brown
 # Date: 17-11-2016
 
+
 from natsort import natsorted
 from datetime import datetime
 
@@ -34,10 +35,10 @@ def calc_delta_BC(reference_file, alternative_files, generate_plots=False):
     delta_BC = np.zeros((num_nodes, num_nodes))
     alternatives = natsorted(alternative_files)
     
-    log("Calculating delta %s for %d networks..." % (label, len(alternatives)))
+    log("Calculating delta %s for %d networks...\n" % (label, len(alternatives)))
     
     for i, alternative in enumerate(alternatives):
-        log("Calculating delta %s between %s and %s (%d/%d)" % (label, alternative, reference_file, i + 1, len(alternatives)))
+        log("Calculating delta %s (%d/%d)\r" % (label, i + 1, len(alternatives)))
         
         prefix = ".".join(alternative.split(".")[:-1])
         alternative = np.loadtxt(alternative)
@@ -46,7 +47,7 @@ def calc_delta_BC(reference_file, alternative_files, generate_plots=False):
         
         delta_BC[i,:] = difference
         
-        np.savetxt("%s_delta_BC.dat" % prefix, difference)
+        np.savetxt("%s_delta_%s.dat" % (prefix, label), difference)
         
         if generate_plots:
             node_axis = range(1, num_nodes + 1)
@@ -55,11 +56,10 @@ def calc_delta_BC(reference_file, alternative_files, generate_plots=False):
             plt.title("%s $\Delta$ %s" % (prefix, label), fontsize=18)
             plt.xlabel('Residue Numbers', fontsize=16)
             plt.ylabel("$\Delta$ %s" % label, fontsize=16)
-            plt.savefig("%s_delta_BC.png" % prefix, dpi=300, bbox_inches='tight')
+            plt.savefig("%s_delta_%s.png" % (prefix, label), dpi=300, bbox_inches='tight')
             plt.close()
-            
-            log("Plot generated: %s_delta_BC.png" % prefix)
     
+    log("\n")
     
     return delta_BC
 
@@ -77,7 +77,8 @@ def log(message):
     global stream
     
     if not silent:
-        print >> stream, message
+        stream.write(message)
+        stream.flush()
     
 
 if __name__ == "__main__":
@@ -111,8 +112,8 @@ if __name__ == "__main__":
     end = datetime.now()
     time_taken = format_seconds((end - start).seconds)
     
-    log("\nCompleted at: %s" % str(end))
-    log("- Total time: %s" % str(time_taken))
+    log("Completed at: %s\n" % str(end))
+    log("- Total time: %s\n" % str(time_taken))
     
     #close logging stream
     stream.close()

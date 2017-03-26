@@ -35,10 +35,10 @@ def calc_delta_L(reference_file, alternative_files, normalize=False, generate_pl
     delta_L = np.zeros((num_nodes, num_nodes))
     alternatives = natsorted(alternative_files)
     
-    log("Calculating delta %s for %d networks..." % (label, len(alternatives)))
+    log("Calculating delta %s for %d networks...\n" % (label, len(alternatives)))
     
     for i, alternative in enumerate(alternatives):
-        log("Calculating delta %s between %s and %s (%d/%d)" % (label, alternative, reference_file, i + 1, len(alternatives)))
+        log("Calculating delta %s (%d/%d)\r" % (label, i + 1, len(alternatives)))
         
         prefix = ".".join(alternative.split(".")[:-1])
         alternative = np.loadtxt(alternative)
@@ -60,11 +60,9 @@ def calc_delta_L(reference_file, alternative_files, normalize=False, generate_pl
             plt.xlabel('Residue Numbers', fontsize=16)
             plt.ylabel("$\Delta$ %s" % label, fontsize=16)
             plt.savefig("%s_delta_L.png" % prefix, dpi=300, bbox_inches='tight')
-            plt.close()
-            
-            log("Plot generated: %s_delta_L_avg.png" % prefix)
+            plt.close()            
     
-    log("Completed.")
+    log("\n")
     
     return delta_L
 
@@ -83,7 +81,8 @@ def log(message):
     global stream
     
     if not silent:
-        print >> stream, message
+        stream.write(message)
+        stream.flush()
 
 
 
@@ -119,7 +118,7 @@ if __name__ == "__main__":
     end = datetime.now()
     time_taken = format_seconds((end - start).seconds)
     
-    log("\nCompleted at: %s\n" % str(end))
+    log("Completed at: %s\n" % str(end))
     log("- Total time: %s\n" % str(time_taken))
     
     #close logging stream

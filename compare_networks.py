@@ -9,6 +9,10 @@
 
 import numpy as np
 
+from lib.utils import *
+
+from datetime import datetime
+
 import os, sys, argparse, matplotlib
 
 matplotlib.use('Agg')
@@ -54,7 +58,7 @@ def plot_comparison(reference, alternative, reference_label, alternative_label, 
         axes.set_ylim(ylim)
     
     filename = "%s_comp.png" % prefix
-    log("Generate plot: %s" % filename)
+    log("Generate plot: %s\n" % filename)
     plt.savefig(filename, dpi=300, bbox_inches='tight')
     plt.close()
 
@@ -82,7 +86,8 @@ def log(message):
     global stream
     
     if not silent:
-        print >> stream, message
+        stream.write(message)
+        stream.flush()
     
 
 if __name__ == "__main__":
@@ -112,8 +117,17 @@ if __name__ == "__main__":
     if args.log_file:
         stream = open(args.log_file, 'w')
     
+    start = datetime.now()
+    log("Started at: %s\n" % str(start))
+    
     #run script
     main(args)
+
+    end = datetime.now()
+    time_taken = format_seconds((end - start).seconds)
+    
+    log("Completed at: %s\n" % str(end))
+    log("- Total time: %s\n" % str(time_taken))
     
     #close logging stream
     stream.close()

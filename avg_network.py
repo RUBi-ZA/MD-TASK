@@ -84,7 +84,7 @@ def main(args):
     start_index = args.initial_x
     
     if not args.data_type in ["BC", "delta-BC", "L", "delta-L"]:
-        log("Unrecognized data type. Exiting...")
+        log("Unrecognized data type. Exiting...\n")
         sys.exit(1)
     
     # average BC
@@ -114,7 +114,7 @@ def main(args):
     np.savetxt("%s_avg.dat" % prefix, avg_matrix)
     
     if args.generate_plots:
-        log("Generating graph: %s_avg.png" % prefix)
+        log("Generating graph: %s_avg.png\n" % prefix)
         
         ylim = None
         if args.y_max is not None and args.y_min is not None:
@@ -144,7 +144,7 @@ def log(message):
     global stream
     
     if not silent:
-        print >> stream, message
+        stream.write(message)
 
 
 if __name__ == "__main__":
@@ -198,7 +198,7 @@ if __name__ == "__main__":
     end = datetime.now()
     time_taken = format_seconds((end - start).seconds)
     
-    log("\nCompleted at: %s\n" % str(end))
+    log("Completed at: %s\n" % str(end))
     log("- Total time: %s\n" % str(time_taken))
     
     #close logging stream

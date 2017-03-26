@@ -11,6 +11,10 @@ from natsort import natsorted
 
 import numpy as np
 
+from lib.utils import *
+
+from datetime import datetime
+
 import os, sys, argparse, itertools, matplotlib
 
 matplotlib.use('Agg')
@@ -85,7 +89,7 @@ def main(args):
         
         y_ticks.append(".".join(os.path.basename(a).split(".")[:-1]))
     
-    log("Plotting heat map: %s.png" % args.prefix)
+    log("Plotting heat map: %s.png\n" % args.prefix)
     
     if args.split_pos:
         plt.subplots(figsize=(30, 16))
@@ -96,9 +100,7 @@ def main(args):
         plot(1, 1, y_data, y_data_std, args.initial_x, args.title, args.x_label, args.y_label)
     
     plt.savefig("%s.png" % args.prefix, dpi=300, bbox_inches='tight')
-    plt.close()   
-    
-    log("\n".join(y_ticks))
+    plt.close()    
 
 
 
@@ -110,7 +112,8 @@ def log(message):
     global stream
     
     if not silent:
-        print >> stream, message
+        stream.write(message)
+        stream.flush()
     
 
 if __name__ == "__main__":
@@ -152,8 +155,17 @@ if __name__ == "__main__":
     if args.log_file:
         stream = open(args.log_file, 'w')
     
+    start = datetime.now()
+    log("Started at: %s\n" % str(start))
+    
     #run script
     main(args)
+
+    end = datetime.now()
+    time_taken = format_seconds((end - start).seconds)
+    
+    log("Completed at: %s\n" % str(end))
+    log("- Total time: %s\n" % str(time_taken))
     
     #close logging stream
     stream.close()

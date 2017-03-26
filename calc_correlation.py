@@ -25,6 +25,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 
+
 def parse_traj(traj, topology=None, step=1, selected_atoms=["CA"], lazy_load=False):
     if lazy_load:
         traj = MDIterator(traj, top=topology, stride=step)
@@ -137,17 +138,15 @@ def print_correlation(correlation, output_prefix):
 
 
 def main(args):
-    log("Preparing a trajectory matrix...")
+    log("Preparing a trajectory matrix...\n")
     traj_matrix = parse_traj(args.trajectory, args.topology, args.step, lazy_load=args.lazy_load)
     
-    log("Correlating...")
+    log("Correlating...\n")
     correlation = correlate(traj_matrix)
     
-    log("Plotting heat map...")
+    log("Plotting heat map...\n")
     plot_map(correlation, args.prefix)
     print_correlation(correlation, args.prefix)
-    
-    log("Completed successfully!")
 
 
 
@@ -159,7 +158,8 @@ def log(message):
     global stream
     
     if not silent:
-        print >> stream, message
+        stream.write(message)
+        stream.flush()
     
 
 
@@ -189,7 +189,7 @@ if __name__ == "__main__":
         stream = open(args.log_file, 'w')
     
     start = datetime.now()
-    log("Started at: %s" % str(start))
+    log("Started at: %s\n" % str(start))
     
     #run script
     main(args)
@@ -197,7 +197,7 @@ if __name__ == "__main__":
     end = datetime.now()
     time_taken = format_seconds((end - start).seconds)
     
-    log("\nCompleted at: %s\n" % str(end))
+    log("Completed at: %s\n" % str(end))
     log("- Total time: %s\n" % str(time_taken))
     
     #close logging stream
