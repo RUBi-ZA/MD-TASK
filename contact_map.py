@@ -79,7 +79,7 @@ def main(args):
     chainChar = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     edges = []
     
-    log("Loading trajectory...\n")
+    log("Loading trajectory...")
     
     traj = md.load(traj_path, top=topology)[::args.step]
 
@@ -90,7 +90,7 @@ def main(args):
     residues = list(map(lambda x: str(x), traj.top.residues))
     nframes = len(traj)
 
-    log("Calculating network around %s...\n" % residue)
+    log("Calculating network around %s..." % residue)
     
     for frame in traj:
 
@@ -126,13 +126,13 @@ def main(args):
     csv_file = "%s_network.csv" % prefix
     contact_map = "%s_contact_map.pdf" % prefix
 
-    log("Writing network to %s...\n" % csv_file)
+    log("Writing network to %s..." % csv_file)
 
     with open(csv_file, 'w') as f_handle:
         edges = "\n".join(edges)
         f_handle.write(edges)
 
-    log("Generating contact map: %s...\n" % contact_map)
+    log("Generating contact map: %s..." % contact_map)
     
     script_name = "rscript.R"
     write_rscript(script_name, nframes, csv_file, contact_map)
@@ -143,7 +143,7 @@ def main(args):
         os.remove(script_name)
     else:
         r_out = "rscript.out"
-        log("Contact map not generated. See contents of %s for details...\n" % r_out)
+        log("Contact map not generated. See contents of %s for details..." % r_out)
 
 
 
@@ -155,7 +155,7 @@ def log(message):
     global stream
     
     if not silent:
-        stream.write(message)
+        print >> stream, message
     
 
 if __name__ == "__main__":
@@ -192,7 +192,7 @@ if __name__ == "__main__":
     end = datetime.now()
     time_taken = format_seconds((end - start).seconds)
     
-    log("Completed at: %s\n" % str(end))
+    log("\nCompleted at: %s\n" % str(end))
     log("- Total time: %s\n" % str(time_taken))
     
     #close logging stream
