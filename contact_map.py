@@ -49,7 +49,7 @@ draw.network = function(dat){
     edge_weights = round(E(g)$weight, 3)
 
     title = gsub("_network.csv","", "%s")
-    title = paste0(title, 'contact network')
+    title = paste0(title, '_contact network')
 
     l = layout_with_dh(g, maxiter=50)
     plot_(grph=g, edge_weights=edge_weights, layout=l, title=title)
@@ -74,7 +74,7 @@ def main(args):
     topology = args.topology
     residue  = args.residue.upper()
     cutoff = args.threshold / 10
-    prefix = args.prefix
+    prefix = residue
 
     chainChar = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     edges = []
@@ -124,7 +124,7 @@ def main(args):
 
     #Write one variant at a time
     csv_file = "%s_network.csv" % prefix
-    contact_map = "%s_map.pdf" % prefix
+    contact_map = "%s_contact_map.pdf" % prefix
 
     log("Writing network to %s...\n" % csv_file)
 
