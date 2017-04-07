@@ -74,6 +74,7 @@ def main(args):
     topology = args.topology
     residue  = args.residue.upper()
     cutoff = args.threshold / 10
+    chain  = args.chain
     prefix = residue
 
     chainChar = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -90,7 +91,7 @@ def main(args):
     residues = list(map(lambda x: str(x), traj.top.residues))
     nframes = len(traj)
 
-    log("Calculating network around %s...\n" % residue)
+    log("Calculating network around %s (chain %s)...\n" % (residue, chain))
     
     for frame in traj:
 
@@ -102,29 +103,31 @@ def main(args):
                 atom1_chain    = chainChar[atom1.residue.chain.index]
                 atom1_resname  = atom1.residue.name
                 atom1_resid    = atom1.residue.resSeq
+                
+                if atom1_chain == chain:
+                    
+                    for atom2_idx in atom_indices:
+                        if atom1_idx != atom2_idx:
+                            # Calculate distances and create edge
+                            distance = np.linalg.norm(frame.xyz[0,atom1_idx] - frame.xyz[0,atom2_idx])
 
-                for atom2_idx in atom_indices:
-                    if atom1_idx != atom2_idx:
-                        # Calculate distances and create edge
-                        distance = np.linalg.norm(frame.xyz[0,atom1_idx] - frame.xyz[0,atom2_idx])
+                            if distance < cutoff:
+                                atom2         = list(frame.top.atoms)[atom2_idx]
+                                atom2_chain   = chainChar[atom2.residue.chain.index]
+                                atom2_resname = atom2.residue.name
+                                atom2_resid   = atom2.residue.resSeq
 
-                        if distance < cutoff:
-                            atom2         = list(frame.top.atoms)[atom2_idx]
-                            atom2_chain   = chainChar[atom2.residue.chain.index]
-                            atom2_resname = atom2.residue.name
-                            atom2_resid   = atom2.residue.resSeq
-    
-                            # Write contact
-                            contact = "{}{}_{},{}{}_{}".format(
-                            atom1_resname, atom1_resid, atom1_chain,
-                            atom2_resname, atom2_resid, atom2_chain)
-                            edges.append(contact)
+                                # Write contact
+                                contact = "{}{}_{},{}{}_{}".format(
+                                atom1_resname, atom1_resid, atom1_chain,
+                                atom2_resname, atom2_resid, atom2_chain)
+                                edges.append(contact)
 
-                break #Stop looking for other positions
+                    break #Stop looking for other positions
 
     #Write one variant at a time
-    csv_file = "%s_network.csv" % prefix
-    contact_map = "%s_contact_map.pdf" % prefix
+    csv_file = "%s_chain%s_network.csv" % (prefix, chain)
+    contact_map = "%s_chain%s_contact_map.pdf" % (prefix, chain)
 
     log("Writing network to %s...\n" % csv_file)
 
@@ -174,6 +177,7 @@ if __name__ == "__main__":
     parser.add_argument("--threshold", help="Maximum distance threshold in Angstroms when constructing graph (default: 6.7)", default=6.7, type=float)
     parser.add_argument("--prefix", help="Prefix for output file", default="residue_contacts")
     parser.add_argument("--step", help="Size of step when iterating through trajectory frames", default=1, type=int)
+    parser.add_argument("--chain", help="Chain ID to be matched (default: A)", default="A")
     
     args = parser.parse_args()
     
