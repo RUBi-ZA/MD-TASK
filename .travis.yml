@@ -2,6 +2,6 @@ language: python
 python:
   - "2.7"
 # command to install dependencies
-install: "install.sh"
+install: "sh install.sh"
 # command to run tests
-script: test/test.sh
+script: "sh test/test.sh"
