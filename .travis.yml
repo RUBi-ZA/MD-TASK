@@ -4,4 +4,4 @@ python:
 # command to install dependencies
 install: "sh install.sh"
 # command to run tests
-script: "sh test/test.sh"
+script: "cd test;sh test.sh"
