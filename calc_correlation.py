@@ -93,7 +93,7 @@ def correlate(residues):
 
 
 
-def plot_map(correlation, output_prefix):   
+def plot_map(correlation, title, output_prefix):   
     M = np.array(correlation)
     
     fig, ax = plt.subplots()
@@ -103,7 +103,6 @@ def plot_map(correlation, output_prefix):
     heatmap = ax.pcolor(M, cmap=new_map, vmin=-1, vmax=1)
     
     fig = plt.gcf()
-    fig.set_size_inches(20, 20)
     ax.set_frame_on(False)
     ax.grid(False)
     
@@ -114,11 +113,17 @@ def plot_map(correlation, output_prefix):
     for t in ax.xaxis.get_major_ticks():
         t.tick1On = False
         t.tick2On = False
+        t.label.set_fontsize(8) 
     
     for t in ax.yaxis.get_major_ticks():
         t.tick1On = False
-        t.tick2On = False
+        t.tick2On = False    
+        t.label.set_fontsize(8) 
     
+    plt.title(title, fontsize=16)
+    plt.xlabel('Residue Index', fontsize=12)
+    plt.ylabel("Residue Index", fontsize=12)
+
     cbar = plt.colorbar(heatmap, orientation="vertical")
     plt.savefig('%s.png' % output_prefix, dpi=300)
     plt.close('all')
@@ -145,7 +150,7 @@ def main(args):
     correlation = correlate(traj_matrix)
     
     log("Plotting heat map...\n")
-    plot_map(correlation, args.prefix)
+    plot_map(correlation, args.title, args.prefix)
     print_correlation(correlation, args.prefix)
 
 
@@ -178,7 +183,8 @@ if __name__ == "__main__":
     parser.add_argument("--step", help="Size of the step to take when iterating the the trajectory frames", type=int)
     parser.add_argument("--lazy-load", help="Iterate through trajectory, loading one frame into memory at a time (memory-efficient for large trajectories)", action='store_true', default=False)
 
-    parser.add_argument("--prefix", help="Prefix for output files")
+    parser.add_argument("--title", help="Title for heatmap", default="Protein")
+    parser.add_argument("--prefix", help="Prefix for output files", default="correlation")
     
     args = parser.parse_args()
     

@@ -1,3 +1,7 @@
+# Test directory
+test/out*
+test/timer
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod~]
