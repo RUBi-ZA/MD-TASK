@@ -2,10 +2,11 @@ language: python
 python:
   - "2.7"
 # command to install dependencies
-install: "sh install.sh"
+install: sh install.sh
 # command to run tests
 script: 
-  - "cd test;sh test_BC.sh"
-  - "cd test;sh test_L.sh"
-  - "cd test;sh test_CM.sh"
-  - "cd test;sh test_DCC.sh"
+  - cd test
+  - ./test_BC.sh
+  - ./test_L.sh
+  - ./test_CM.sh
+  - ./test_DCC.sh
