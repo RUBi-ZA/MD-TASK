@@ -1,11 +1,13 @@
 # MD-TASK
+<img src="https://travis-ci.org/RUBi-ZA/MD-TASK.svg?branch=master" align="right">
+
 Tool suite for analysing molecular dynamics trajectories using network analysis and PRS.
 
-##1. Introduction
+## Introduction
 
 MD-TASK consists of a suite of Python scripts that have been developed to analyze molecular dynamics trajectories. Detailed documentation can be found on our [ReadTheDocs](http://md-task.readthedocs.io/en/latest/index.html) site.
 
-##2. Installation
+## Installation
 
 *Download the project:*
 ```bash
@@ -29,7 +31,7 @@ R
 > install.packages("igraph")
 ```
 
-##3. Usage
+## Usage
 
 The scripts are located in the root directory of the project. To run the scripts, ensure that the virtual environment is activated. For more info, find detailed documentation [here](http://md-task.readthedocs.io/en/latest/index.html). 
 
