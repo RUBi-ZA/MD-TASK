@@ -314,10 +314,10 @@ Threshold                         Float        ``--threshold``          Distance
 Prefix                            Text         ``--prefix``             Prefix used to name outputs   
 ================================  ===========  =======================  ======================================================================================================================================================== 
 
-Given two trajectories, ``wt.dcd`` and ``mutant.dcd``, where a mutation, ``THR405ALA``, occurs, the following could be used to build contact maps around position 405 in both trajectories: ::
+Given two trajectories, ``wt.dcd`` and ``mutant.dcd``, where a mutation, ``ASP31ASN``, occurs, the following could be used to build contact maps around position 31 in both trajectories: ::
 	
-	contact_map.py --residue THR405 --prefix wt --topology wt.pdb wt.dcd
-	contact_map.py --residue ALA405 --prefix mutant --topology mutant.pdb mutant.dcd
+	contact_map.py --residue ASP31 --prefix wt --topology wt.pdb wt.dcd
+	contact_map.py --residue ASN31 --prefix mutant --topology mutant.pdb mutant.dcd
 
 For each of the commands above, a contact map in PDF format will be produced, as well as a CSV file containing the calculated values. The contact maps can be compared visually to give an idea of the changes cause by the mutation.
 
