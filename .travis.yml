@@ -4,4 +4,8 @@ python:
 # command to install dependencies
 install: "sh install.sh"
 # command to run tests
-script: "cd test;travis_wait 40 sh test.sh"
+script: 
+  - "cd test;sh test_BC.sh"
+  - "cd test;sh test_L.sh"
+  - "cd test;sh test_CM.sh"
+  - "cd test;sh test_DCC.sh"
