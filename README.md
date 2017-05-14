@@ -1,5 +1,6 @@
-# MD-TASK
 <img src="https://travis-ci.org/RUBi-ZA/MD-TASK.svg?branch=master" align="right">
+
+# MD-TASK
 
 Tool suite for analysing molecular dynamics trajectories using network analysis and PRS.
 
