@@ -62,8 +62,6 @@ Calculating BC and L
 |                        |            |                    |use for large trajectories   |
 +------------------------+------------+--------------------+-----------------------------+ 
 
-*Note: using* ``--calc-L`` *is a time consuming operation, which, depending on the size of the trajectory and the specs of the machine, can take up to an hour per frame.*
-
 
 *Note: for* ``--calc-L`` *to work, all nodes in the network must be accessbile from all other nodes in the network. When this is not the case, an error will occur. Try increasing the distance threshold when this happens.*
 
