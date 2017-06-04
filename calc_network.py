@@ -99,8 +99,11 @@ def calc_shortest_path(protein_graph, prefix, generate_plots=True):
 
     for i in range(num_nodes):
         for j in range(num_nodes):
-            dj_path_matrix[i,j] = path_dict[i][j]
-    
+            try:
+                dj_path_matrix[i,j] = path_dict[i][j]
+            except KeyError, ke:
+                raise nx.exception.NetworkXNoPath("No link between %d and %d" % (i, j))
+
     np.savetxt("%s_L.dat" % prefix, dj_path_matrix)
             
     avg_L_per_node = np.sum(dj_path_matrix, axis=0)/(num_nodes - 1)
