@@ -32,7 +32,6 @@ def calc_delta_L(reference_file, alternative_files, normalize=False, generate_pl
     else:
         label = "L"
     
-    delta_L = np.zeros((num_nodes, num_nodes))
     alternatives = natsorted(alternative_files)
     
     log("Calculating delta %s for %d networks...\n" % (label, len(alternatives)))
@@ -48,8 +47,6 @@ def calc_delta_L(reference_file, alternative_files, normalize=False, generate_pl
             difference = difference / reference
             prefix += "_norm"
         
-        delta_L[i,:] = difference
-        
         np.savetxt("%s_delta_L.dat" % prefix, difference)
         
         if generate_plots:
@@ -63,8 +60,6 @@ def calc_delta_L(reference_file, alternative_files, normalize=False, generate_pl
             plt.close()            
     
     log("\n")
-    
-    return delta_L
 
 
 

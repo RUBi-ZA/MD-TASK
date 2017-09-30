@@ -96,7 +96,7 @@ def calc_shortest_path(protein_graph, prefix, generate_plots=True):
     
     path_dict = nx.all_pairs_shortest_path_length(protein_graph)  
     dj_path_matrix = np.zeros((num_nodes, num_nodes))  
-
+    
     for i in range(num_nodes):
         for j in range(num_nodes):
             try:

@@ -25,14 +25,8 @@ import matplotlib.pyplot as plt
 
 def calc_delta_BC(reference_file, alternative_files, generate_plots=False):
     reference = np.loadtxt(reference_file)
-    num_nodes = reference.shape[0]
-    
-    delta_BC = np.zeros((num_nodes, num_nodes))
-    BC_mutant = np.zeros((num_nodes, num_nodes))
-    
+    num_nodes = reference.shape[0]        
     label = "BC"
-    
-    delta_BC = np.zeros((num_nodes, num_nodes))
     alternatives = natsorted(alternative_files)
     
     log("Calculating delta %s for %d networks...\n" % (label, len(alternatives)))
@@ -44,8 +38,6 @@ def calc_delta_BC(reference_file, alternative_files, generate_plots=False):
         alternative = np.loadtxt(alternative)
         
         difference = alternative - reference
-        
-        delta_BC[i,:] = difference
         
         np.savetxt("%s_delta_%s.dat" % (prefix, label), difference)
         
@@ -60,8 +52,6 @@ def calc_delta_BC(reference_file, alternative_files, generate_plots=False):
             plt.close()
     
     log("\n")
-    
-    return delta_BC
 
 
 def main(args):
