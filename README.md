@@ -18,13 +18,7 @@ cd MD-TASK
 *Install dependencies and set up Python virtual environment:*
 ```bash
 sudo apt-get install virtualenvwrapper python-dev libblas-dev liblapack-dev libatlas-base-dev gfortran libpng12-dev libfreetype6-dev python-tk r-base
-virtualenv venv
-source venv/bin/activate
-pip install --upgrade pip
-pip install numpy
-pip install scipy
-pip install matplotlib cython networkx natsort
-pip install mdtraj
+sh install.sh
 ```
 *Install igraph package for R:*
 ```bash
