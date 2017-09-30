@@ -31,25 +31,6 @@ Install system dependencies
 
 2. Next, install virtualenv by following `these instructions <http://exponential.io/blog/2015/02/10/install-virtualenv-and-virtualenvwrapper-on-mac-os-x/>`_
 
-Install Python dependencies
---------------------------------
-
-We recommend using a Python virtual environment when using MD-TASK ::
-
-	virtualenv venv
-	source venv/bin/activate
-	pip install --upgrade pip
-	pip install numpy 
-	pip install scipy 
-	pip install matplotlib cython networkx natsort
-	pip install mdtraj
-
-
-Install the igraph package for R: ::
-
-	R
-	> install.packages("igraph")
-
 Download the project
 -------------------------------
 
@@ -58,4 +39,23 @@ MD-TASK can be cloned from it's GitHub repository ::
 	git clone https://github.com/RUBi-ZA/MD-TASK.git
 	cd MD-TASK
 
-Always activate the virtual environment you created in the previous step when using MD-TASK.
+Install Python dependencies
+--------------------------------
+
+We recommend using a Python virtual environment when using MD-TASK. It can be set up by running the `install.sh` script in the root directory of the MD-TASK repository: ::
+
+	sh install.sh
+
+
+You should now see a directory, `venv`. This is your Python virtual environment. This environment should always be activated before using MD-TASK. The virtual environment can be activated with the following command: ::
+
+	. venv/bin/activate
+
+
+Install R dependencies
+--------------------------------
+
+Install the igraph package for R: ::
+
+	R
+	> install.packages("igraph")
