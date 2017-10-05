@@ -15,6 +15,7 @@ from datetime import datetime
 import numpy as np
 
 from lib.utils import *
+from lib.strategies import normalization
 
 import os, sys, argparse, matplotlib
 
@@ -23,7 +24,7 @@ import matplotlib.pyplot as plt
 
 
 
-def calc_delta_BC(reference_file, alternative_files, generate_plots=False):
+def calc_delta_BC(reference_file, alternative_files, normalize, normalization_function, generate_plots=False):
     reference = np.loadtxt(reference_file)
     num_nodes = reference.shape[0]        
     label = "BC"
@@ -38,6 +39,9 @@ def calc_delta_BC(reference_file, alternative_files, generate_plots=False):
         alternative = np.loadtxt(alternative)
         
         difference = alternative - reference
+        if normalize:
+            difference = normalization_function(difference, reference)
+            prefix += "_norm"
         
         np.savetxt("%s_delta_%s.dat" % (prefix, label), difference)
         
@@ -55,7 +59,8 @@ def calc_delta_BC(reference_file, alternative_files, generate_plots=False):
 
 
 def main(args):
-    calc_delta_BC(args.reference, args.alternatives, args.generate_plots)
+    normalization_function = getattr(normalization, args.normalization_mode, 'plusone')
+    calc_delta_BC(args.reference, args.alternatives, args.normalize, normalization_function, args.generate_plots)
 
 
 
@@ -83,6 +88,8 @@ if __name__ == "__main__":
     #custom arguments
     parser.add_argument("--reference", help="The reference BC matrix (.dat)")
     parser.add_argument("--alternatives", help="The alternative BC matrices (.dat)", nargs="*")
+    parser.add_argument("--normalize", help="Normalizes the values", action='store_true', default=False)
+    parser.add_argument('--normalization-mode', help="Method used to normalize - default: (Delta BC/(BC+1))", nargs='?', const="plusone", default="plusone")
     parser.add_argument("--generate-plots", help="Plot results - without setting this flag, no graph will be generated", action='store_true', default=False)
     
     args = parser.parse_args()

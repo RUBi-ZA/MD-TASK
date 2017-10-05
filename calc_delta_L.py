@@ -13,6 +13,7 @@ from natsort import natsorted
 from datetime import datetime
 
 from lib.utils import *
+from lib.strategies import normalization
 
 import numpy as np
 
@@ -23,7 +24,7 @@ import matplotlib.pyplot as plt
 
 
 
-def calc_delta_L(reference_file, alternative_files, normalize=False, generate_plots=False):
+def calc_delta_L(reference_file, alternative_files, normalize, normalization_function, generate_plots=False):
     reference = np.loadtxt(reference_file)
     num_nodes = reference.shape[0]
     
@@ -44,7 +45,7 @@ def calc_delta_L(reference_file, alternative_files, normalize=False, generate_pl
         
         difference = alternative - reference
         if normalize:
-            difference = difference / reference
+            difference = normalization_function(difference, reference)
             prefix += "_norm"
         
         np.savetxt("%s_delta_L.dat" % prefix, difference)
@@ -64,7 +65,8 @@ def calc_delta_L(reference_file, alternative_files, normalize=False, generate_pl
 
 
 def main(args):
-    calc_delta_L(args.reference, args.alternatives, args.normalize, args.generate_plots)
+    normalization_function = getattr(normalization, args.normalization_mode, 'default')
+    calc_delta_L(args.reference, args.alternatives, args.normalize, normalization_function, args.generate_plots)
 
 
 
@@ -93,7 +95,8 @@ if __name__ == "__main__":
     #custom arguments
     parser.add_argument("--reference", help="The reference avg L matrix (.dat)")
     parser.add_argument("--alternatives", help="The alternative avg L matrices (.dat)", nargs="*")
-    parser.add_argument("--normalize", help="Normalizes the values (Delta L/L)", action='store_true', default=False)
+    parser.add_argument("--normalize", help="Normalizes the values", action='store_true', default=False)
+    parser.add_argument('--normalization-mode', help="Method used to normalize (default: (Delta L/L))", nargs='?', const="default", default="default")
     parser.add_argument("--generate-plots", help="Plot results - without setting this flag, no graph will be generated", action='store_true', default=False)
     
     args = parser.parse_args()

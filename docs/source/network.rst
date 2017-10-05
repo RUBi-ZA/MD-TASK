@@ -94,14 +94,15 @@ If the ``--calc-L`` flag in the previous command is set, a number of Nx1 L matri
 
 **Inputs:**
 
-=========================  ===========  ====================  ========================================================================================================================================================
- Input (*\*required*)      Input type   Flag                  Description                  
-=========================  ===========  ====================  ========================================================================================================================================================
-Reference frame *          File         ``--reference``       Nx1 matrix to be used as the reference (normally the frame from time 0). Delta L will be worked out by comparing the alternative frames to this one.    
-Alternative frames *       File/s       ``--alternatives``    The remaining Nx1 matrices that should be compared to the reference matrix
-Normalize                  Boolean      ``--normalize``       Set this flag to normalize the values (ΔL/L)
-Generate plots             Boolean      ``--generate-plots``  Set to generate figures
-=========================  ===========  ====================  ========================================================================================================================================================
+=========================  ===========  ========================  ========================================================================================================================================================
+ Input (*\*required*)      Input type   Flag                      Description                  
+=========================  ===========  ========================  ========================================================================================================================================================
+Reference frame *          File         ``--reference``           Nx1 matrix to be used as the reference (normally the frame from time 0). Delta L will be worked out by comparing the alternative frames to this one.    
+Alternative frames *       File/s       ``--alternatives``        The remaining Nx1 matrices that should be compared to the reference matrix
+Normalize                  Boolean      ``--normalize``           Set this flag to normalize the values 
+Normalization mode         Text         ``--normalization-mode``  Options are default (ΔL/L), plusone (ΔL/(L+1)), or nonzero (ΔL/L where L > 0 else ΔL) - default mode is 'default' 
+Generate plots             Boolean      ``--generate-plots``      Set to generate figures
+=========================  ===========  ========================  ========================================================================================================================================================
 
 Given a set of average shortest path .dat files ``wt_*_avg_L.dat`` (generated with ``calc_network.py``), the ``wt_0_avg_L.dat`` file could be used as the reference and the rest could be used as the alternatives. If ``wt_0_avg_L.dat`` is renamed to ``ref_wt_L.dat``, the following command could be used: ::
 
@@ -129,13 +130,15 @@ If the ``--calc-BC`` flag was set when running the ``calc_network.py`` script, a
 
 **Inputs:**
 
-=========================  ===========  ====================  ========================================================================================================================================================
- Input (*\*required*)      Input type   Flag                  Description                  
-=========================  ===========  ====================  ========================================================================================================================================================
-Reference frame *          File         ``--reference``       Nx1 matrix to be used as the reference (normally the frame from time 0). Delta BC will be worked out by comparing the alternative frames to this one.    
-Alternative frames *       File/s       ``--alternatives``    The remaining Nx1 matrices that should be compared to the reference matrix
-Generate plots             Boolean      ``--generate-plots``  Set to generate figures
-=========================  ===========  ====================  ========================================================================================================================================================
+=========================  ===========  ========================  ========================================================================================================================================================
+ Input (*\*required*)      Input type   Flag                      Description                  
+=========================  ===========  ========================  ========================================================================================================================================================
+Reference frame *          File         ``--reference``           Nx1 matrix to be used as the reference (normally the frame from time 0). Delta BC will be worked out by comparing the alternative frames to this one.    
+Alternative frames *       File/s       ``--alternatives``        The remaining Nx1 matrices that should be compared to the reference matrix
+Normalize                  Boolean      ``--normalize``           Set this flag to normalize the values 
+Normalization mode         Text         ``--normalization-mode``  Options are default (ΔBC/BC), plusone (ΔBC/(BC+1)), or nonzero (ΔBC/BC where BC > 0 else ΔBC) - default mode is 'plusone' 
+Generate plots             Boolean      ``--generate-plots``      Set to generate figures
+=========================  ===========  ========================  ========================================================================================================================================================
 
 Given a set of BC .dat files ``wt_*_bc.dat`` (generated with ``calc_network.py``), the ``wt_0_bc.dat`` file could be used as the reference and the rest could be used as the alternatives. If the ``wt_0_bc.dat`` is renamed to ``ref_wt_bc.dat``, the following command could be used: ::
 
