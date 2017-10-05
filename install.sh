@@ -1,7 +1,7 @@
 #!/bin/bash
 
 virtualenv venv
-source venv/bin/activate
+. venv/bin/activate
 
 pip install --upgrade pip
 pip install numpy==1.13.3

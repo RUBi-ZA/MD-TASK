@@ -143,7 +143,7 @@ def calc_centralities(traj, traj_name, total_frames, args):
 
 
 def calc_BC(protein_graph, prefix, generate_plots=True):
-    bc = nx.betweenness_centrality(protein_graph, normalized=True)
+    bc = nx.betweenness_centrality(protein_graph, normalized=False)
     bc = np.asarray(list(bc.values()))
     
     num_nodes = len(protein_graph.nodes())
@@ -183,15 +183,18 @@ def load_traj(args):
     return traj, total_frames
 
 
-def main(args):        
+def main(args):
+    if not args.calc_BC and not args.calc_L:
+        log("At least one of the --calc-BC or --calc-L flags must be set.")
+        sys.exit(1)
+        
     traj_name = os.path.basename(args.trajectory)
+    traj, total_frames = load_traj(args)
     
     if args.calc_BC:
-        traj, total_frames = load_traj(args)
         calc_centralities(traj, traj_name, total_frames, args)
     
     if args.calc_L:
-        traj, total_frames = load_traj(args)
         calc_shortest_paths(traj, traj_name, total_frames, args)
         
 

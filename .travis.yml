@@ -5,6 +5,7 @@ python:
 install: sh install.sh
 # command to run tests
 script: 
+  - . venv/bin/activate
   - cd test
   - ./test_BC.sh
   - ./test_L.sh

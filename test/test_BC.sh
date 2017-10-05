@@ -19,8 +19,8 @@ python $BIN_DIR/calc_network.py --topology $PREFIX.pdb --threshold 7.0 --step 10
 
 mv ${PREFIX}_0_bc.dat ref_${PREFIX}_bc.dat 
 
-python $BIN_DIR/calc_delta_BC.py --generate-plots --reference ref_${PREFIX}_bc.dat --alternatives ${PREFIX}_*_bc.dat
-python $BIN_DIR/avg_network.py --data ${PREFIX}_*_bc_delta_BC.dat --data-type delta-BC --prefix ${PREFIX} --generate-plots --x-label "Residues" --y-label "Avg delta BC" --title "Wild Type"
+python $BIN_DIR/calc_delta_BC.py --generate-plots --normalize --reference ref_${PREFIX}_bc.dat --alternatives ${PREFIX}_*_bc.dat
+python $BIN_DIR/avg_network.py --data ${PREFIX}_*_bc_norm_delta_BC.dat --data-type delta-BC --prefix ${PREFIX} --generate-plots --x-label "Residues" --y-label "Avg delta BC" --title "Wild Type"
 
 
 echo ""
@@ -34,8 +34,8 @@ python $BIN_DIR/calc_network.py --topology $PREFIX.pdb --threshold 7.0 --step 10
 
 mv ${PREFIX}_0_bc.dat ref_${PREFIX}_bc.dat 
 
-python $BIN_DIR/calc_delta_BC.py --generate-plots --reference ref_${PREFIX}_bc.dat --alternatives ${PREFIX}_*_bc.dat
-python $BIN_DIR/avg_network.py --data ${PREFIX}_*_bc_delta_BC.dat --data-type delta-BC --prefix ${PREFIX} --generate-plots --x-label "Residues" --y-label "Avg delta BC" --title "Mutant"
+python $BIN_DIR/calc_delta_BC.py --generate-plots --normalize --reference ref_${PREFIX}_bc.dat --alternatives ${PREFIX}_*_bc.dat
+python $BIN_DIR/avg_network.py --data ${PREFIX}_*_bc_norm_delta_BC.dat --data-type delta-BC --prefix ${PREFIX} --generate-plots --x-label "Residues" --y-label "Avg delta BC" --title "Mutant"
 
 
 echo ""
