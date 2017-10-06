@@ -3,7 +3,7 @@
 # Generate weighted contact map around a given residue
 #
 # Script distributed under GNU GPL 3.0
-# 
+#
 # Author: Olivier Sheik Amamuddy
 # Date: 17-11-2016
 
@@ -79,9 +79,9 @@ def main(args):
 
     chainChar = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     edges = []
-    
+
     log("Loading trajectory...\n")
-    
+
     traj = md.load(traj_path, top=topology)[::args.step]
 
     # Get CA and CB atom indices
@@ -92,7 +92,7 @@ def main(args):
     nframes = len(traj)
 
     log("Calculating network around %s (chain %s)...\n" % (residue, chain))
-    
+
     for frame in traj:
 
         # Takes a frame and updates a list of contact
@@ -103,9 +103,9 @@ def main(args):
                 atom1_chain    = chainChar[atom1.residue.chain.index]
                 atom1_resname  = atom1.residue.name
                 atom1_resid    = atom1.residue.resSeq
-                
+
                 if atom1_chain == chain:
-                    
+
                     for atom2_idx in atom_indices:
                         if atom1_idx != atom2_idx:
                             # Calculate distances and create edge
@@ -136,10 +136,10 @@ def main(args):
         f_handle.write(edges)
 
     log("Generating contact map: %s...\n" % contact_map)
-    
+
     script_name = "rscript.R"
     write_rscript(script_name, nframes, csv_file, contact_map)
-        
+
     sp.call("R CMD BATCH %s" % script_name, shell=True)
 
     if os.path.exists(contact_map):
@@ -156,21 +156,21 @@ stream = sys.stdout
 def log(message):
     global silent
     global stream
-    
+
     if not silent:
         stream.write(message)
-    
+
 
 if __name__ == "__main__":
-    
+
     #parse cmd arguments
     parser = argparse.ArgumentParser()
-    
+
     #standard arguments for logging
     parser.add_argument("--silent", help="Turn off logging", action='store_true', default=False)
     parser.add_argument("--log-file", help="Output log file (default: standard output)", default=None)
-    
-    #custom arguments    
+
+    #custom arguments
     parser.add_argument("trajectory", help="Trajectory file")
     parser.add_argument("--topology", help="Topology PDB file (required if trajectory does not contain topology information)")
     parser.add_argument("--residue", help="The residue that the contact map will be built around (e.g. THR405)")
@@ -178,15 +178,15 @@ if __name__ == "__main__":
     parser.add_argument("--prefix", help="Prefix for output file", default="residue_contacts")
     parser.add_argument("--step", help="Size of step when iterating through trajectory frames", default=1, type=int)
     parser.add_argument("--chain", help="Chain ID to be matched (default: A)", default="A")
-    
+
     args = parser.parse_args()
-    
+
     #set up logging
     silent = args.silent
-    
+
     if args.log_file:
         stream = open(args.log_file, 'w')
-    
+
     start = datetime.now()
     log("Started at: %s\n" % str(start))
 
@@ -195,11 +195,11 @@ if __name__ == "__main__":
 
     end = datetime.now()
     time_taken = format_seconds((end - start).seconds)
-    
+
     log("Completed at: %s\n" % str(end))
     log("- Total time: %s\n" % str(time_taken))
-    
+
     #close logging stream
     stream.close()
-    
- 
+
+
