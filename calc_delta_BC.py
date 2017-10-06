@@ -26,7 +26,7 @@ import matplotlib.pyplot as plt
 
 def calc_delta_BC(reference_file, alternative_files, normalize, normalization_function, generate_plots=False):
     reference = np.loadtxt(reference_file)
-    num_nodes = reference.shape[0]        
+    num_nodes = reference.shape[0]
     label = "BC"
     alternatives = natsorted(alternative_files)
     
