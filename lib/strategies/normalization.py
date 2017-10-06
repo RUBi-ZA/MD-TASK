@@ -1,4 +1,4 @@
-def default(difference, reference):
+def standard(difference, reference):
     return difference / reference
 
 def nonzero(difference, reference):

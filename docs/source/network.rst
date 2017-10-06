@@ -100,7 +100,7 @@ If the ``--calc-L`` flag in the previous command is set, a number of Nx1 L matri
 Reference frame *          File         ``--reference``           Nx1 matrix to be used as the reference (normally the frame from time 0). Delta L will be worked out by comparing the alternative frames to this one.    
 Alternative frames *       File/s       ``--alternatives``        The remaining Nx1 matrices that should be compared to the reference matrix
 Normalize                  Boolean      ``--normalize``           Set this flag to normalize the values 
-Normalization mode         Text         ``--normalization-mode``  Options are default (ΔL/L), plusone (ΔL/(L+1)), or nonzero (ΔL/L where L > 0 else ΔL) - default mode is 'default' 
+Normalization mode         Text         ``--normalization-mode``  Options are standard (ΔL/L), plusone (ΔL/(L+1)), or nonzero (ΔL/L where L > 0 else ΔL) - default mode is 'default' 
 Generate plots             Boolean      ``--generate-plots``      Set to generate figures
 =========================  ===========  ========================  ========================================================================================================================================================
 
@@ -136,7 +136,7 @@ If the ``--calc-BC`` flag was set when running the ``calc_network.py`` script, a
 Reference frame *          File         ``--reference``           Nx1 matrix to be used as the reference (normally the frame from time 0). Delta BC will be worked out by comparing the alternative frames to this one.    
 Alternative frames *       File/s       ``--alternatives``        The remaining Nx1 matrices that should be compared to the reference matrix
 Normalize                  Boolean      ``--normalize``           Set this flag to normalize the values 
-Normalization mode         Text         ``--normalization-mode``  Options are default (ΔBC/BC), plusone (ΔBC/(BC+1)), or nonzero (ΔBC/BC where BC > 0 else ΔBC) - default mode is 'plusone' 
+Normalization mode         Text         ``--normalization-mode``  Options are standard (ΔBC/BC), plusone (ΔBC/(BC+1)), or nonzero (ΔBC/BC where BC > 0 else ΔBC) - default mode is 'plusone' 
 Generate plots             Boolean      ``--generate-plots``      Set to generate figures
 =========================  ===========  ========================  ========================================================================================================================================================
 
