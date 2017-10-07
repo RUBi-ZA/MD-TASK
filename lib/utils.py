@@ -3,8 +3,6 @@ import os
 import numpy as np
 import mdtraj as md
 
-
-
 class MDIterator:
 
     def __init__(self, traj_file, top, chunk=100, stride=1):
@@ -14,10 +12,8 @@ class MDIterator:
         self.index = chunk - 1
         self.chunk = chunk
 
-
     def __iter__(self):
         return self
-
 
     def next(self):
         if self.index == self.chunk - 1:
@@ -31,12 +27,9 @@ class MDIterator:
         except IndexError, ex:
             raise StopIteration
 
-
-
 def reduce_trajectory(trajectory, top=None, stride=1, output_path="minimized.dcd"):
     traj = md.load(trajectory, top=top)[::int(stride)]
     traj.save(output_path)
-
 
 def save_frame(trajectory, topology, frame_index, format="pdb"):
     traj_wo_ext = ".".join(os.path.basename(trajectory).split(".")[:-1])
@@ -44,12 +37,10 @@ def save_frame(trajectory, topology, frame_index, format="pdb"):
     frame = md.load_frame(trajectory, frame_index, top=topology)
     frame.save(frame_name)
 
-
 def format_seconds(seconds):
     m, s = divmod(seconds, 60)
     h, m = divmod(m, 60)
     return "%d:%02d:%02d" % (h, m, s)
-
 
 def saveNDtxt(filename, data):
     with file(filename, 'w') as outfile:
@@ -60,7 +51,6 @@ def saveNDtxt(filename, data):
         # Iterating through a ndimensional array produces slices along
         # the last axis. This is equivalent to data[i,:,:] in this case
         for data_slice in data:
-
             # The formatting string indicates that I'm writing out
             # the values in left-justified columns 7 characters in width
             # with 2 decimal places.
@@ -69,10 +59,8 @@ def saveNDtxt(filename, data):
             # Writing out a break to indicate different slices...
             outfile.write('# New slice\n')
 
-
 def loadNDtxt(filename, shape):
     return np.loadtxt(filename).reshape(shape)
-
 
 '''
 Example usage:

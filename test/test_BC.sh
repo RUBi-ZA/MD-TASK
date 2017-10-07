@@ -8,19 +8,19 @@ BIN_DIR=../..
 
 cp $BIN_DIR/example/* .
 
-
 echo ""
 echo "#### BETWEENNESS CENTRALITY - WT ####"
 echo ""
 
 PREFIX=wt
+NORM=plusone
 
 python $BIN_DIR/calc_network.py --topology $PREFIX.pdb --threshold 7.0 --step 100 --generate-plots --calc-BC --discard-graphs $PREFIX.dcd
 
-mv ${PREFIX}_0_bc.dat ref_${PREFIX}_bc.dat 
+mv ${PREFIX}_0_bc.dat ref_${PREFIX}_bc.dat
 
-python $BIN_DIR/calc_delta_BC.py --generate-plots --normalize --reference ref_${PREFIX}_bc.dat --alternatives ${PREFIX}_*_bc.dat
-python $BIN_DIR/avg_network.py --data ${PREFIX}_*_bc_norm_delta_BC.dat --data-type delta-BC --prefix ${PREFIX} --generate-plots --x-label "Residues" --y-label "Avg delta BC" --title "Wild Type"
+python $BIN_DIR/calc_delta_BC.py --generate-plots --normalize --normalization-mode ${NORM} --reference ref_${PREFIX}_bc.dat --alternatives ${PREFIX}_*_bc.dat
+python $BIN_DIR/avg_network.py --data ${PREFIX}_*_bc_${NORM}_delta_BC.dat --data-type delta-BC --prefix ${PREFIX} --generate-plots --x-label "Residues" --y-label "Avg delta BC" --title "Wild Type"
 
 
 echo ""
@@ -32,10 +32,10 @@ PREFIX=mutant
 
 python $BIN_DIR/calc_network.py --topology $PREFIX.pdb --threshold 7.0 --step 100 --generate-plots --calc-BC --discard-graphs --lazy-load $PREFIX.dcd
 
-mv ${PREFIX}_0_bc.dat ref_${PREFIX}_bc.dat 
+mv ${PREFIX}_0_bc.dat ref_${PREFIX}_bc.dat
 
-python $BIN_DIR/calc_delta_BC.py --generate-plots --normalize --reference ref_${PREFIX}_bc.dat --alternatives ${PREFIX}_*_bc.dat
-python $BIN_DIR/avg_network.py --data ${PREFIX}_*_bc_norm_delta_BC.dat --data-type delta-BC --prefix ${PREFIX} --generate-plots --x-label "Residues" --y-label "Avg delta BC" --title "Mutant"
+python $BIN_DIR/calc_delta_BC.py --generate-plots --normalize --normalization-mode ${NORM} --reference ref_${PREFIX}_bc.dat --alternatives ${PREFIX}_*_bc.dat
+python $BIN_DIR/avg_network.py --data ${PREFIX}_*_bc_${NORM}_delta_BC.dat --data-type delta-BC --prefix ${PREFIX} --generate-plots --x-label "Residues" --y-label "Avg delta BC" --title "Mutant"
 
 
 echo ""

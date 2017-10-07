@@ -13,13 +13,14 @@ echo "#### AVERAGE SHORTEST PATH - WT ####"
 echo ""
 
 PREFIX=wt
+NORM=standard
 
 python $BIN_DIR/calc_network.py --topology $PREFIX.pdb --threshold 7.0 --step 100 --generate-plots --calc-L --discard-graphs $PREFIX.dcd
 
-mv ${PREFIX}_0_avg_L.dat ref_${PREFIX}_avg_L.dat 
+mv ${PREFIX}_0_avg_L.dat ref_${PREFIX}_avg_L.dat
 
-python $BIN_DIR/calc_delta_L.py --generate-plots --reference ref_${PREFIX}_avg_L.dat --alternatives ${PREFIX}_*_avg_L.dat
-python $BIN_DIR/avg_network.py --data ${PREFIX}_*_avg_L_delta_L.dat --data-type delta-L --prefix ${PREFIX} --generate-plots --x-label "Residues" --y-label "Avg delta L" --title "Wild Type"
+python $BIN_DIR/calc_delta_L.py --generate-plots --normalize --normalization-mode ${NORM} --reference ref_${PREFIX}_avg_L.dat --alternatives ${PREFIX}_*_avg_L.dat
+python $BIN_DIR/avg_network.py --data ${PREFIX}_*_avg_L_${NORM}_delta_L.dat --data-type delta-L --prefix ${PREFIX} --generate-plots --x-label "Residues" --y-label "Avg delta L" --title "Wild Type"
 
 
 echo ""
@@ -31,10 +32,10 @@ PREFIX=mutant
 
 python $BIN_DIR/calc_network.py --topology $PREFIX.pdb --threshold 7.0 --step 100 --generate-plots --calc-L --discard-graphs --lazy-load $PREFIX.dcd
 
-mv ${PREFIX}_0_avg_L.dat ref_${PREFIX}_avg_L.dat 
+mv ${PREFIX}_0_avg_L.dat ref_${PREFIX}_avg_L.dat
 
-python $BIN_DIR/calc_delta_L.py --generate-plots --reference ref_${PREFIX}_avg_L.dat --alternatives ${PREFIX}_*_avg_L.dat
-python $BIN_DIR/avg_network.py --data ${PREFIX}_*_avg_L_delta_L.dat --data-type delta-L --prefix ${PREFIX} --generate-plots --x-label "Residues" --y-label "Avg delta L" --title "Mutant"
+python $BIN_DIR/calc_delta_L.py --generate-plots --normalize --normalization-mode ${NORM} --reference ref_${PREFIX}_avg_L.dat --alternatives ${PREFIX}_*_avg_L.dat
+python $BIN_DIR/avg_network.py --data ${PREFIX}_*_avg_L_${NORM}_delta_L.dat --data-type delta-L --prefix ${PREFIX} --generate-plots --x-label "Residues" --y-label "Avg delta L" --title "Mutant"
 
 
 echo ""
