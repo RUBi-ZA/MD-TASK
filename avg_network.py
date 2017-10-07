@@ -14,7 +14,7 @@ from datetime import datetime
 
 from lib.utils import *
 
-import os, sys, argparse, matplotlib
+import sys, argparse, matplotlib
 
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -58,7 +58,6 @@ def plot_graph(network, err=None, start_x=1, color="black", ecolor="red", title=
 
 
 def plot_graph_split(split_pos, avg_matrix, std, initial_x_1, initial_x_2, title_1, title_2, x_label, y_label, ylim=None):
-    num_nodes = avg_matrix.shape[0]
     pos = int(split_pos)
 
     avg_matrix_1,avg_matrix_2 = split_array(avg_matrix, pos)
@@ -81,7 +80,6 @@ def plot_graph_split(split_pos, avg_matrix, std, initial_x_1, initial_x_2, title
 
 def main(args):
     prefix = args.prefix
-    start_index = args.initial_x
 
     if not args.data_type in ["BC", "delta-BC", "L", "delta-L"]:
         log("Unrecognized data type. Exiting...\n")

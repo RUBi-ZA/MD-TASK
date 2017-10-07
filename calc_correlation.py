@@ -7,8 +7,6 @@
 # Author: Caroline Ross
 # Date: 17-11-2016
 
-
-
 from datetime import datetime
 
 from matplotlib import cm
@@ -19,11 +17,10 @@ import numpy as np
 
 from lib.utils import *
 
-import os, sys, argparse, traceback, math, matplotlib
+import sys, argparse, traceback, math, matplotlib
 
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-
 
 
 def parse_traj(traj, topology=None, step=1, selected_atoms=["CA"], lazy_load=False):
@@ -92,7 +89,6 @@ def correlate(residues):
     return correlation
 
 
-
 def plot_map(correlation, title, output_prefix):
     M = np.array(correlation)
 
@@ -124,7 +120,7 @@ def plot_map(correlation, title, output_prefix):
     plt.xlabel('Residue Index', fontsize=12)
     plt.ylabel("Residue Index", fontsize=12)
 
-    cbar = plt.colorbar(heatmap, orientation="vertical")
+    plt.colorbar(heatmap, orientation="vertical")
     plt.savefig('%s.png' % output_prefix, dpi=300)
     plt.close('all')
 

@@ -8,21 +8,17 @@
 # Author: David Penkler
 # Date: 17-11-2016
 
-import os, sys, argparse
+import sys, argparse
 
-import numpy, scipy
+import numpy
 
 import mdtraj as md
-
-from scipy.stats.stats import pearsonr
-from scipy import linalg as LA
 
 from math import log10, floor, sqrt
 from datetime import datetime
 
 from lib import sdrms
 from lib.utils import *
-
 
 
 def round_sig(x, sig=2):
@@ -60,21 +56,20 @@ def calc_rmsd(reference_frame, alternative_frame, aln=False):
         return sdrms.superpose3D(alternative_frame, reference_frame)[1]
 
 
-
 def main(args):
     if not args.final:
-        log("ERROR: a final co-ordinate file must be supplied via the --final argument")
+        log("ERROR: a final co-ordinate file must be supplied via the --final argument\n")
         sys.exit(1)
 
     initial = md.load_frame(args.trajectory, 0, top=args.topology)
     if not args.initial:
         args.initial = "initial.xyz"
 
-        log("Generating initial co-ordinate file: %s" % args.initial)
+        log("Generating initial co-ordinate file: %s\n" % args.initial)
         initial[0].save(args.initial)
 
 
-    log("Loading trajectory...")
+    log("Loading trajectory...\n")
 
     if args.num_frames:
         totalframes = args.num_frames
@@ -85,15 +80,15 @@ def main(args):
 
     totalres = initial.n_residues
 
-    log('- Total number of frames = %d\n- Number of residues = %d' % (totalframes, totalres))
+    log('- Total number of frames = %d\n- Number of residues = %d\n' % (totalframes, totalres))
 
     trajectory = load_trajectory(traj, totalframes, totalres)
 
-    log('- Final trajectory matrix size: %s' % str(trajectory.shape))
+    log('- Final trajectory matrix size: %s\n' % str(trajectory.shape))
     del traj
 
 
-    log("Aligning trajectory frames...")
+    log("Aligning trajectory frames...\n")
 
     aligned_mat = numpy.zeros((totalframes,3*totalres))
     frame_0 = trajectory[0].reshape(totalres, 3)
@@ -104,12 +99,12 @@ def main(args):
     del trajectory
 
 
-    log("- Calculating average structure...")
+    log("- Calculating average structure...\n")
 
     average_structure_1 = numpy.mean(aligned_mat, axis=0).reshape(totalres, 3)
 
 
-    log("- Aligning to average structure...")
+    log("- Aligning to average structure...\n")
 
     for i in range(0, 10):
         for frame in range(0, totalframes):
@@ -119,7 +114,7 @@ def main(args):
 
         rmsd = calc_rmsd(average_structure_1, average_structure_2, args.aln)
 
-        log('   - %s Angstroms from previous structure' % str(rmsd))
+        log('   - %s Angstroms from previous structure\n' % str(rmsd))
 
         average_structure_1 = average_structure_2
         del average_structure_2
@@ -130,25 +125,25 @@ def main(args):
             break
 
 
-    log("Calculating difference between frame atoms and average atoms...")
+    log("Calculating difference between frame atoms and average atoms...\n")
 
     meanstructure = average_structure_1.reshape(totalres*3)
 
     del average_structure_1
 
-    log('- Calculating R_mat')
+    log('- Calculating R_mat\n')
     R_mat = numpy.zeros((totalframes, totalres*3))
     for frame in range(0, totalframes):
         R_mat[frame,:] = (aligned_mat[frame,:]) - meanstructure
 
-    log('- Transposing')
+    log('- Transposing\n')
 
     RT_mat = numpy.transpose(R_mat)
 
     RT_mat = numpy.mat(RT_mat)
     R_mat = numpy.mat(R_mat)
 
-    log('- Calculating corr_mat')
+    log('- Calculating corr_mat\n')
 
     corr_mat = (RT_mat * R_mat)/ (totalframes-1)
     numpy.savetxt("corr_mat.txt", corr_mat)
@@ -159,7 +154,7 @@ def main(args):
     del RT_mat
 
 
-    log('Reading initial and final PDB co-ordinates...')
+    log('Reading initial and final PDB co-ordinates...\n')
 
     initial = numpy.zeros((totalres, 3))
     final = numpy.zeros((totalres, 3))
@@ -182,10 +177,10 @@ def main(args):
                         res_index += 1
 
 
-    log('Calculating experimental difference between initial and final co-ordinates...')
+    log('Calculating experimental difference between initial and final co-ordinates...\n')
 
     if args.aln:
-        log("- Using NTD alignment restrictions")
+        log("- Using NTD alignment restrictions\n")
         final_alg = sdrms.superpose3D(final, initial, refmask=mask, targetmask=mask)[0]
     else:
         final_alg = sdrms.superpose3D(final, initial)[0]
@@ -196,7 +191,7 @@ def main(args):
     del final_alg
 
 
-    log('Implementing perturbations sequentially...')
+    log('Implementing perturbations sequentially...\n')
 
     perturbations = int(args.perturbations)
     diffP = numpy.zeros((totalres, totalres*3, perturbations))
@@ -226,7 +221,7 @@ def main(args):
     del corr_mat
 
 
-    log("Calculating Pearson's correlations coefficient...")
+    log("Calculating Pearson's correlations coefficient...\n")
 
     DTarget = numpy.zeros(totalres)
     DIFF = numpy.zeros((totalres, totalres, perturbations))
@@ -267,7 +262,8 @@ def log(message):
     global stream
 
     if not silent:
-        print >> stream, message
+        stream.write(message)
+        stream.flush()
 
 
 
@@ -301,7 +297,7 @@ if __name__ == "__main__":
         stream = open(args.log_file, 'w')
 
     start = datetime.now()
-    log("Started at: %s" % str(start))
+    log("Started at: %s\n" % str(start))
 
     #run script
     main(args)
@@ -309,8 +305,8 @@ if __name__ == "__main__":
     end = datetime.now()
     time_taken = format_seconds((end - start).seconds)
 
-    log("Completed at: %s" % str(end))
-    log("- Total time: %s" % str(time_taken))
+    log("Completed at: %s\n" % str(end))
+    log("- Total time: %s\n" % str(time_taken))
 
     #close logging stream
     stream.close()

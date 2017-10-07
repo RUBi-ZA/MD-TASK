@@ -56,6 +56,8 @@ if __name__ == "__main__":
     if args.log_file:
         stream = open(args.log_file, 'w')
 
+    log("WARN: this script is deprecated and will be removed in a future version. Use 'calc_delta.py --matrix-type L' instead.")
+
     start = datetime.now()
     log("Started at: %s\n" % str(start))
 

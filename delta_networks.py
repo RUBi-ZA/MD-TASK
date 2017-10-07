@@ -15,7 +15,7 @@ from lib.utils import *
 
 from datetime import datetime
 
-import os, sys, argparse, itertools, matplotlib
+import os, sys, argparse, matplotlib
 
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -49,11 +49,15 @@ def main(args):
     alternatives = natsorted(args.alternatives)
     alternatives_std = natsorted(args.alternatives_std)
 
-    assert len(alternatives) == len(alternatives_std), "The number of files supplied to the --alternatives argument differs from the number supplied to --alternatives-std"
-    assert len(alternatives) > 1, "At least 2 files must be supplied to the alternatives argument"
+    if len(alternatives) != len(alternatives_std):
+         log("The number of files supplied to the --alternatives argument differs from the number supplied to --alternatives-std")
+         sys.exit(1)
+
+    if len(alternatives) > 1:
+        log("At least 2 files must be supplied to the alternatives argument")
+        sys.exit(1)
 
     num_nodes = reference.shape[0]
-    min_nodes = num_nodes
 
     y_ticks = []
     y_data = np.zeros((len(alternatives), num_nodes))

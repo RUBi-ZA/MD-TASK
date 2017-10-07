@@ -13,16 +13,14 @@ from lib.utils import *
 
 from datetime import datetime
 
-import os, sys, argparse, matplotlib
+import sys, argparse, matplotlib
 
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 
-
 def plot_comparison(reference, alternative, reference_label, alternative_label, prefix="compare", y_label=None, ylim=None):
     difference = alternative - reference
-    title = "%s vs %s ($\Delta$%s)" % (reference_label, alternative_label, y_label)
 
     num_nodes = reference.shape[0]
     node_axis = range(1, num_nodes + 1)

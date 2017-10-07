@@ -24,7 +24,6 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 
-
 def calcDistance(frame, index1, index2):
     atom1 = frame.xyz[0, index1]
     atom2 = frame.xyz[0, index2]
@@ -35,15 +34,15 @@ def calcDistance(frame, index1, index2):
 
 
 def construct_graph(frame, ligands=None, prefix="frame", threshold=6.7, save_graph=True):
-    filter = "(name CB and protein) or (name CA and resname GLY)"
+    atom_filter = "(name CB and protein) or (name CA and resname GLY)"
     if ligands:
         ligands = ligands.split(",")
 
         for ligand in ligands:
             arr = ligand.split(":")
-            filter += " or (name %s and resname %s)" % (arr[1], arr[0])
+            atom_filter += " or (name %s and resname %s)" % (arr[1], arr[0])
 
-    atoms = frame.topology.select(filter)
+    atoms = frame.topology.select(atom_filter)
 
     nodes_range = len(atoms)
 
@@ -102,7 +101,7 @@ def calc_shortest_path(protein_graph, prefix, generate_plots=True):
             try:
                 dj_path_matrix[i,j] = path_dict[i][j]
             except KeyError, ke:
-                raise nx.exception.NetworkXNoPath("No link between %d and %d" % (i, j))
+                raise nx.exception.NetworkXNoPath("\nERROR::type=orphan_node:message=No link between %d and %d:exception=%s\n" % (i, j, str(ke)))
 
     np.savetxt("%s_L.dat" % prefix, dj_path_matrix)
 

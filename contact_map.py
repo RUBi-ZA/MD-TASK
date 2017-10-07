@@ -88,7 +88,7 @@ def main(args):
     atom_indices = [atom.index for atom in traj.topology.atoms if ((atom.name == "CB" and atom.residue.name != "GLY") or \
         (atom.name == "CA" and atom.residue.name == "GLY"))]
 
-    residues = list(map(lambda x: str(x), traj.top.residues))
+    residues = list(map(str, traj.top.residues))
     nframes = len(traj)
 
     log("Calculating network around %s (chain %s)...\n" % (residue, chain))

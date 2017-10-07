@@ -3,7 +3,7 @@ import os
 import numpy as np
 import mdtraj as md
 
-class MDIterator:
+class MDIterator(object):
 
     def __init__(self, traj_file, top, chunk=100, stride=1):
         self.iterator = md.iterload(traj_file, top=top, chunk=chunk, stride=stride)
@@ -24,16 +24,16 @@ class MDIterator:
 
         try:
             return self.trajectory[self.index]
-        except IndexError, ex:
+        except IndexError:
             raise StopIteration
 
 def reduce_trajectory(trajectory, top=None, stride=1, output_path="minimized.dcd"):
     traj = md.load(trajectory, top=top)[::int(stride)]
     traj.save(output_path)
 
-def save_frame(trajectory, topology, frame_index, format="pdb"):
+def save_frame(trajectory, topology, frame_index, file_format="pdb"):
     traj_wo_ext = ".".join(os.path.basename(trajectory).split(".")[:-1])
-    frame_name = "%s_%d.%s" % (traj_wo_ext, frame_index, format)
+    frame_name = "%s_%d.%s" % (traj_wo_ext, frame_index, file_format)
     frame = md.load_frame(trajectory, frame_index, top=topology)
     frame.save(frame_name)
 
@@ -61,22 +61,3 @@ def saveNDtxt(filename, data):
 
 def loadNDtxt(filename, shape):
     return np.loadtxt(filename).reshape(shape)
-
-'''
-Example usage:
-'''
-if __name__ == "__main__":
-    import sys
-    '''
-    traj = MDIterator(sys.argv[1], sys.argv[2])
-    print dir(traj)
-
-    for i, frame in enumerate(traj):
-        print i
-    '''
-
-    reduce_trajectory(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])
-
-
-
-
