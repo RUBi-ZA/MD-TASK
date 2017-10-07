@@ -53,7 +53,7 @@ def main(args):
          log("The number of files supplied to the --alternatives argument differs from the number supplied to --alternatives-std")
          sys.exit(1)
 
-    if len(alternatives) > 1:
+    if len(alternatives) < 2:
         log("At least 2 files must be supplied to the alternatives argument")
         sys.exit(1)
 
