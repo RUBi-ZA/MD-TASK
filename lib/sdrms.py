@@ -1,8 +1,8 @@
 #! /usr/bin/env python
 #
-# Calculate SMART RMSD with or without molecular superposition (FIT or NOFIT) 
+# Calculate SMART RMSD with or without molecular superposition (FIT or NOFIT)
 # Script distributed under GNU LGPL 3.0 along rDock software.
-# 
+#
 # Author: Daniel Alvarez-Garcia
 # Date: 08-11-2013
 
@@ -72,7 +72,7 @@ def superpose3D(ref, target, weights=None,refmask=None,targetmask=None,returnRot
     new_coords = npy.dot((refCenteredCoords), U)+ target_centroid  #translate & rotate
     #new_coords=(refCenteredCoords + target_centroid)
     #print U
-    if returnRotMat : 
+    if returnRotMat :
         return new_coords,rmsd, U
     return new_coords,rmsd
 
