@@ -12,7 +12,7 @@ import numpy as np
 from lib.cli import CLI
 from lib.utils import Logger
 
-import sys, argparse, matplotlib
+import argparse, matplotlib
 
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt

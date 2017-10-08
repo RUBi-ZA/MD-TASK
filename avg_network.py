@@ -10,8 +10,6 @@
 
 import numpy as np
 
-from datetime import datetime
-
 from lib.cli import CLI
 from lib.utils import Logger
 

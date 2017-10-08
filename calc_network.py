@@ -9,16 +9,14 @@
 # Author: David Brown
 # Date: 17-11-2016
 
-import mdtraj as md
-
 from lib.cli import CLI
 from lib.utils import Logger
-from lib.trajectory import MDIterator, load_trajectory, calc_distance
+from lib.trajectory import load_trajectory, calc_distance
 
 import numpy as np
 import networkx as nx
 
-import os, sys, argparse, math, matplotlib
+import os, sys, argparse, matplotlib
 
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt

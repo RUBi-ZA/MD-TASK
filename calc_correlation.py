@@ -9,22 +9,20 @@
 
 from matplotlib import cm
 
-import mdtraj as md
-
 import numpy as np
 
 from lib.cli import CLI
 from lib.utils import Logger
 from lib.trajectory import load_trajectory
 
-import sys, argparse, math, matplotlib
+import argparse, math, matplotlib
 
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 
 def parse_traj(traj, topology=None, step=1, selected_atoms=["CA"], lazy_load=False):
-    traj, num_frames = load_trajectory(traj, topology, step, lazy_load)
+    traj = load_trajectory(traj, topology, step, lazy_load)[0]
 
     residues = {}
 
@@ -89,7 +87,7 @@ def correlate(residues):
 def plot_map(correlation, title, output_prefix):
     M = np.array(correlation)
 
-    fig, ax = plt.subplots()
+    ax = plt.subplots()[1]
     colors = [('white')] + [(cm.jet(i)) for i in xrange(40,250)]
 
     new_map = matplotlib.colors.LinearSegmentedColormap.from_list('new_map', colors, N=300)

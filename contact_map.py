@@ -7,11 +7,10 @@
 # Author: Olivier Sheik Amamuddy
 # Date: 17-11-2016
 
-import os, sys, argparse
+import os, argparse
 
 import numpy as np
 import subprocess as sp
-import mdtraj as md
 
 from lib.cli import CLI
 from lib.utils import Logger

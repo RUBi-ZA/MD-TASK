@@ -15,7 +15,6 @@ import numpy
 import mdtraj as md
 
 from math import log10, floor, sqrt
-from datetime import datetime
 
 from lib import sdrms
 from lib.cli import CLI
