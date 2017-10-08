@@ -13,10 +13,9 @@ import numpy as np
 import subprocess as sp
 import mdtraj as md
 
-from datetime import datetime
-
-from lib.utils import *
-
+from lib.cli import CLI
+from lib.utils import Logger
+from lib.trajectory import load_trajectory
 
 
 def write_rscript(script_name, nframes, csv_file, contact_map):
@@ -70,8 +69,6 @@ dev.off()
 
 
 def main(args):
-    traj_path = args.trajectory
-    topology = args.topology
     residue  = args.residue.upper()
     cutoff = args.threshold / 10
     chain  = args.chain
@@ -80,18 +77,17 @@ def main(args):
     chainChar = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     edges = []
 
-    log("Loading trajectory...\n")
+    log.info("Loading trajectory...\n")
 
-    traj = md.load(traj_path, top=topology)[::args.step]
+    traj, nframes = load_trajectory(args.trajectory, args.topology, args.step)
 
     # Get CA and CB atom indices
     atom_indices = [atom.index for atom in traj.topology.atoms if ((atom.name == "CB" and atom.residue.name != "GLY") or \
         (atom.name == "CA" and atom.residue.name == "GLY"))]
 
     residues = list(map(str, traj.top.residues))
-    nframes = len(traj)
 
-    log("Calculating network around %s (chain %s)...\n" % (residue, chain))
+    log.info("Calculating network around %s (chain %s)...\n" % (residue, chain))
 
     for frame in traj:
 
@@ -119,8 +115,9 @@ def main(args):
 
                                 # Write contact
                                 contact = "{}{}_{},{}{}_{}".format(
-                                atom1_resname, atom1_resid, atom1_chain,
-                                atom2_resname, atom2_resid, atom2_chain)
+                                        atom1_resname, atom1_resid, atom1_chain,
+                                        atom2_resname, atom2_resid, atom2_chain
+                                    )
                                 edges.append(contact)
 
                     break #Stop looking for other positions
@@ -129,13 +126,13 @@ def main(args):
     csv_file = "%s_chain%s_network.csv" % (prefix, chain)
     contact_map = "%s_chain%s_contact_map.pdf" % (prefix, chain)
 
-    log("Writing network to %s...\n" % csv_file)
+    log.info("Writing network to %s...\n" % csv_file)
 
     with open(csv_file, 'w') as f_handle:
         edges = "\n".join(edges)
         f_handle.write(edges)
 
-    log("Generating contact map: %s...\n" % contact_map)
+    log.info("Generating contact map: %s...\n" % contact_map)
 
     script_name = "rscript.R"
     write_rscript(script_name, nframes, csv_file, contact_map)
@@ -146,31 +143,14 @@ def main(args):
         os.remove(script_name)
     else:
         r_out = "rscript.out"
-        log("Contact map not generated. See contents of %s for details...\n" % r_out)
+        log.error("Contact map not generated. See contents of %s for details...\n" % r_out)
 
 
-
-silent = False
-stream = sys.stdout
-
-def log(message):
-    global silent
-    global stream
-
-    if not silent:
-        stream.write(message)
-
+log = Logger()
 
 if __name__ == "__main__":
-
-    #parse cmd arguments
     parser = argparse.ArgumentParser()
 
-    #standard arguments for logging
-    parser.add_argument("--silent", help="Turn off logging", action='store_true', default=False)
-    parser.add_argument("--log-file", help="Output log file (default: standard output)", default=None)
-
-    #custom arguments
     parser.add_argument("trajectory", help="Trajectory file")
     parser.add_argument("--topology", help="Topology PDB file (required if trajectory does not contain topology information)")
     parser.add_argument("--residue", help="The residue that the contact map will be built around (e.g. THR405)")
@@ -179,27 +159,4 @@ if __name__ == "__main__":
     parser.add_argument("--step", help="Size of step when iterating through trajectory frames", default=1, type=int)
     parser.add_argument("--chain", help="Chain ID to be matched (default: A)", default="A")
 
-    args = parser.parse_args()
-
-    #set up logging
-    silent = args.silent
-
-    if args.log_file:
-        stream = open(args.log_file, 'w')
-
-    start = datetime.now()
-    log("Started at: %s\n" % str(start))
-
-    #run script
-    main(args)
-
-    end = datetime.now()
-    time_taken = format_seconds((end - start).seconds)
-
-    log("Completed at: %s\n" % str(end))
-    log("- Total time: %s\n" % str(time_taken))
-
-    #close logging stream
-    stream.close()
-
-
+    CLI(parser, main, log)

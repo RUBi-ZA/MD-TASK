@@ -18,14 +18,16 @@ from math import log10, floor, sqrt
 from datetime import datetime
 
 from lib import sdrms
-from lib.utils import *
+from lib.cli import CLI
+from lib.utils import Logger
+from lib.trajectory import load_trajectory
 
 
 def round_sig(x, sig=2):
     return round(x,sig-int(floor(log10(x)))-1)
 
 
-def load_trajectory(traj, totalframes, totalres):
+def trajectory_to_array(traj, totalframes, totalres):
     trajectory = numpy.zeros((totalframes, totalres*3))
 
     for row, frame in enumerate(traj):
@@ -58,37 +60,36 @@ def calc_rmsd(reference_frame, alternative_frame, aln=False):
 
 def main(args):
     if not args.final:
-        log("ERROR: a final co-ordinate file must be supplied via the --final argument\n")
+        log.error("a final co-ordinate file must be supplied via the --final argument\n")
         sys.exit(1)
 
     initial = md.load_frame(args.trajectory, 0, top=args.topology)
     if not args.initial:
         args.initial = "initial.xyz"
 
-        log("Generating initial co-ordinate file: %s\n" % args.initial)
+        log.info("Generating initial co-ordinate file: %s\n" % args.initial)
         initial[0].save(args.initial)
 
 
-    log("Loading trajectory...\n")
+    log.info("Loading trajectory...\n")
 
     if args.num_frames:
+        traj, totalframes = load_trajectory(args.trajectory, args.topology, args.step, True)
         totalframes = args.num_frames
-        traj = MDIterator(args.trajectory, top=args.topology, stride=args.step)
     else:
-        traj = md.load(args.trajectory, top=args.topology)[::args.step]
-        totalframes = traj.n_frames
+        traj, totalframes = load_trajectory(args.trajectory, args.topology, args.step, False)
 
     totalres = initial.n_residues
 
-    log('- Total number of frames = %d\n- Number of residues = %d\n' % (totalframes, totalres))
+    log.info('- Total number of frames = %d\n- Number of residues = %d\n' % (totalframes, totalres))
 
-    trajectory = load_trajectory(traj, totalframes, totalres)
+    trajectory = trajectory_to_array(traj, totalframes, totalres)
 
-    log('- Final trajectory matrix size: %s\n' % str(trajectory.shape))
+    log.info('- Final trajectory matrix size: %s\n' % str(trajectory.shape))
     del traj
 
 
-    log("Aligning trajectory frames...\n")
+    log.info("Aligning trajectory frames...\n")
 
     aligned_mat = numpy.zeros((totalframes,3*totalres))
     frame_0 = trajectory[0].reshape(totalres, 3)
@@ -99,12 +100,12 @@ def main(args):
     del trajectory
 
 
-    log("- Calculating average structure...\n")
+    log.info("- Calculating average structure...\n")
 
     average_structure_1 = numpy.mean(aligned_mat, axis=0).reshape(totalres, 3)
 
 
-    log("- Aligning to average structure...\n")
+    log.info("- Aligning to average structure...\n")
 
     for i in range(0, 10):
         for frame in range(0, totalframes):
@@ -114,7 +115,7 @@ def main(args):
 
         rmsd = calc_rmsd(average_structure_1, average_structure_2, args.aln)
 
-        log('   - %s Angstroms from previous structure\n' % str(rmsd))
+        log.info('   - %s Angstroms from previous structure\n' % str(rmsd))
 
         average_structure_1 = average_structure_2
         del average_structure_2
@@ -125,25 +126,25 @@ def main(args):
             break
 
 
-    log("Calculating difference between frame atoms and average atoms...\n")
+    log.info("Calculating difference between frame atoms and average atoms...\n")
 
     meanstructure = average_structure_1.reshape(totalres*3)
 
     del average_structure_1
 
-    log('- Calculating R_mat\n')
+    log.info('- Calculating R_mat\n')
     R_mat = numpy.zeros((totalframes, totalres*3))
     for frame in range(0, totalframes):
         R_mat[frame,:] = (aligned_mat[frame,:]) - meanstructure
 
-    log('- Transposing\n')
+    log.info('- Transposing\n')
 
     RT_mat = numpy.transpose(R_mat)
 
     RT_mat = numpy.mat(RT_mat)
     R_mat = numpy.mat(R_mat)
 
-    log('- Calculating corr_mat\n')
+    log.info('- Calculating corr_mat\n')
 
     corr_mat = (RT_mat * R_mat)/ (totalframes-1)
     numpy.savetxt("corr_mat.txt", corr_mat)
@@ -154,7 +155,7 @@ def main(args):
     del RT_mat
 
 
-    log('Reading initial and final PDB co-ordinates...\n')
+    log.info('Reading initial and final PDB co-ordinates...\n')
 
     initial = numpy.zeros((totalres, 3))
     final = numpy.zeros((totalres, 3))
@@ -177,10 +178,10 @@ def main(args):
                         res_index += 1
 
 
-    log('Calculating experimental difference between initial and final co-ordinates...\n')
+    log.info('Calculating experimental difference between initial and final co-ordinates...\n')
 
     if args.aln:
-        log("- Using NTD alignment restrictions\n")
+        log.info("- Using NTD alignment restrictions\n")
         final_alg = sdrms.superpose3D(final, initial, refmask=mask, targetmask=mask)[0]
     else:
         final_alg = sdrms.superpose3D(final, initial)[0]
@@ -191,7 +192,7 @@ def main(args):
     del final_alg
 
 
-    log('Implementing perturbations sequentially...\n')
+    log.info('Implementing perturbations sequentially...\n')
 
     perturbations = int(args.perturbations)
     diffP = numpy.zeros((totalres, totalres*3, perturbations))
@@ -221,7 +222,7 @@ def main(args):
     del corr_mat
 
 
-    log("Calculating Pearson's correlations coefficient...\n")
+    log.info("Calculating Pearson's correlations coefficient...\n")
 
     DTarget = numpy.zeros(totalres)
     DIFF = numpy.zeros((totalres, totalres, perturbations))
@@ -253,30 +254,11 @@ def main(args):
     del maxRHO
 
 
-
-silent = False
-stream = sys.stdout
-
-def log(message):
-    global silent
-    global stream
-
-    if not silent:
-        stream.write(message)
-        stream.flush()
-
-
+log = Logger()
 
 if __name__ == "__main__":
-
-    #parse cmd arguments
     parser = argparse.ArgumentParser()
 
-    #standard arguments for logging
-    parser.add_argument("--silent", help="Turn off logging", action='store_true', default=False)
-    parser.add_argument("--log-file", help="Output log file (default: standard output)", default=None)
-
-    #custom arguments
     parser.add_argument("trajectory", help="Trajectory file")
     parser.add_argument("--topology", help="Topology PDB file (required if trajectory does not contain topology information)")
     parser.add_argument("--step", help="Size of step when iterating through trajectory frames", default=1, type=int)
@@ -285,31 +267,6 @@ if __name__ == "__main__":
     parser.add_argument("--perturbations", help="Number of perturbations (default: 250)", type=int, default=250)
     parser.add_argument("--num-frames", help="The number of frames in the trajectory (provides improved performance for large trajectories that cannot be loaded into memory)", type=int, default=None)
     parser.add_argument("--aln", help="Restrict N-Terminal alignment", action="store_true")
-
     parser.add_argument("--prefix", help="Prefix for CSV output file (default: result)", default="result")
 
-    args = parser.parse_args()
-
-    #set up logging
-    silent = args.silent
-
-    if args.log_file:
-        stream = open(args.log_file, 'w')
-
-    start = datetime.now()
-    log("Started at: %s\n" % str(start))
-
-    #run script
-    main(args)
-
-    end = datetime.now()
-    time_taken = format_seconds((end - start).seconds)
-
-    log("Completed at: %s\n" % str(end))
-    log("- Total time: %s\n" % str(time_taken))
-
-    #close logging stream
-    stream.close()
-
-
-
+    CLI(parser, main, log)

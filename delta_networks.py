@@ -11,15 +11,13 @@ from natsort import natsorted
 
 import numpy as np
 
-from lib.utils import *
-
-from datetime import datetime
+from lib.cli import CLI
+from lib.utils import Logger
 
 import os, sys, argparse, matplotlib
 
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-
 
 
 def plot(num_plots, plot_num, data, data_std, initial_x, title, x_label, y_label):
@@ -50,11 +48,11 @@ def main(args):
     alternatives_std = natsorted(args.alternatives_std)
 
     if len(alternatives) != len(alternatives_std):
-         log("The number of files supplied to the --alternatives argument differs from the number supplied to --alternatives-std")
+         log.error("The number of files supplied to the --alternatives argument differs from the number supplied to --alternatives-std")
          sys.exit(1)
 
     if len(alternatives) < 2:
-        log("At least 2 files must be supplied to the alternatives argument")
+        log.error("At least 2 files must be supplied to the alternatives argument")
         sys.exit(1)
 
     num_nodes = reference.shape[0]
@@ -70,7 +68,7 @@ def main(args):
         alt_nodes = alternative.shape[0]
         if alt_nodes != num_nodes:
             num_nodes = min(alt_nodes, num_nodes)
-            log("Trimming data to %d nodes per network" % num_nodes)
+            log.info("Trimming data to %d nodes per network" % num_nodes)
 
             y_data = y_data[:,:num_nodes]
             y_data_std = y_data_std[:,:num_nodes]
@@ -93,7 +91,7 @@ def main(args):
 
         y_ticks.append(".".join(os.path.basename(a).split(".")[:-1]))
 
-    log("Plotting heat map: %s.png\n" % args.prefix)
+    log.info("Plotting heat map: %s.png\n" % args.prefix)
 
     if args.split_pos:
         plt.subplots(figsize=(30, 16))
@@ -107,29 +105,11 @@ def main(args):
     plt.close()
 
 
-
-silent = False
-stream = sys.stdout
-
-def log(message):
-    global silent
-    global stream
-
-    if not silent:
-        stream.write(message)
-        stream.flush()
-
+log = Logger()
 
 if __name__ == "__main__":
-
-    #parse cmd arguments
     parser = argparse.ArgumentParser()
 
-    #standard arguments for logging
-    parser.add_argument("--silent", help="Turn off logging", action='store_true', default=False)
-    parser.add_argument("--log-file", help="Output log file (default: standard output)", default=None)
-
-    #custom arguments
     parser.add_argument("--reference", help="The reference network (.dat)")
     parser.add_argument("--reference-std", help="The reference standard deviation network (.dat) - should be in identical order as alternative networks")
     parser.add_argument("--alternatives", help="The alternative networks (.dat)", nargs="*")
@@ -151,25 +131,4 @@ if __name__ == "__main__":
 
     parser.add_argument("--prefix", help="Prefix for output file", default="output")
 
-    args = parser.parse_args()
-
-    #set up logging
-    silent = args.silent
-
-    if args.log_file:
-        stream = open(args.log_file, 'w')
-
-    start = datetime.now()
-    log("Started at: %s\n" % str(start))
-
-    #run script
-    main(args)
-
-    end = datetime.now()
-    time_taken = format_seconds((end - start).seconds)
-
-    log("Completed at: %s\n" % str(end))
-    log("- Total time: %s\n" % str(time_taken))
-
-    #close logging stream
-    stream.close()
+    CLI(parser, main, log)

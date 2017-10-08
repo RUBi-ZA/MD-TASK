@@ -15,7 +15,7 @@ echo ""
 PREFIX=wt
 NORM=plusone
 
-python $BIN_DIR/calc_network.py --topology $PREFIX.pdb --threshold 7.0 --step 100 --generate-plots --calc-BC --discard-graphs $PREFIX.dcd
+python $BIN_DIR/calc_network.py --topology $PREFIX.pdb --threshold 7.0 --step 100 --generate-plots --calc-BC --discard-graphs --lazy-load $PREFIX.dcd
 
 mv ${PREFIX}_0_bc.dat ref_${PREFIX}_bc.dat
 
@@ -30,7 +30,7 @@ echo ""
 
 PREFIX=mutant
 
-python $BIN_DIR/calc_network.py --topology $PREFIX.pdb --threshold 7.0 --step 100 --generate-plots --calc-BC --discard-graphs --lazy-load $PREFIX.dcd
+python $BIN_DIR/calc_network.py --topology $PREFIX.pdb --threshold 7.0 --step 100 --generate-plots --calc-BC --discard-graphs $PREFIX.dcd
 
 mv ${PREFIX}_0_bc.dat ref_${PREFIX}_bc.dat
 
