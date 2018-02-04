@@ -16,8 +16,12 @@ PREFIX=wt
 
 python $BIN_DIR/calc_network.py --topology $PREFIX.pdb --threshold 7.0 --step 100 --generate-plots --calc-L --discard-graphs $PREFIX.dcd
 
-mv ${PREFIX}_0_avg_L.dat ref_${PREFIX}_avg_L.dat 
+mv ${PREFIX}_0_avg_L.dat ref_${PREFIX}_avg_L.dat
 
+python $BIN_DIR/calc_delta_L.py --generate-plots --reference ref_${PREFIX}_avg_L.dat --alternatives ${PREFIX}_*_avg_L.dat --normalize
+python $BIN_DIR/calc_delta_L.py --generate-plots --reference ref_${PREFIX}_avg_L.dat --alternatives ${PREFIX}_*_avg_L.dat --normalize --normalization-mode nonzero
+python $BIN_DIR/calc_delta_L.py --generate-plots --reference ref_${PREFIX}_avg_L.dat --alternatives ${PREFIX}_*_avg_L.dat --normalize --normalization-mode plusone
+python $BIN_DIR/calc_delta_L.py --generate-plots --reference ref_${PREFIX}_avg_L.dat --alternatives ${PREFIX}_*_avg_L.dat --normalize --normalization-mode standard
 python $BIN_DIR/calc_delta_L.py --generate-plots --reference ref_${PREFIX}_avg_L.dat --alternatives ${PREFIX}_*_avg_L.dat
 python $BIN_DIR/avg_network.py --data ${PREFIX}_*_avg_L_delta_L.dat --data-type delta-L --prefix ${PREFIX} --generate-plots --x-label "Residues" --y-label "Avg delta L" --title "Wild Type"
 
@@ -31,9 +35,9 @@ PREFIX=mutant
 
 python $BIN_DIR/calc_network.py --topology $PREFIX.pdb --threshold 7.0 --step 100 --generate-plots --calc-L --discard-graphs --lazy-load $PREFIX.dcd
 
-mv ${PREFIX}_0_avg_L.dat ref_${PREFIX}_avg_L.dat 
+mv ${PREFIX}_0_avg_L.dat ref_${PREFIX}_avg_L.dat
 
-python $BIN_DIR/calc_delta_L.py --generate-plots --reference ref_${PREFIX}_avg_L.dat --alternatives ${PREFIX}_*_avg_L.dat
+python $BIN_DIR/calc_delta_L.py --generate-plots --reference ref_${PREFIX}_avg_L.dat --alternatives ${PREFIX}_*_avg_L.dat --normalize
 python $BIN_DIR/avg_network.py --data ${PREFIX}_*_avg_L_delta_L.dat --data-type delta-L --prefix ${PREFIX} --generate-plots --x-label "Residues" --y-label "Avg delta L" --title "Mutant"
 
 

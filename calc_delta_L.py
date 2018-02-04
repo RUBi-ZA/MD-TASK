@@ -65,7 +65,7 @@ def calc_delta_L(reference_file, alternative_files, normalize, normalization_fun
 
 
 def main(args):
-    normalization_function = getattr(normalization, args.normalization_mode, 'default')
+    normalization_function = getattr(normalization, args.normalization_mode, 'standard')
     calc_delta_L(args.reference, args.alternatives, args.normalize, normalization_function, args.generate_plots)
 
 
@@ -96,7 +96,7 @@ if __name__ == "__main__":
     parser.add_argument("--reference", help="The reference avg L matrix (.dat)")
     parser.add_argument("--alternatives", help="The alternative avg L matrices (.dat)", nargs="*")
     parser.add_argument("--normalize", help="Normalizes the values", action='store_true', default=False)
-    parser.add_argument('--normalization-mode', help="Method used to normalize (default: (Delta L/L))", nargs='?', const="default", default="default")
+    parser.add_argument('--normalization-mode', help="Method used to normalize (default: (Delta L)/L)", nargs='?', const="standard", default="standard")
     parser.add_argument("--generate-plots", help="Plot results - without setting this flag, no graph will be generated", action='store_true', default=False)
 
     args = parser.parse_args()
