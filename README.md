@@ -17,7 +17,7 @@ cd MD-TASK
 ```
 *Install dependencies and set up Python virtual environment:*
 ```bash
-sudo apt-get install virtualenvwrapper python-dev libblas-dev liblapack-dev libatlas-base-dev gfortran libpng12-dev libfreetype6-dev python-tk r-base
+sudo apt-get install virtualenvwrapper python-dev libblas-dev liblapack-dev libatlas-base-dev gfortran libpng-dev libfreetype6-dev python-tk r-base
 sh install.sh
 ```
 *Install igraph package for R:*
