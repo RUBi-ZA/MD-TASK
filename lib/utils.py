@@ -28,7 +28,7 @@ class MDIterator:
 
         try:
             return self.trajectory[self.index]
-        except IndexError, ex:
+        except IndexError as ex:
             raise StopIteration
 
 
