@@ -33,9 +33,9 @@ Calculating BC and L
 |Topology *              | File       |``--topology``      |A PDB reference file for the |
 |                        |            |                    |trajectory.                  |
 +------------------------+------------+--------------------+-----------------------------+
-|Ligands                 | CSV ligand |``--ligands``       |Ligands that should be       |
-|                        | IDs        |                    |included in the network      |
-|                        |            |                    |construction.                |
+|Ligands                 | CSV ligand |``--ligands``       |Ligands to include in the    |
+|                        | IDs        |                    |network construction. Syntax |
+|                        |            |                    |resname1:atom,resname2:atom  |
 +------------------------+------------+--------------------+-----------------------------+
 |Threshold               | Integer    |``--threshold``     |Distance threshold when      |
 |                        |            |                    |constructing network.        |
