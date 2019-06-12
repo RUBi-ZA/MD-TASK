@@ -17,7 +17,7 @@ Contribute
 Citing MD-TASK
 ---------------
 
-A publication is currently being prepared. For now, please site our GitHub page (https://github.com/RUBi-ZA/MD-TASK).
+You can cite us here: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5860072/
 
 
 License
