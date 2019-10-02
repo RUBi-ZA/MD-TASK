@@ -97,7 +97,7 @@ def main(args):
 
     # average L
     elif args.data_type == "L":
-        prefix += "delta_L"
+        prefix += "_L"
 
     # delta average L
     elif args.data_type == "delta-L":
