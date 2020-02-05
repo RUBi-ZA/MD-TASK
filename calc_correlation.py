@@ -7,30 +7,22 @@
 # Author: Caroline Ross
 # Date: 17-11-2016
 
-
-
-from datetime import datetime
-
 from matplotlib import cm
-
-import mdtraj as md
 
 import numpy as np
 
-from lib.utils import *
+from lib.cli import CLI
+from lib.utils import Logger
+from lib.trajectory import load_trajectory
 
-import os, sys, argparse, traceback, math, matplotlib
+import argparse, math, matplotlib
 
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 
-
 def parse_traj(traj, topology=None, step=1, selected_atoms=["CA"], lazy_load=False):
-    if lazy_load:
-        traj = MDIterator(traj, top=topology, stride=step)
-    else:
-        traj = md.load(traj, top=topology)[::step]
+    traj = load_trajectory(traj, topology, step, lazy_load)[0]
 
     residues = {}
 
@@ -92,11 +84,10 @@ def correlate(residues):
     return correlation
 
 
-
 def plot_map(correlation, title, output_prefix):
     M = np.array(correlation)
 
-    fig, ax = plt.subplots()
+    ax = plt.subplots()[1]
     colors = [('white')] + [(cm.jet(i)) for i in xrange(40,250)]
 
     new_map = matplotlib.colors.LinearSegmentedColormap.from_list('new_map', colors, N=300)
@@ -124,7 +115,7 @@ def plot_map(correlation, title, output_prefix):
     plt.xlabel('Residue Index', fontsize=12)
     plt.ylabel("Residue Index", fontsize=12)
 
-    cbar = plt.colorbar(heatmap, orientation="vertical")
+    plt.colorbar(heatmap, orientation="vertical")
     plt.savefig('%s.png' % output_prefix, dpi=300)
     plt.close('all')
 
@@ -143,39 +134,23 @@ def print_correlation(correlation, output_prefix):
 
 
 def main(args):
-    log("Preparing a trajectory matrix...\n")
+    log.info("Preparing a trajectory matrix...\n")
     traj_matrix = parse_traj(args.trajectory, args.topology, args.step, lazy_load=args.lazy_load)
 
-    log("Correlating...\n")
+    log.info("Correlating...\n")
     correlation = correlate(traj_matrix)
 
-    log("Plotting heat map...\n")
+    log.info("Plotting heat map...\n")
     plot_map(correlation, args.title, args.prefix)
     print_correlation(correlation, args.prefix)
 
 
-
-silent = False
-stream = sys.stdout
-
-def log(message):
-    global silent
-    global stream
-
-    if not silent:
-        stream.write(message)
-        stream.flush()
-
-
+log = Logger()
 
 if __name__ == "__main__":
 
     #parse cmd arguments
     parser = argparse.ArgumentParser()
-
-    #standard arguments for logging
-    parser.add_argument("--silent", help="Turn off logging", action='store_true', default=False)
-    parser.add_argument("--log-file", help="Output log file (default: standard output)", default=None)
 
     #custom arguments
     parser.add_argument("--trajectory", help="Trajectory file")
@@ -186,30 +161,4 @@ if __name__ == "__main__":
     parser.add_argument("--title", help="Title for heatmap", default="Protein")
     parser.add_argument("--prefix", help="Prefix for output files", default="correlation")
 
-    args = parser.parse_args()
-
-    #set up logging
-    silent = args.silent
-
-    if args.log_file:
-        stream = open(args.log_file, 'w')
-
-    start = datetime.now()
-    log("Started at: %s\n" % str(start))
-
-    #run script
-    main(args)
-
-    end = datetime.now()
-    time_taken = format_seconds((end - start).seconds)
-
-    log("Completed at: %s\n" % str(end))
-    log("- Total time: %s\n" % str(time_taken))
-
-    #close logging stream
-    stream.close()
-
-
-
-
-
+    CLI(parser, main, log)

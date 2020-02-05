@@ -90,6 +90,10 @@ If the ``--calc-L`` flag in the previous command is set, a number of Nx1 L matri
 
 **Command:** ::
 
+	calc_delta.py --matrix-type L --reference <frame> --alternatives <frames>
+
+This script replaces the, now deprecated, ``calc_delta_L.py`` script, which will be removed from MD-TASK in version 2.0 and onwards: ::
+
 	calc_delta_L.py <options> --reference <frame> --alternatives <frames>
 
 **Inputs:**
@@ -100,7 +104,7 @@ If the ``--calc-L`` flag in the previous command is set, a number of Nx1 L matri
 Reference frame *          File         ``--reference``           Nx1 matrix to be used as the reference (normally the frame from time 0). Delta L will be worked out by comparing the alternative frames to this one.
 Alternative frames *       File/s       ``--alternatives``        The remaining Nx1 matrices that should be compared to the reference matrix
 Normalize                  Boolean      ``--normalize``           Set this flag to normalize the values
-Normalization mode         Text         ``--normalization-mode``  Options are standard (ΔL/L), plusone (ΔL/(L+1)), or nonzero (ΔL/L where L > 0 else ΔL) - default mode is 'default'
+Normalization mode         Text         ``--normalization-mode``  Options are ``standard`` (ΔL/L), ``plusone`` (ΔL/(L+1)), or ``nonzero`` (ΔL/L where L > 0 else ΔL) - default mode is ``standard``
 Generate plots             Boolean      ``--generate-plots``      Set to generate figures
 =========================  ===========  ========================  ========================================================================================================================================================
 
@@ -126,6 +130,10 @@ If the ``--calc-BC`` flag was set when running the ``calc_network.py`` script, a
 
 **Command:** ::
 
+	calc_delta.py --matrix-type BC --reference <frame> --alternatives <frames>
+
+This script replaces the, now deprecated, ``calc_delta_BC.py`` script, which will be removed from MD-TASK in version 2.0 and onwards: ::
+
 	calc_delta_BC.py <options> --reference <frame> --alternatives <frames>
 
 **Inputs:**
@@ -136,13 +144,13 @@ If the ``--calc-BC`` flag was set when running the ``calc_network.py`` script, a
 Reference frame *          File         ``--reference``           Nx1 matrix to be used as the reference (normally the frame from time 0). Delta BC will be worked out by comparing the alternative frames to this one.
 Alternative frames *       File/s       ``--alternatives``        The remaining Nx1 matrices that should be compared to the reference matrix
 Normalize                  Boolean      ``--normalize``           Set this flag to normalize the values
-Normalization mode         Text         ``--normalization-mode``  Options are standard (ΔBC/BC) or plusone (ΔBC/(BC+1)) - default mode is 'plusone'
+Normalization mode         Text         ``--normalization-mode``  Options are ``standard`` (ΔBC/BC), ``plusone`` (ΔBC/(BC+1)), or ``nonzero`` (ΔBC/BC where BC > 0 else ΔBC) - default mode is ``plusone``
 Generate plots             Boolean      ``--generate-plots``      Set to generate figures
 =========================  ===========  ========================  ========================================================================================================================================================
 
 Given a set of BC .dat files ``wt_*_bc.dat`` (generated with ``calc_network.py``), the ``wt_0_bc.dat`` file could be used as the reference and the rest could be used as the alternatives. If the ``wt_0_bc.dat`` is renamed to ``ref_wt_bc.dat``, the following command could be used: ::
 
-	calc_delta_BC.py --generate-plots --reference ref_wt_bc.dat --alternatives wt_*_bc.dat
+	calc_delta_BC.py --generate-plots --normalize --reference ref_wt_bc.dat --alternatives wt_*_bc.dat
 
 The above command will generate plots as well as Nx1 matrices representing the difference in BC between each alternative and the reference frame.
 
@@ -171,7 +179,7 @@ The ``avg_network.py`` script can be used to calculate and plot the average BC a
  Input (*\*required*)      Input type   Flag                  Description
 =========================  ===========  ====================  ========================================================================================================================================================
 Data *                     File/s       ``--data``            The .dat files that will be averaged
-Data types *               Text         ``--data-type``       Type of data - BC/delta-BC/L/delta-L
+Data type *                Text         ``--data-type``       Type of data - BC/delta-BC/L/delta-L
 Prefix                     Text         ``--prefix``          Prefix used to name outputs
 Generate plots             Boolean      ``--generate-plots``  Generate figures/plots
 X axis label               Text         ``--x-label``         Label for x-axis (use $\Delta$ for delta sign)
@@ -190,6 +198,8 @@ X-axis start value 2       Integer      ``--initial-x-2``     The start index of
 Given a set of .dat files generated by one of the previous commands (e.g. ``wt_*_bc_delta_BC.dat``), the following command could be used: ::
 
 	avg_network.py --data wt_*_bc_delta_BC.dat --data-type delta-BC --prefix wt --generate-plots --x-label "Residues" --y-label "Avg delta BC" --title "Wild Type"
+
+	avg_network.py --data wt_*_bc_plusone_delta_BC.dat --data-type delta-BC --prefix wt --generate-plots --x-label "Residues" --y-label "Avg delta BC" --title "Wild Type"
 
 The above command will generate two new .dat files and a PNG plot. The first .dat file, ``wt_delta_bc_avg.dat``, contains an Nx1 matrix with the average ΔBC values for each residue over the course of the simulation. The second .dat file, ``wt_delta_bc_std_dev.dat``, contains the standard deviation of ΔBC for each residue over the course of the simulation. The graph plots residues on the X axis and ΔBC on the Y axis. The average values are shown as a line and the standard deviation, representing the fluctuation of ΔBC over the course of the trajectory, are shown as error bars over each residue. *Note that in the above example, we have calculated the average and standard deviation of ΔBC, but avg_network.py can be used with any set of Nx1 matrix (BC/ΔBC/L/ΔL).*
 

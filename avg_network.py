@@ -10,11 +10,10 @@
 
 import numpy as np
 
-from datetime import datetime
+from lib.cli import CLI
+from lib.utils import Logger
 
-from lib.utils import *
-
-import os, sys, argparse, matplotlib
+import sys, argparse, matplotlib
 
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -58,7 +57,6 @@ def plot_graph(network, err=None, start_x=1, color="black", ecolor="red", title=
 
 
 def plot_graph_split(split_pos, avg_matrix, std, initial_x_1, initial_x_2, title_1, title_2, x_label, y_label, ylim=None):
-    num_nodes = avg_matrix.shape[0]
     pos = int(split_pos)
 
     avg_matrix_1,avg_matrix_2 = split_array(avg_matrix, pos)
@@ -81,10 +79,9 @@ def plot_graph_split(split_pos, avg_matrix, std, initial_x_1, initial_x_2, title
 
 def main(args):
     prefix = args.prefix
-    start_index = args.initial_x
 
     if not args.data_type in ["BC", "delta-BC", "L", "delta-L"]:
-        log("Unrecognized data type. Exiting...\n")
+        log.error("Unrecognized data type. Exiting...\n")
         sys.exit(1)
 
     # average BC
@@ -114,7 +111,7 @@ def main(args):
     np.savetxt("%s_avg.dat" % prefix, avg_matrix)
 
     if args.generate_plots:
-        log("Generating graph: %s_avg.png\n" % prefix)
+        log.info("Generating graph: %s_avg.png\n" % prefix)
 
         ylim = None
         if args.y_max is not None and args.y_min is not None:
@@ -136,25 +133,12 @@ def main(args):
         plt.close()
 
 
-silent = False
-stream = sys.stdout
-
-def log(message):
-    global silent
-    global stream
-
-    if not silent:
-        stream.write(message)
-
+log = Logger()
 
 if __name__ == "__main__":
 
     #parse cmd arguments
     parser = argparse.ArgumentParser()
-
-    #standard arguments for logging
-    parser.add_argument("--silent", help="Normalizes the values (Delta L/L)", action='store_true', default=False)
-    parser.add_argument("--log-file", help="Output log file (default: standard output)", default=None)
 
     #custom arguments
     parser.add_argument("--data", help="The .dat files that will be averaged", nargs="*")
@@ -183,23 +167,4 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    #set up logging
-    silent = args.silent
-
-    if args.log_file:
-        stream = open(args.log_file, 'w')
-
-    start = datetime.now()
-    log("Started at: %s\n" % str(start))
-
-    #run script
-    main(args)
-
-    end = datetime.now()
-    time_taken = format_seconds((end - start).seconds)
-
-    log("Completed at: %s\n" % str(end))
-    log("- Total time: %s\n" % str(time_taken))
-
-    #close logging stream
-    stream.close()
+    CLI(parser, main, log)

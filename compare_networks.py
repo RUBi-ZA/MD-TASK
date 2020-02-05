@@ -9,20 +9,17 @@
 
 import numpy as np
 
-from lib.utils import *
+from lib.cli import CLI
+from lib.utils import Logger
 
-from datetime import datetime
-
-import os, sys, argparse, matplotlib
+import argparse, matplotlib
 
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 
-
 def plot_comparison(reference, alternative, reference_label, alternative_label, prefix="compare", y_label=None, ylim=None):
     difference = alternative - reference
-    title = "%s vs %s ($\Delta$%s)" % (reference_label, alternative_label, y_label)
 
     num_nodes = reference.shape[0]
     node_axis = range(1, num_nodes + 1)
@@ -58,7 +55,7 @@ def plot_comparison(reference, alternative, reference_label, alternative_label, 
         axes.set_ylim(ylim)
 
     filename = "%s_comp.png" % prefix
-    log("Generate plot: %s\n" % filename)
+    log.info("Generate plot: %s\n" % filename)
     plt.savefig(filename, dpi=300, bbox_inches='tight')
     plt.close()
 
@@ -78,28 +75,11 @@ def main(args):
     plot_comparison(reference, alternative, args.reference_label, args.alternative_label, args.prefix, y_label, ylim)
 
 
-silent = False
-stream = sys.stdout
-
-def log(message):
-    global silent
-    global stream
-
-    if not silent:
-        stream.write(message)
-        stream.flush()
-
+log = Logger()
 
 if __name__ == "__main__":
-
-    #parse cmd arguments
     parser = argparse.ArgumentParser()
 
-    #standard arguments for logging
-    parser.add_argument("--silent", help="Turn off logging", action='store_true', default=False)
-    parser.add_argument("--log-file", help="Output log file (default: standard output)", default=None)
-
-    #custom arguments
     parser.add_argument("--reference", help="The reference network (.dat)")
     parser.add_argument("--alternative", help="The alternative network (.dat)")
     parser.add_argument("--prefix", help="Prefix for output files")
@@ -109,27 +89,4 @@ if __name__ == "__main__":
     parser.add_argument("--y-max", help="Maximum value on y-axis", default=None)
     parser.add_argument("--y-min", help="Minimum value on y-axis", default=None)
 
-    args = parser.parse_args()
-
-    #set up logging
-    silent = args.silent
-
-    if args.log_file:
-        stream = open(args.log_file, 'w')
-
-    start = datetime.now()
-    log("Started at: %s\n" % str(start))
-
-    #run script
-    main(args)
-
-    end = datetime.now()
-    time_taken = format_seconds((end - start).seconds)
-
-    log("Completed at: %s\n" % str(end))
-    log("- Total time: %s\n" % str(time_taken))
-
-    #close logging stream
-    stream.close()
-
-
+    CLI(parser, main, log)

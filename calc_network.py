@@ -9,41 +9,29 @@
 # Author: David Brown
 # Date: 17-11-2016
 
-import mdtraj as md
-
-from lib.utils import *
-
-from datetime import datetime
+from lib.cli import CLI
+from lib.utils import Logger
+from lib.trajectory import load_trajectory, calc_distance
 
 import numpy as np
 import networkx as nx
 
-import os, sys, argparse, math, matplotlib
+import os, sys, argparse, matplotlib
 
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 
-
-def calcDistance(frame, index1, index2):
-    atom1 = frame.xyz[0, index1]
-    atom2 = frame.xyz[0, index2]
-
-    dist = math.sqrt((atom2[0] - atom1[0])**2 + (atom2[1] - atom1[1])**2 + (atom2[2] - atom1[2])**2)
-
-    return abs(dist)
-
-
 def construct_graph(frame, ligands=None, prefix="frame", threshold=6.7, save_graph=True):
-    filter = "(name CB and protein) or (name CA and resname GLY)"
+    atom_filter = "(name CB and protein) or (name CA and resname GLY)"
     if ligands:
         ligands = ligands.split(",")
 
         for ligand in ligands:
             arr = ligand.split(":")
-            filter += " or (name %s and resname %s)" % (arr[1], arr[0])
+            atom_filter += " or (name %s and resname %s)" % (arr[1], arr[0])
 
-    atoms = frame.topology.select(filter)
+    atoms = frame.topology.select(atom_filter)
 
     nodes_range = len(atoms)
 
@@ -52,7 +40,7 @@ def construct_graph(frame, ligands=None, prefix="frame", threshold=6.7, save_gra
 
     for i in range(nodes_range - 1):
         for j in range(i + 1, nodes_range):
-            dist = calcDistance(frame, atoms[i], atoms[j]) * 10
+            dist = calc_distance(frame, atoms[i], atoms[j]) * 10
             if dist < threshold:
                 edges.append((i, j))
 
@@ -68,14 +56,14 @@ def construct_graph(frame, ligands=None, prefix="frame", threshold=6.7, save_gra
 
 
 def calc_shortest_paths(traj, traj_name, total_frames, args):
-    log("Calculating shortest paths...\n")
+    log.info("Calculating shortest paths...\n")
 
     for current, frame in enumerate(traj):
         try:
             if total_frames:
-                log("Progress: %d/%d\r" % (current + 1, total_frames))
+                log.info("Progress: %d/%d\r" % (current + 1, total_frames))
             else:
-                log("Progress: %d frames completed\r" % (current + 1))
+                log.info("Progress: %d frames completed\r" % (current + 1))
 
             prefix = "%s_%d" % (".".join(traj_name.split(".")[:-1]), frame.time)
 
@@ -84,10 +72,10 @@ def calc_shortest_paths(traj, traj_name, total_frames, args):
             calc_shortest_path(pg, prefix, args.generate_plots)
 
         except nx.exception.NetworkXNoPath, nex:
-            log("\nERROR::type=orphan_node:frame=%d:message=%s. Try increasing the threshold.\n" % (current + 1, str(nex)))
+            log.error("type=orphan_node:frame=%d:message=%s. Try increasing the threshold.\n" % (current + 1, str(nex)))
 
         except Exception, ex:
-            log("\nERROR::type=general:frame=%d:message=%s\n" % (current + 1, str(ex)))
+            log.error("type=general:frame=%d:message=%s\n" % (current + 1, str(ex)))
 
 
 def calc_shortest_path(protein_graph, prefix, generate_plots=True):
@@ -102,7 +90,7 @@ def calc_shortest_path(protein_graph, prefix, generate_plots=True):
             try:
                 dj_path_matrix[i,j] = path_dict[i][j]
             except KeyError, ke:
-                raise nx.exception.NetworkXNoPath("No link between %d and %d" % (i, j))
+                raise nx.exception.NetworkXNoPath("\nERROR::type=orphan_node:message=No link between %d and %d:exception=%s\n" % (i, j, str(ke)))
 
     np.savetxt("%s_L.dat" % prefix, dj_path_matrix)
 
@@ -125,14 +113,14 @@ def calc_shortest_path(protein_graph, prefix, generate_plots=True):
 
 
 def calc_centralities(traj, traj_name, total_frames, args):
-    log("Calculating betweenness centralities...\n")
+    log.info("Calculating betweenness centralities...\n")
 
     for current, frame in enumerate(traj):
         try:
             if total_frames:
-                log("Progress: %d/%d\r" % (current + 1, total_frames))
+                log.info("Progress: %d/%d\r" % (current + 1, total_frames))
             else:
-                log("Progress: %d frames completed\r" % (current + 1))
+                log.info("Progress: %d frames completed\r" % (current + 1))
 
             prefix = "%s_%d" % (".".join(traj_name.split(".")[:-1]), frame.time)
 
@@ -141,7 +129,7 @@ def calc_centralities(traj, traj_name, total_frames, args):
             calc_BC(pg, prefix, args.generate_plots)
 
         except Exception, ex:
-            log("\nERROR::type=general:frame=%d:message=%s\n" % (current + 1, str(ex)))
+            log.error("type=general:frame=%d:message=%s\n" % (current + 1, str(ex)))
 
 
 def calc_BC(protein_graph, prefix, generate_plots=True):
@@ -165,34 +153,14 @@ def calc_BC(protein_graph, prefix, generate_plots=True):
     return bc
 
 
-def load_traj(args):
-    if not args.lazy_load:
-        log("Loading trajectory...")
-
-        traj = md.load(args.trajectory, top=args.topology)[::args.step]
-        total_frames = len(traj)
-
-        log("done!\n")
-
-    else:
-        log("Instantiating trajectory iterator (lazy loader)...")
-
-        traj = MDIterator(args.trajectory, top=args.topology, stride=args.step)
-        total_frames = None
-
-        log("done!\n")
-
-    return traj, total_frames
-
-
 def main(args):
     if not args.calc_BC and not args.calc_L:
-        log("At least one of the --calc-BC or --calc-L flags must be set.")
+        log.error("At least one of the --calc-BC or --calc-L flags must be set.")
         sys.exit(1)
 
     global traj
     traj_name = os.path.basename(args.trajectory)
-    traj, total_frames = load_traj(args)
+    traj, total_frames = load_trajectory(args.trajectory, args.topology, args.step, args.lazy_load)
 
     if args.calc_BC:
         calc_centralities(traj, traj_name, total_frames, args)
@@ -201,33 +169,15 @@ def main(args):
         calc_shortest_paths(traj, traj_name, total_frames, args)
 
 
-silent = False
-stream = sys.stdout
+log = Logger()
 traj = None
-
-def log(message):
-    global silent
-    global stream
-
-    if not silent:
-        stream.write(str(message))
-        stream.flush()
-
-
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
-    #standard arguments for logging
-    parser.add_argument("--silent", help="Turn off logging", action='store_true', default=False)
-    parser.add_argument("--log-file", help="Output log file (default: standard output)", default=None)
-
-	#custom arguments
     parser.add_argument("trajectory", help="Trajectory file")
     parser.add_argument("--topology", help="Topology PDB file (required if trajectory does not contain topology information)")
     parser.add_argument("--ligands", help="Specify any ligands that should be included in the network", default=None)
     parser.add_argument("--threshold", help="Maximum distance threshold in Angstroms when constructing graph (default: 6.7)", default=6.7, type=float)
-
     parser.add_argument("--step", help="Size of step when iterating through trajectory frames", default=1, type=int)
     parser.add_argument("--generate-plots", help="Generate figures/plots", action='store_true', default=False)
     parser.add_argument("--calc-L", help="Calculate delta L", action='store_true', default=False)
@@ -236,26 +186,4 @@ if __name__ == "__main__":
     parser.add_argument("--lazy-load", help="Read frames as they are needed (memory efficient - use for big trajectories)", action='store_true', default=False)
     parser.add_argument("--xmgrace", help="Generate xmgrace compatible format", action='store_true', default=False)
 
-    args = parser.parse_args()
-
-    #set up logging
-    silent = args.silent
-
-    if args.log_file:
-        stream = open(args.log_file, 'w')
-
-    start = datetime.now()
-    log("Started at: %s\n" % str(start))
-
-    #run script
-    main(args)
-
-    end = datetime.now()
-    time_taken = format_seconds((end - start).seconds)
-
-    log("\nCompleted at: %s\n" % str(end))
-    log("- Total time: %s\n" % str(time_taken))
-
-    #close logging stream
-    stream.close()
-
+    CLI(parser, main, log)
