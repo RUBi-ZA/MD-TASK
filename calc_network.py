@@ -118,6 +118,8 @@ def calc_shortest_path(protein_graph, prefix, generate_plots=True):
 
     avg_L_per_node = avg_L_per_node.reshape(1, num_nodes)
     np.savetxt("%s_avg_L.dat" % prefix, avg_L_per_node)
+    if args.xmgrace:
+        dat2xmgrace(avg_L_per_node, prefix, "L", traj=traj)
 
     return dj_path_matrix
 
@@ -188,6 +190,7 @@ def main(args):
         log("At least one of the --calc-BC or --calc-L flags must be set.")
         sys.exit(1)
 
+    global traj
     traj_name = os.path.basename(args.trajectory)
     traj, total_frames = load_traj(args)
 
@@ -198,9 +201,9 @@ def main(args):
         calc_shortest_paths(traj, traj_name, total_frames, args)
 
 
-
 silent = False
 stream = sys.stdout
+traj = None
 
 def log(message):
     global silent
@@ -231,6 +234,7 @@ if __name__ == "__main__":
     parser.add_argument("--calc-BC", help="Calculate delta BC", action='store_true', default=False)
     parser.add_argument("--discard-graphs", help="Discard calculated networks when complete (default: save networks in graphml and gml formats)", action='store_false', default=True)
     parser.add_argument("--lazy-load", help="Read frames as they are needed (memory efficient - use for big trajectories)", action='store_true', default=False)
+    parser.add_argument("--xmgrace", help="Generate xmgrace compatible format", action='store_true', default=False)
 
     args = parser.parse_args()
 
