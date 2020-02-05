@@ -1,15 +1,9 @@
+[![Build Status](https://travis-ci.org/RUBi-ZA/MD-TASK.svg?branch=master)](https://travis-ci.org/RUBi-ZA/MD-TASK)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/f81d8d8016094467a836dd3ef1c42908)](https://www.codacy.com/app/davidbrownza/MD-TASK?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=RUBi-ZA/MD-TASK&amp;utm_campaign=Badge_Grade)
+
 # MD-TASK
 
 A suite of Python scripts that have been developed to analyze molecular dynamics trajectories. Detailed documentation on how to install and use MD-TASK can be found on our [ReadTheDocs](http://md-task.readthedocs.io/en/latest/index.html) site.
-
-### Project Status
-| Branch | Build Status                                                                                                              | Code Style                                                                                                                                                                                                                                                    | Coverage | 
-|--------|---------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------| 
-| Master (1.0.x) | [![Build Status](https://travis-ci.org/RUBi-ZA/MD-TASK.svg?branch=master)](https://travis-ci.org/RUBi-ZA/MD-TASK) | [![Codacy Badge](https://api.codacy.com/project/badge/Grade/f81d8d8016094467a836dd3ef1c42908)](https://www.codacy.com/app/davidbrownza/MD-TASK?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=RUBi-ZA/MD-TASK&amp;utm_campaign=Badge_Grade) | n/a      | 
-| 1.1.x | [![Build Status](https://travis-ci.org/RUBi-ZA/MD-TASK.svg?branch=1.1.x)](https://travis-ci.org/RUBi-ZA/MD-TASK) | [![Codacy Badge](https://api.codacy.com/project/badge/Grade/f81d8d8016094467a836dd3ef1c42908?branch=1.1.x)](https://www.codacy.com/app/davidbrownza/MD-TASK?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=RUBi-ZA/MD-TASK&amp;utm_campaign=Badge_Grade) | n/a      |
-| 1.0.x | [![Build Status](https://travis-ci.org/RUBi-ZA/MD-TASK.svg?branch=1.0.x)](https://travis-ci.org/RUBi-ZA/MD-TASK) | [![Codacy Badge](https://api.codacy.com/project/badge/Grade/f81d8d8016094467a836dd3ef1c42908?branch=1.0.x)](https://www.codacy.com/app/davidbrownza/MD-TASK?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=RUBi-ZA/MD-TASK&amp;utm_campaign=Badge_Grade) | n/a      |
-
-MD-TASK consists of a suite of Python scripts that have been developed to analyze molecular dynamics trajectories. Detailed documentation can be found on our [ReadTheDocs](http://md-task.readthedocs.io/en/latest/index.html) site.
 
 ## Installation
 
