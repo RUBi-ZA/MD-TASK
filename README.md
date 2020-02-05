@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/RUBi-ZA/MD-TASK.svg?branch=master)](https://travis-ci.org/RUBi-ZA/MD-TASK)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/f81d8d8016094467a836dd3ef1c42908)](https://www.codacy.com/app/davidbrownza/MD-TASK?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=RUBi-ZA/MD-TASK&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/ece0a51e7cf4436abf71795051f4ee7b)](https://www.codacy.com/gh/RUBi-ZA/MD-TASK?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=RUBi-ZA/MD-TASK&amp;utm_campaign=Badge_Grade)
 
 # MD-TASK
 
