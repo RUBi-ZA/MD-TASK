@@ -71,7 +71,7 @@ def calc_shortest_paths(traj, traj_name, total_frames, args):
 
             calc_shortest_path(pg, prefix, args.generate_plots)
 
-        except nx.exception.NetworkXNoPath, nex:
+        except nx.exception.NetworkXNoPath as nex:
             log.error("type=orphan_node:frame=%d:message=%s. Try increasing the threshold.\n" % (current + 1, str(nex)))
 
         except Exception, ex:

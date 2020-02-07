@@ -88,7 +88,7 @@ def plot_map(correlation, title, output_prefix):
     M = np.array(correlation)
 
     ax = plt.subplots()[1]
-    colors = [('white')] + [(cm.jet(i)) for i in xrange(40,250)]
+    colors = [('white')] + [(cm.jet(i)) for i in range(40,250)]
 
     new_map = matplotlib.colors.LinearSegmentedColormap.from_list('new_map', colors, N=300)
     heatmap = ax.pcolor(M, cmap=new_map, vmin=-1, vmax=1)

@@ -25,5 +25,4 @@ R
 
 ## Usage
 
-The scripts are located in the root directory of the project. To run the scripts, ensure that the virtual environment is activated. For more info, find detailed documentation [here](http://md-task.readthedocs.io/en/latest/index.html). 
-
+The scripts are located in the root directory of the project. To run the scripts, ensure that the virtual environment is activated. For more info, find detailed documentation [here](http://md-task.readthedocs.io/en/latest/index.html).
