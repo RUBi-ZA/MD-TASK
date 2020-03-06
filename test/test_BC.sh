@@ -42,6 +42,9 @@ echo ""
 echo ""
 echo "#### BETWEENNESS CENTRALITY - WT vs MUTANT ####"
 echo ""
+
 python $BIN_DIR/compare_networks.py --prefix "wt_mutant_BC_avg" --reference-label Wild-type --alternative-label Mutant --y-label "Delta BC" --reference wt_delta_BC_avg.dat --alternative mutant_delta_BC_avg.dat
 python $BIN_DIR/compare_networks.py --prefix "wt_mutant_std_dev" --reference-label Wild-type --alternative-label Mutant --y-label "Delta BC" --reference wt_delta_BC_std_dev.dat --alternative mutant_delta_BC_std_dev.dat
 python $BIN_DIR/delta_networks.py --reference wt_delta_BC_avg.dat --reference-std wt_delta_BC_std_dev.dat --alternatives *delta_BC_avg.dat --alternatives-std *delta_BC_std_dev.dat --absolute --prefix wt_mutant_cmap --title "My Protein" --x-label "Residues" --y-label "Proteins"
+
+

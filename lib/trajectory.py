@@ -13,10 +13,10 @@ class MDIterator(object):
     def __iter__(self):
         return self
 
-    def next(self):
+    def __next__(self):
         if self.index == self.chunk - 1:
             self.index = -1
-            self.trajectory = self.iterator.next()
+            self.trajectory = self.iterator.__next__()
 
         self.index += 1
 
@@ -24,6 +24,9 @@ class MDIterator(object):
             return self.trajectory[self.index]
         except IndexError:
             raise StopIteration
+
+    def next(self):
+        return self.__next__()
 
 def reduce_trajectory(trajectory, top=None, stride=1, output_path="minimized.dcd"):
     traj = md.load(trajectory, top=top)[::int(stride)]
