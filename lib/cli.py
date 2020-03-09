@@ -1,5 +1,5 @@
 from datetime import datetime
-from utils import format_seconds
+from lib.utils import format_seconds
 
 def CLI(parser, callback, log):
     #standard arguments for logging

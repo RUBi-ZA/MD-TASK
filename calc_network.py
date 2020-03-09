@@ -69,16 +69,16 @@ def calc_shortest_paths(traj, traj_name, total_frames, args):
 
             pg = construct_graph(frame, args.ligands, prefix, args.threshold, args.discard_graphs)
 
-            calc_shortest_path(pg, prefix, args.generate_plots)
+            calc_shortest_path( pg, prefix, args.generate_plots, args.xmgrace )
 
         except nx.exception.NetworkXNoPath as nex:
             log.error("type=orphan_node:frame=%d:message=%s. Try increasing the threshold.\n" % (current + 1, str(nex)))
 
-        except Exception, ex:
+        except Exception as ex:
             log.error("type=general:frame=%d:message=%s\n" % (current + 1, str(ex)))
 
 
-def calc_shortest_path(protein_graph, prefix, generate_plots=True):
+def calc_shortest_path(protein_graph, prefix, generate_plots=True, xmgrace=False):
     num_nodes = len(protein_graph.nodes())
     nodes_axis = range(1, num_nodes + 1)
 
@@ -89,7 +89,7 @@ def calc_shortest_path(protein_graph, prefix, generate_plots=True):
         for j in range(num_nodes):
             try:
                 dj_path_matrix[i,j] = path_dict[i][j]
-            except KeyError, ke:
+            except KeyError as ke:
                 raise nx.exception.NetworkXNoPath("\nERROR::type=orphan_node:message=No link between %d and %d:exception=%s\n" % (i, j, str(ke)))
 
     np.savetxt("%s_L.dat" % prefix, dj_path_matrix)
@@ -106,7 +106,7 @@ def calc_shortest_path(protein_graph, prefix, generate_plots=True):
 
     avg_L_per_node = avg_L_per_node.reshape(1, num_nodes)
     np.savetxt("%s_avg_L.dat" % prefix, avg_L_per_node)
-    if args.xmgrace:
+    if xmgrace:
         dat2xmgrace(avg_L_per_node, prefix, "L", traj=traj)
 
     return dj_path_matrix
@@ -128,7 +128,7 @@ def calc_centralities(traj, traj_name, total_frames, args):
 
             calc_BC(pg, prefix, args.generate_plots)
 
-        except Exception, ex:
+        except Exception as ex:
             log.error("type=general:frame=%d:message=%s\n" % (current + 1, str(ex)))
 
 

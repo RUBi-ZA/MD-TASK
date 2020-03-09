@@ -1,14 +1,14 @@
-#!/bin/bash
+#! /bin/bash
 
-virtualenv venv
+python3 -m venv venv
 . venv/bin/activate
 
-pip install --upgrade pip
-pip install numpy==1.13.3
-pip install scipy==0.19.1
-pip install matplotlib==2.0.2
-pip install cython==0.27 
-pip install networkx==1.11
-pip install natsort==5.1.0
-pip install pandas==0.20.3
-pip install mdtraj==1.9.1
+pip3 install --upgrade pip
+pip3 install numpy==1.18.1
+pip3 install scipy==1.4.1
+pip3 install matplotlib==3.2.0
+pip3 install cython==0.29.15 
+pip3 install networkx==1.11
+pip3 install natsort==7.0.1
+pip3 install pandas==0.25.3
+pip3 install mdtraj==1.9.3
