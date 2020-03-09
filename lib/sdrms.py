@@ -6,12 +6,13 @@
 # Author: Daniel Alvarez-Garcia
 # Date: 08-11-2013
 
-import math
+#import math
 #import pybel
 import numpy as npy
+import sys
 
 def superpose3D(ref, target, weights=None,refmask=None,targetmask=None,returnRotMat=False):
-    """superpose3D performs 3d superposition using a weighted Kabsch algorithm : http://dx.doi.org/10.1107%2FS0567739476001873 & doi: 10.1529/biophysj.105.066654
+    """superpose3D performs 3d superposition using a weighted Kabsch algorithm : http://dx.doi.org/10.1107%2FS0567739476001873 & doi: 10.1529/biophysj.105.066654 .
     definition : superpose3D(ref, target, weights,refmask,targetmask)
     @parameter 1 :  ref - xyz coordinates of the reference structure (the ligand for instance)
     @type 1 :       float64 numpy array (nx3)

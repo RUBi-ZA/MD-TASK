@@ -93,7 +93,7 @@ def plot_map(correlation, title, output_prefix):
     new_map = matplotlib.colors.LinearSegmentedColormap.from_list('new_map', colors, N=300)
     heatmap = ax.pcolor(M, cmap=new_map, vmin=-1, vmax=1)
 
-    fig = plt.gcf()
+    #fig = plt.gcf()
     ax.set_frame_on(False)
     ax.grid(False)
 

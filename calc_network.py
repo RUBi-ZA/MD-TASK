@@ -11,6 +11,8 @@
 
 from lib.cli import CLI
 from lib.utils import Logger
+from lib.utils import dat2xmgrace
+
 from lib.trajectory import load_trajectory, calc_distance
 
 import numpy as np

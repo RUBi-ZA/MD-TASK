@@ -1,5 +1,6 @@
 class base(object):
     def __init__(self, matrix_type):
+        """This module handles normalization options"""
         self.matrix_type = matrix_type
 
 

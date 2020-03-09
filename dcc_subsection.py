@@ -11,7 +11,8 @@ import numpy as np
 def plot_map(correlation, title, output_prefix, x_labels, y_labels):
     M = np.array(correlation)
 
-    fig, ax = plt.subplots()
+    #fig, ax = plt.subplots()
+    ax = plt.subplots()
     colors = [('white')] + [(cm.jet(i)) for i in range(40,250)]
 
     new_map = matplotlib.colors.LinearSegmentedColormap.from_list('new_map', colors, N=300)
@@ -20,12 +21,12 @@ def plot_map(correlation, title, output_prefix, x_labels, y_labels):
     fig = plt.gcf()
     ax.set_frame_on(False)
     ax.grid(False)
-    
+
     # put the major ticks at the middle of each cell
     ax.set_yticks(np.arange(M.shape[0])+0.5, minor=False)
     ax.set_xticks(np.arange(M.shape[1])+0.5, minor=False)
 
-    ax.set_xticklabels(x_labels,fontsize=8, minor=False) 
+    ax.set_xticklabels(x_labels,fontsize=8, minor=False)
     ax.set_yticklabels(y_labels,fontsize=8, minor=False)
 
     plt.xticks(rotation=90)
@@ -35,17 +36,16 @@ def plot_map(correlation, title, output_prefix, x_labels, y_labels):
     for t in ax.xaxis.get_major_ticks():
         t.tick1On = False
         t.tick2On = False
- 
 
     for t in ax.yaxis.get_major_ticks():
         t.tick1On = False
         t.tick2On = False
-    
+
     plt.title(title, fontsize=16)
     plt.xlabel('Residue Index', fontsize=12)
     plt.ylabel("Residue Index", fontsize=12)
 
-    cbar = plt.colorbar(heatmap, orientation="vertical")
+    #cbar = plt.colorbar(heatmap, orientation="vertical")
     plt.savefig('%s.png' % output_prefix, dpi=300)
     plt.close('all')
 
@@ -67,6 +67,7 @@ try:
     f.close() #close file
 except IOError:
     print ('\n**************************************\nERROR!! FILE NOT FOUND:\n**************************************\n') #error if correlation.txt file not found
+    import sys
     sys.exit()
 
 

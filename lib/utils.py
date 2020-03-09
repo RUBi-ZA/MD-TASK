@@ -43,15 +43,17 @@ class Logger(object):
             message = "ERROR::%s" % message
             self._log(message)
 def dat2xmgrace(val, prefix, output, traj, selection="(name CB and protein) or (name CA and resname GLY)"):
+    import mdtraj as md
     import pandas as pd
+    import os
+
     assert type(traj) is md.core.trajectory.Trajectory, "traj has to be an object of type md.core.trajectory.Trajectory"
 
     protein = traj[0]
     protein.atom_slice(protein.top.select(selection), inplace=True)
 
-
     residue_positions = pd.Series([str(x)[3:] for x in list(protein.top.residues)])
-    import os
+
     if not os.path.exists("xmgrace"):
         os.makedirs("xmgrace")
 
