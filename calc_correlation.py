@@ -55,7 +55,7 @@ def mean_dot(m1, m2, size):
 
 def correlate(residues):
 
-    sorted_residues = sorted(residues.iterkeys())
+    sorted_residues = sorted(residues.keys())
 
     num_trajectories = len(residues[sorted_residues[0]])
     num_residues = len(residues)
@@ -102,13 +102,13 @@ def plot_map(correlation, title, output_prefix):
     # Turn off all the ticks
     ax = plt.gca()
     for t in ax.xaxis.get_major_ticks():
-        t.tick1On = False
-        t.tick2On = False
+        t.tick1line.set_visible = False
+        t.tick2line.set_visible = False
         t.label.set_fontsize(8)
 
     for t in ax.yaxis.get_major_ticks():
-        t.tick1On = False
-        t.tick2On = False
+        t.tick1line.set_visible = False
+        t.tick2line.set_visible = False
         t.label.set_fontsize(8)
 
     plt.title(title, fontsize=16)
