@@ -46,3 +46,15 @@ echo ""
 python $BIN_DIR/compare_networks.py --prefix "wt_mutant_L_avg" --reference-label Wild-type --alternative-label Mutant --y-label "Delta L" --reference wt_delta_L_avg.dat --alternative mutant_delta_L_avg.dat
 python $BIN_DIR/compare_networks.py --prefix "wt_mutant_L_std_dev" --reference-label Wild-type --alternative-label Mutant --y-label "Delta L" --reference wt_delta_L_std_dev.dat --alternative mutant_delta_L_std_dev.dat
 python $BIN_DIR/delta_networks.py --reference wt_delta_L_avg.dat --reference-std wt_delta_L_std_dev.dat --alternatives *delta_L_avg.dat --alternatives-std *delta_L_std_dev.dat --absolute --prefix wt_mutant_cmap --title "My Protein" --x-label "Residues" --y-label "Proteins"
+
+
+# Test output checksum
+cd ..
+check_sum=`find out_L -type f -exec md5sum {} \; | sort -k 2 | md5sum`
+
+if [ "${check_sum}" != "35282c6c999a372179ef2db1b234960b  -" ]
+then
+    echo "Inconsistent output, this may be due to an error or modification to the algorithm or the inputs."
+    echo "Please ensure that the output and checksum is correct."
+    exit
+fi

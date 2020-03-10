@@ -48,3 +48,13 @@ python $BIN_DIR/compare_networks.py --prefix "wt_mutant_std_dev" --reference-lab
 python $BIN_DIR/delta_networks.py --reference wt_delta_BC_avg.dat --reference-std wt_delta_BC_std_dev.dat --alternatives *delta_BC_avg.dat --alternatives-std *delta_BC_std_dev.dat --absolute --prefix wt_mutant_cmap --title "My Protein" --x-label "Residues" --y-label "Proteins"
 
 
+# Test output checksum
+cd ..
+check_sum=`find out_BC -type f -exec md5sum {} \; | sort -k 2 | md5sum`
+
+if [ "${check_sum}" != "a67185ddbd9f648d6c0c78765fd5d935  -" ]
+then
+    echo "Inconsistent output, this may be due to an error or modification to the algorithm or the inputs."
+    echo "Please ensure that the output and checksum is correct."
+    exit
+fi
