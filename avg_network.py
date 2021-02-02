@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #
 # Calculate average network measurements over the course of the simulation as
 # well as standard deviation of the measurements
@@ -81,8 +81,9 @@ def main(args):
     prefix = args.prefix
 
     if not args.data_type in ["BC", "delta-BC", "L", "delta-L"]:
-        log.error("Unrecognized data type. Exiting...\n")
-        sys.exit(1)
+        #log.error("Unrecognized data type. Exiting...\n")
+        log.warn("Unrecognized data type. Prefix not adjusted!\n")
+        #sys.exit(1)
 
     # average BC
     if args.data_type == "BC":
