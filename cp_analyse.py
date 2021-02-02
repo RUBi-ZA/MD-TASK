@@ -121,5 +121,5 @@ if __name__ == "__main__":
     log("Completed at: %s" % str(end))
     log(" -Total time: %s" % str(time_taken))
 
-	CLI(parser, main, log)
+    CLI(parser, main, log)
 	
