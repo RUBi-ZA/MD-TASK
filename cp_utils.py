@@ -40,7 +40,7 @@ class MDIterator:
 
         try:
             return self.trajectory[self.index]
-        except IndexError, ex:
+        except IndexError:
             raise StopIteration
 
 
