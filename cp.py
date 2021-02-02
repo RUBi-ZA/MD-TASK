@@ -17,7 +17,9 @@ import mdtraj as md
 from math import sqrt
 from datetime import datetime
 
-import utils
+import cp_utils
+from lib.cli import CLI
+from lib.utils import Logger
 
 def load_trajectory(traj, totalframes, totalres):
     '''Method for loading a trajectory into memory'''
@@ -100,29 +102,15 @@ def main(args):
     numpy.save('%s_cp_matrix.npy' % args.prefix, cp_matrix)
     
     log(' -Plotting coordination propensity heatmap...')
-    utils.plot_map(cp_matrix,'Coordination propensity', '%s_heatmap' % args.prefix, axes=False)
-    
-        
-silent = False
-stream = sys.stdout
+    cp_utils.plot_map(cp_matrix,'Coordination propensity', '%s_heatmap' % args.prefix, axes=False)
 
-def log(message):
-    global silent
-    global stream
-
-    if not silent:
-        print >> stream, message
-
+log = Logger()
 
 if __name__ == "__main__":
 
     #parse cmd arguments
     parser = argparse.ArgumentParser()
-
-    #standard arguments for logging
-    parser.add_argument("--silent", help="Turn off logging", action='store_true', default=False)
-    parser.add_argument("--log-file", help="Output log file (default: standard output)", default=None)
-
+	
     #custom arguments
     parser.add_argument("trajectory", help="Trajectory file")
     parser.add_argument("--topology", help="Topology PDB file (required if trajectory does not contain topology information)")
@@ -132,13 +120,7 @@ if __name__ == "__main__":
     parser.add_argument("--prefix", help="Prefix for output files (default: cp)", default="cp")
 
     args = parser.parse_args()
-
-    #set up logging
-    silent = args.silent
-
-    if args.log_file:
-        stream = open(args.log_file, 'w')
-
+	
     start = datetime.now()
     log("Started at: %s" % str(start))
 
@@ -150,6 +132,5 @@ if __name__ == "__main__":
 
     log("Completed at: %s" % str(end))
     log(" -Total time: %s" % str(time_taken))
-
-    #close logging stream
-    stream.close()
+	
+	CLI(parser, main, log)
