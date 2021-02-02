@@ -15,7 +15,7 @@ echo ""
 PREFIX=wt
 NORM=plusone
 
-python $BIN_DIR/calc_network.py --topology $PREFIX.pdb --threshold 7.0 --step 100 --generate-plots --calc-BC --save-graphs --lazy-load $PREFIX.dcd
+python $BIN_DIR/calc_network.py --topology $PREFIX.pdb --threshold 7.0 --step 100 --generate-plots --calc-BC --save-graphs --lazy-load $PREFIX.dcd --calc-BC
 
 mv ${PREFIX}_0_bc.dat ref_${PREFIX}_bc.dat
 

@@ -15,7 +15,7 @@ echo ""
 PREFIX=wt
 NORM=standard
 
-python $BIN_DIR/calc_network.py --topology $PREFIX.pdb --threshold 7.0 --step 100 --generate-plots --calc-L --save-graphs $PREFIX.dcd
+python $BIN_DIR/calc_network.py --topology $PREFIX.pdb --threshold 7.0 --step 100 --generate-plots --calc-L --save-graphs $PREFIX.dcd --calc-L
 
 mv ${PREFIX}_0_avg_L.dat ref_${PREFIX}_avg_L.dat
 
@@ -30,7 +30,7 @@ echo ""
 
 PREFIX=mutant
 
-python $BIN_DIR/calc_network.py --topology $PREFIX.pdb --threshold 7.0 --step 100 --generate-plots --calc-L --save-graphs --lazy-load $PREFIX.dcd
+python $BIN_DIR/calc_network.py --topology $PREFIX.pdb --threshold 7.0 --step 100 --generate-plots --calc-L --save-graphs --lazy-load $PREFIX.dcd --calc-L
 
 mv ${PREFIX}_0_avg_L.dat ref_${PREFIX}_avg_L.dat
 
