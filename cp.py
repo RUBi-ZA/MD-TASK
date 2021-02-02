@@ -72,7 +72,7 @@ def format_seconds(seconds):
 
 def main(args):
     initial = md.load_frame(args.trajectory, 0, top=args.topology)
-    log(" -Loading trajectory...")
+    log.info(" -Loading trajectory...")
 
     if args.num_frames:
         totalframes = args.num_frames
@@ -83,25 +83,25 @@ def main(args):
 
     totalres = initial.n_residues
 
-    log('\tTotal number of frames = %d\n\tNumber of residues = %d' % (totalframes, totalres))
+    log.info('\tTotal number of frames = %d\n\tNumber of residues = %d' % (totalframes, totalres))
 
     trajectory = load_trajectory(traj, totalframes, totalres)
 
-    log('\tFinal trajectory matrix size: %s' % str(trajectory.shape))
+    log.info('\tFinal trajectory matrix size: %s' % str(trajectory.shape))
     del traj
 
-    log(' -Calculating average distance matrix...')
+    log.info(' -Calculating average distance matrix...')
     
     distance_matrix = calc_dist(trajectory,totalframes,totalres)
     
     avg_distance = numpy.mean(distance_matrix,axis=0)
     
-    log(' -Calculating coordination propensity matrix...')
+    log.info(' -Calculating coordination propensity matrix...')
     
     cp_matrix = calculate_cp(distance_matrix,totalframes,totalres)
     numpy.save('%s_cp_matrix.npy' % args.prefix, cp_matrix)
     
-    log(' -Plotting coordination propensity heatmap...')
+    log.info(' -Plotting coordination propensity heatmap...')
     cp_utils.plot_map(cp_matrix,'Coordination propensity', '%s_heatmap' % args.prefix, axes=False)
 
 log = Logger()

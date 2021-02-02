@@ -74,20 +74,20 @@ def calculate_difference(m1,m2,prefix):
 
 
 def main(args):
-    log(" -Loading coordination propensity data ...")
+    log.info(" -Loading coordination propensity data ...")
     
     cp_matrix_1 = np.load(args.cp)
     
     if args.avg:
-        log(" -Calculating average CP for each residue ...")
+        log.info(" -Calculating average CP for each residue ...")
         calculate_avg_cp(cp_matrix_1, args.prefix) 
     
     if args.sliding_avg:
-        log(" -Calculating average CP for each residue using a sliding window of %s ..." % args.window)
+        log.info(" -Calculating average CP for each residue using a sliding window of %s ..." % args.window)
         calculate_sliding_avg(cp_matrix_1,args.prefix,window=args.window)
     
     if args.diff:
-        log(" -Calculating and plotting delta CP heatmap...")
+        log.info(" -Calculating and plotting delta CP heatmap...")
         cp_matrix_2 = np.load(args.diff)
         diff_matrix = calculate_difference(cp_matrix_1, cp_matrix_2, args.prefix)
 
@@ -110,7 +110,7 @@ if __name__ == "__main__":
     #args = parser.parse_args()
 	
     #run script
-    main(args)
+    #main(args)
 
     CLI(parser, main, log)
 	
