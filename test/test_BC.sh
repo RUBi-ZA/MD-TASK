@@ -17,6 +17,7 @@ NORM=plusone
 
 python $BIN_DIR/calc_network.py --topology $PREFIX.pdb --threshold 7.0 --step 100 --generate-plots --calc-BC --save-graphs --lazy-load $PREFIX.dcd --calc-BC
 
+ls
 mv ${PREFIX}_0_bc.dat ref_${PREFIX}_bc.dat
 
 python $BIN_DIR/calc_delta_BC.py --generate-plots --normalize --normalization-mode ${NORM} --reference ref_${PREFIX}_bc.dat --alternatives ${PREFIX}_*_bc.dat
@@ -30,7 +31,7 @@ echo ""
 
 PREFIX=mutant
 
-python $BIN_DIR/calc_network.py --topology $PREFIX.pdb --threshold 7.0 --step 100 --generate-plots --calc-BC --save-graphs $PREFIX.dcd
+python $BIN_DIR/calc_network.py --topology $PREFIX.pdb --threshold 7.0 --step 100 --generate-plots --calc-BC --save-graphs $PREFIX.dcd --calc-BC
 
 mv ${PREFIX}_0_bc.dat ref_${PREFIX}_bc.dat
 
