@@ -17,6 +17,7 @@ NORM=standard
 
 python $BIN_DIR/calc_network.py --topology $PREFIX.pdb --threshold 7.0 --step 100 --generate-plots --calc-L --save-graphs $PREFIX.dcd --calc-L
 
+ls
 mv ${PREFIX}_0_avg_L.dat ref_${PREFIX}_avg_L.dat
 
 python $BIN_DIR/calc_delta_L.py --generate-plots --normalize --normalization-mode ${NORM} --reference ref_${PREFIX}_avg_L.dat --alternatives ${PREFIX}_*_avg_L.dat
