@@ -107,19 +107,10 @@ if __name__ == "__main__":
     
     parser.add_argument("--prefix", help="Prefix for output files (default: cp)", default="cp")
 
-    args = parser.parse_args()
+    #args = parser.parse_args()
 	
-    start = datetime.now()
-    log("Started at: %s" % str(start))
-
     #run script
     main(args)
-
-    end = datetime.now()
-    time_taken = format_seconds((end - start).seconds)
-
-    log("Completed at: %s" % str(end))
-    log(" -Total time: %s" % str(time_taken))
 
     CLI(parser, main, log)
 	
