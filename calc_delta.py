@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #
 # Calculate the change in the valuses (BC or L) of each residue in a protein over the
 # course of an MD simulation

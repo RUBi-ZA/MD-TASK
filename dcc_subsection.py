@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+#
 #Caroline Ross 14 December 2018
 #Plots a sub-section of dcc correlation
 #Input = the correlation.txt file from MD-TASK

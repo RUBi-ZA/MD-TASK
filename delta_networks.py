@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #
 # Compare network measurements such as BC and L by plotting a wild-type vs mutants heatmap
 #

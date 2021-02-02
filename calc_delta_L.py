@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #
 # Calculate the change in the average shotest paths of each residue over the
 # course of an MD simulation
