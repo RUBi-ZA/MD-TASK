@@ -12,3 +12,4 @@ pip3 install networkx==1.11
 pip3 install natsort==7.0.1
 pip3 install pandas==0.25.3
 pip3 install mdtraj==1.9.3
+pip3 install seaborn==0.9.1
