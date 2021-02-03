@@ -39,23 +39,17 @@ def load_trajectory(traj, totalframes, totalres):
 def calc_dist(trajectory,totalframes,totalres):
     '''Method for calculating inter-residue distances for every residue pair'''
     distance_matrix = numpy.zeros((totalframes,totalres,totalres))
-    print ("___")
-    print (str(totalframes))
-    print (str(totalres))
-    print (str(totalres))
-    print ("___")
     for frame in range(0,totalframes):
-        print(str(frame))
         for res in range(0,totalres*3,3):
             res_coord = trajectory[frame,res:res+3]
             for other_res in range(0,totalres*3,3):   
                 other_coord = trajectory[frame,other_res:other_res+3]
                 print ("___")
-                print (str(frame))
-                print (str(res))
-                print (str(other_res))
+                print (type(frame))
+                print (type(res))
+                print (type(other_res))
                 print ("___")
-                distance_matrix[frame,res/3,other_res/3] = sqrt(((other_coord[0]-res_coord[0])**2)+((other_coord[1]-res_coord[1])**2)+((other_coord[2]-res_coord[2])**2))
+                distance_matrix[int(frame),int(res/3),int(other_res/3)] = sqrt(((other_coord[0]-res_coord[0])**2)+((other_coord[1]-res_coord[1])**2)+((other_coord[2]-res_coord[2])**2))
     del trajectory
     return distance_matrix
 
