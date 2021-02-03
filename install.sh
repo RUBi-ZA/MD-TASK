@@ -4,7 +4,7 @@ python3 -m venv venv
 . venv/bin/activate
 
 pip3 install --upgrade pip
-pip3 install numpy==1.18.1
+pip3 install numpy==1.17.0
 pip3 install scipy==1.4.1
 pip3 install matplotlib==3.2.0
 pip3 install cython==0.29.15 
