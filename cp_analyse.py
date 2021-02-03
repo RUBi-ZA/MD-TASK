@@ -10,8 +10,6 @@ import os, sys, argparse
 
 import numpy as np
 
-from datetime import datetime
-
 import cp_utils
 from cp_utils import *
 from lib.cli import CLI

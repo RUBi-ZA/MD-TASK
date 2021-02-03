@@ -15,7 +15,6 @@ import numpy
 import mdtraj as md
 
 from math import sqrt
-from datetime import datetime
 
 import cp_utils
 from lib.cli import CLI
@@ -45,7 +44,10 @@ def calc_dist(trajectory,totalframes,totalres):
             res_coord = trajectory[frame,res:res+3]
             for other_res in range(0,totalres*3,3):   
                 other_coord = trajectory[frame,other_res:other_res+3]
-                distance_matrix[frame,res/3,other_res/3] = sqrt(((other_coord[0]-res_coord[0])**2)+((other_coord[1]-res_coord[1])**2)+((other_coord[2]-res_coord[2])**2))    
+				print(str(frame) + " ")
+				print(str(res) + " ")
+				print(str(other_res) + " ")
+                distance_matrix[frame,res/3,other_res/3] = sqrt(((other_coord[0]-res_coord[0])**2)+((other_coord[1]-res_coord[1])**2)+((other_coord[2]-res_coord[2])**2))
     del trajectory
     return distance_matrix
 
