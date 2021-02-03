@@ -45,6 +45,7 @@ def calc_dist(trajectory,totalframes,totalres):
     print (str(totalres))
     print ("___")
     for frame in range(0,totalframes):
+        print(str(frame))
         for res in range(0,totalres*3,3):
             res_coord = trajectory[frame,res:res+3]
             for other_res in range(0,totalres*3,3):   
