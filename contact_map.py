@@ -24,7 +24,21 @@ __version__ = "1.1.0"
 __maintainer__ = "Olivier Sheik Amamuddy"
 __email__ = "oliserand@gmail.com"
 __status__ = "Production"
-__date__ = "7th November 2019"
+__date__ = "20th July 2021"
+
+def get_chain_labels(topology_filename):
+    """Extracts chain labels
+    Inpur:
+     topology filename: self-explanatory
+    Output:
+     list of chain labels in the topology filename
+    """
+    with open(topology_filename, "r") as topfile:
+        chains = []
+        for line in topfile.readlines():
+            if line.startswith("ATOM") or line.startswith("HETATM"):
+                chains.append(line[21])
+    return chains
 
 def plot_network(g, ebunch, contact_map, discardplot=False, node_size=2900,
                  node_fontsize=9.5, edgewidth_factor=10, edgelabel_fontsize=8):
@@ -80,6 +94,8 @@ def main(args):
         log("A residue has to be provided. Try -h option.\n")
         sys.exit()
     prefix = residue
+    # Get chains
+    chains = get_chain_labels(args.topology)
     chain_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     log("Loading trajectory...\n")
     try:
@@ -97,7 +113,7 @@ def main(args):
     residues = list(map(lambda x: str(x), traj.top.residues))
     if residue not in residues:
         log("ERROR: Residue {} not found.\n".format(residue))
-        sys.exit()
+        sys.exit(1)
     nframes = traj.n_frames
     center = "{}.{}".format(residue, chain)
     contacts = {}
@@ -107,7 +123,7 @@ def main(args):
         for aaidx, atom1_idx in enumerate(atom_indices):
             if residues[aaidx] == residue:
                 atom1 = list(frame.top.atoms)[atom1_idx]
-                atom1_chain = chain_chars[atom1.residue.chain.index]
+                atom1_chain = chains[atom1_idx]
                 atom1_resname = atom1.residue.name
                 atom1_resid = atom1.residue.resSeq
                 if atom1_chain == chain:
@@ -118,7 +134,7 @@ def main(args):
                                                       - frame.xyz[0, atom2_idx])
                             if distance < cutoff:
                                 atom2 = list(frame.top.atoms)[atom2_idx]
-                                atom2_chain = chain_chars[atom2.residue.chain.index]
+                                atom2_chain = chains[atom2_idx]
                                 atom2_resname = atom2.residue.name
                                 atom2_resid = atom2.residue.resSeq
                                 # Write contact
