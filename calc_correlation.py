@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 """
 Calculates Dynamic Cross Correlations from MD data
 """
@@ -8,20 +8,19 @@ Calculates Dynamic Cross Correlations from MD data
 # Script distributed under GNU GPL 3.0
 #
 # Author: Caroline Ross
-# Date: 17-11-2016
-__version__ = 1.1
+
+__version__ = 1.2
 __date__ = "15th November 2020"
 
 import math
 import argparse
 import numpy as np
 import matplotlib
-from matplotlib import cm
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
 from lib.cli import CLI
 from lib.utils import Logger
 from lib.trajectory import load_trajectory
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 
 def parse_traj(traj, topology=None, step=1, selected_atoms="CA",
                lazy_load=False):
@@ -86,21 +85,19 @@ def plot_map(correlation, title, output_prefix):
     ax.grid(False)
     plt.xticks(rotation=90)
     ax = plt.gca()
-    ax.set_xticks(range(0, correlation.shape[0], 10))
-    ax.set_yticks(range(0, correlation.shape[1], 10))
     for t in ax.xaxis.get_major_ticks():
         t.tick1line.set_visible = False
         t.tick2line.set_visible = False
-        #t.label.set_fontsize(8)
+        t.label.set_fontsize(8)
     for t in ax.yaxis.get_major_ticks():
         t.tick1line.set_visible = False
         t.tick2line.set_visible = False
-        #t.label.set_fontsize(8)
-    plt.title(title, fontsize=10)
-    plt.xlabel('Residue index')
-    plt.ylabel("Residue index")
+        t.label.set_fontsize(8)
+    plt.title(title, fontsize=16)
+    plt.xlabel('Residue index', fontsize=12)
+    plt.ylabel("Residue index", fontsize=12)
     plt.colorbar(heatmap, orientation="vertical")
-    plt.savefig('%s.png' % output_prefix, bbox_inches="tight", dpi=300)
+    plt.savefig('%s.png' % output_prefix, dpi=300)
     plt.close('all')
 
 def write_correlation(correlation, output_prefix):
@@ -117,12 +114,9 @@ def main(args):
     """The main function"""
     log.info("Preparing a trajectory matrix...\n")
     traj_matrix = parse_traj(args.trajectory, args.topology, args.step,
-            lazy_load=args.lazy_load, selected_atoms=args.select_atoms)
+            selected_atoms=args.select_atoms, lazy_load=args.lazy_load)
     log.info("Correlating...\n")
     correlation = correlate(traj_matrix)
-    plt.rcParams["font.family"] = "serif"
-    plt.rcParams["xtick.labelsize"] = 7
-    plt.rcParams["ytick.labelsize"] = 7
     log.info("Plotting heat map...\n")
     plot_map(correlation, args.title, args.prefix)
     write_correlation(correlation, args.prefix)
@@ -140,11 +134,10 @@ if __name__ == "__main__":
                         help="Size of the step to take when iterating \
                         the the trajectory frames", type=int)
     parser.add_argument("--select_atoms",
-                        help="Comma-separated list of atoms types \
-			(without spaces) to use for DCC calculation. \
-			E.g. 'CA,P'. The backbone phosphorus 'P' atom \
-			can be a good choice for representing nucleotides.\
-			(default=CA)",
+                        help="Comma-separated list of atoms (without spaces) \
+                        to use for DCC calculation. E.g. 'CA,P'. The backbone \
+                        phosphorus 'P' atom can be a good choice for \
+                        representing nucleotides. (default=CA)",
                         type=str, default="CA")
     parser.add_argument("--lazy-load", action='store_true', default=False,
                         help="Iterate through trajectory, loading one \
