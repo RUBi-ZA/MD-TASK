@@ -96,7 +96,6 @@ def main(args):
     prefix = residue
     # Get chains
     chains = get_chain_labels(args.topology)
-    chain_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     log("Loading trajectory...\n")
     try:
         traj = md.load(traj_path, top=topology)[::args.step]
@@ -107,6 +106,8 @@ def main(args):
     atom_indices = [atom.index for atom in traj.topology.atoms if
                     ((atom.name == "CB" and atom.residue.name != "GLY") or \
         (atom.name == "CA" and atom.residue.name == "GLY"))]
+    # Adjust chains to match new ids
+    chains = [chains[i] for i in atom_indices]
     traj = traj.atom_slice(atom_indices, inplace=True)
     atom_indices = [atom.index for atom in traj.topology.atoms]
     # Setting some variables
@@ -155,7 +156,7 @@ def main(args):
         contact_map = args.opng
     else:
         contact_map = "%s_chain%s_contact_map.png" % (prefix, chain)
-    log("Generating contact map: %s...\n" % contact_map)
+    log("Generating contact map: %s\n" % contact_map)
     _ = nx.Graph()
     ebunch = list(map(lambda x: [center, x[0][1], round(x[1]/float(nframes), 3)], list(contacts.items())))
     _.add_weighted_edges_from(ebunch)

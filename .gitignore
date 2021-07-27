@@ -2,6 +2,10 @@
 test/out*
 test/timer
 
+# text examples
+example/pr1.pdb
+example/pr1.xtc
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod~]
