@@ -128,7 +128,7 @@ if __name__ == "__main__":
             description="Calculates Dynamic Cross Correlation from MD data")
     parser.add_argument("trajectory", help="Trajectory file")
     parser.add_argument("--topology",
-                        help="Referencce PDB file (must contain \
+                        help="Reference PDB file (must contain \
                         the same number of atoms as the trajectory)")
     parser.add_argument("--step",
                         help="Size of the step to take when iterating \
