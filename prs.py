@@ -63,9 +63,6 @@ def calc_rmsd(reference_frame, alternative_frame, aln=False, mask=None):
     return sdrms.superpose3D(alternative_frame, reference_frame)[1]
 
 def main(args):
-    if not args.final:
-        log.error("a final co-ordinate file must be supplied via the --final argument\n")
-        sys.exit(1)
     # Use topology as initial conformation
     args.initial, initial = coarsegrain_topology(args.topology, save_xyz=True)
     args.final, final = coarsegrain_topology(args.final, save_xyz=True)
@@ -206,7 +203,7 @@ if __name__ == "__main__":
             help="Topology PDB file for the initial state co-ordinate file (required)")
     parser.add_argument("--step", default=1, type=int, required=True,
             help="Size of step when iterating through trajectory frames")
-    parser.add_argument("--final", help="Final state co-ordinate file (required)")
+    parser.add_argument("--final", help="Final state co-ordinate file (required)", required=True)
     parser.add_argument("--perturbations", type=int, default=250,
             help="Number of perturbations (default: 250)")
     parser.add_argument("--num-frames", type=int, default=None,
