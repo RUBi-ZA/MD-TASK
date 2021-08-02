@@ -66,6 +66,18 @@ def main(args):
     # Use topology as initial conformation
     args.initial, initial = coarsegrain_topology(args.topology, save_xyz=True)
     args.final, final = coarsegrain_topology(args.final, save_xyz=True)
+    # Test for nonprotein
+    numca_init = list([i.name for i in initial.top.atoms]).count("CA")
+    log.info("{} CA atoms recorded for the initial structure\n".format(numca_init))
+    numca_final = list([i.name for i in final.top.atoms]).count("CA")
+    log.info("{} CA atoms recorded for the final structure\n".format(numca_final))
+    if numca_init == 0 or numca_final == 0:
+        log.error("One or both of your conformations are non proteins\n")
+        sys.exit(1)
+    # Checking for non-matching conformations
+    if initial.xyz.shape[0] != final.xyz.shape[0]:
+        log.error("Unequal number of CA atoms in initial and final structures. Check provided structures.\n")
+        sys.exit(1)
     # Disabling aln due to missing mask
     args.aln = False
     mask = None
@@ -132,10 +144,6 @@ def main(args):
     log.info('Reading initial and final PDB co-ordinates...\n')
     initial = initial.xyz[0]
     final = final.xyz[0]
-    # Checking for non-matching conformations
-    if initial.shape[0] != final.shape[0]:
-        log.error("Unequal number of CA atoms in initial and final structures. Check provided structures.")
-        sys.exit(1)
     log.info('Calculating experimental difference between initial and final co-ordinates...\n')
     if args.aln:
         log.info("- Using NTD alignment restrictions\n")
