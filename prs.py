@@ -69,7 +69,7 @@ def main(args):
     # Disabling aln due to missing mask
     args.aln = False
     mask = None
-    # Convert coorsd to Angstrom
+    # Convert coords to Angstrom
     initial.xyz *= 10
     final.xyz *= 10
     log.info("Loading trajectory...\n")
@@ -132,6 +132,7 @@ def main(args):
     log.info('Reading initial and final PDB co-ordinates...\n')
     initial = initial.xyz[0]
     final = final.xyz[0]
+    # Checking for non-matching conformations
     if initial.shape[0] != final.shape[0]:
         log.error("Unequal number of CA atoms in initial and final structures. Check provided structures.")
         sys.exit(1)
