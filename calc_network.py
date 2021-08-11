@@ -25,6 +25,8 @@ from Bio.PDB import PDBParser
 from Bio.PDB.mmcifio import MMCIFIO
 import matplotlib.pyplot as plt
 import matplotlib
+import igraph as ig
+import numba as nb
 
 from lib.cli import CLI
 from lib.utils import Logger
@@ -50,9 +52,10 @@ def construct_graph(frame, atom_filter=None, prefix="frame", threshold=6.7,
     nodes_range = len(atoms)
     nodes = range(0, nodes_range)
     edges = []
+    threshold /= 10
     for i in range(nodes_range - 1):
         for j in range(i + 1, nodes_range):
-            dist = calc_distance(frame, atoms[i], atoms[j]) * 10
+            dist = calc_distance(frame, atoms[i], atoms[j])
             if dist < threshold:
                 edges.append((i, j))
     p_graph = nx.Graph()
@@ -96,8 +99,9 @@ def calc_centrality(p_graph, c_func, frameidx=None,
     """Generic function to compute a centrality metric for a frame"""
     if  centrality_kws is None:
         centrality_kws = {}
+
     centrality = c_func(p_graph, **centrality_kws)
-    centrality = pd.Series(centrality)
+    centrality = pd.Series(centrality).sort_index()
     if centrality.sum() == 0:
         LOG.error("type=unconnected_graph:frame={}. Try increasing the threshold.\n".format(frameidx+1))
         raise nx.exception.NetworkXException
@@ -297,7 +301,7 @@ def main(args):
     """Program start"""
     if not any([args.calc_BC, args.calc_L, args.calc_DC, args.calc_ECC,
                 args.calc_EC, args.calc_CC, args.calc_katz, args.calc_PR]):
-        LOG.error("At least one of the network metrics (e.g. --calc-BC) must be set.")
+        LOG.error("At least one of the network metrics (e.g. --calc-BC) must be set.\n")
         sys.exit(1)
     traj_name = os.path.basename(args.trajectory)
     traj, total_frames = load_trajectory(args.trajectory, args.topology,
