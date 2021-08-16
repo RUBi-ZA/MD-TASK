@@ -1,6 +1,9 @@
 # Test directory
 test/out*
 test/timer
+*.dat
+*.cif
+*.csv
 
 # text examples
 example/pr1.pdb

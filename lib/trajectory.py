@@ -1,4 +1,5 @@
-import os, math
+import os
+import math
 import mdtraj as md
 
 class MDIterator(object):
@@ -51,7 +52,6 @@ def load_trajectory(trajectory, topology, step=1, lazy_load=False):
 def calc_distance(frame, index1, index2):
     atom1 = frame.xyz[0, index1]
     atom2 = frame.xyz[0, index2]
-
-    dist = math.sqrt((atom2[0] - atom1[0])**2 + (atom2[1] - atom1[1])**2 + (atom2[2] - atom1[2])**2)
-
-    return abs(dist)
+    diff = (atom1 - atom2)**2
+    dist = sum(diff)**.5
+    return dist
