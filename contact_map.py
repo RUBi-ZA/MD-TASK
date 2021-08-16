@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 """
 Generates weighted contact map around a given residue from an MD trajectory
@@ -56,7 +56,7 @@ def plot_network(g, ebunch, contact_map, discardplot=False, node_size=2900,
         node_colors.append('#B1DF61')
     # Start plotting
     if discardplot is False:
-        plt.figure(figsize=[6.5, 6.5], dpi=500)
+        plt.figure(figsize=[6.5, 6.5], dpi=450)
         layout = nx.layout.shell_layout(g, nlist=[ebunch[0], [i[1] for i in ebunch]])
         edgewidths = [g[i][j]['weight']*edgewidth_factor for i, j in edges]
 
@@ -71,9 +71,10 @@ def plot_network(g, ebunch, contact_map, discardplot=False, node_size=2900,
                                      edge_labels={(i, j): round(g[i][j]['weight'], 3)
                                                   for i, j, k in ebunch},
                                      rotate=False)
+        plt.margins(0.065)
         plt.tight_layout()
         plt.axis('off')
-        plt.savefig(contact_map, bbox_inches="tight")
+        plt.savefig(contact_map, pad_inches="tight")
 
 def main(args):
     """
@@ -88,20 +89,27 @@ def main(args):
     edgewidth_factor = args.edgewidthfactor
     edgelabel_fontsize = args.edgelabelfontsize
     discardplot = args.discard_graphs
+    # Check if residue is provided
     if args.residue is not None:
         residue = args.residue.upper()
     else:
         log("A residue has to be provided. Try -h option.\n")
         sys.exit()
     prefix = residue
-    # Get chains
+    # Check chain correctness
     chains = get_chain_labels(args.topology)
+    if args.chain not in chains or args.chain == " ":
+        error_msg = "ERROR: Incorrect chain label. The chain label has to be present in the topology file, and cannot be empty.\n"
+        log(error_msg)
+        raise ValueError(error_msg)
+        sys.exit(1)
     log("Loading trajectory...\n")
     try:
         traj = md.load(traj_path, top=topology)[::args.step]
     except TypeError as ex:
         print(ex)
-        sys.exit()
+        log("{}".format(ex))
+        sys.exit(1)
     # Get CA and CB atom indices
     atom_indices = [atom.index for atom in traj.topology.atoms if
                     ((atom.name == "CB" and atom.residue.name != "GLY") or \
@@ -111,9 +119,11 @@ def main(args):
     traj = traj.atom_slice(atom_indices, inplace=True)
     atom_indices = [atom.index for atom in traj.topology.atoms]
     # Setting some variables
-    residues = list(map(lambda x: str(x), traj.top.residues))
+    residues = [str(i) for i in traj.top.residues]
     if residue not in residues:
-        log("ERROR: Residue {} not found.\n".format(residue))
+        error_msg = "ERROR: Residue {} not found.\n".format(residue)
+        log(error_msg)
+        raise ValueError(error_msg)
         sys.exit(1)
     nframes = traj.n_frames
     center = "{}.{}".format(residue, chain)
@@ -158,7 +168,7 @@ def main(args):
         contact_map = "%s_chain%s_contact_map.png" % (prefix, chain)
     log("Generating contact map: %s\n" % contact_map)
     _ = nx.Graph()
-    ebunch = list(map(lambda x: [center, x[0][1], round(x[1]/float(nframes), 3)], list(contacts.items())))
+    ebunch = [[center, x[0][1], round(x[1]/float(nframes), 3)] for x in list(contacts.items())]
     _.add_weighted_edges_from(ebunch)
     # Plot the network
     plot_network(_, ebunch, contact_map, discardplot=discardplot,
