@@ -101,7 +101,7 @@ if __name__ == "__main__":
     parser.add_argument("--avg", help="Calculate the total average cp for each residue", action="store_true")
     parser.add_argument("--sliding_avg", help="Calculate average cp for every residue using a sliding window", action='store_true')
     parser.add_argument("--window", help="Sliding window", type=int, default=4)
-    parser.add_argument("--diff", help="Calculate the difference between cp and diff matricies", default=None)
+    parser.add_argument("--diff", help="Calculate the difference between cp and diff matrices", default=None)
     
     parser.add_argument("--prefix", help="Prefix for output files (default: cp)", default="cp")
 
