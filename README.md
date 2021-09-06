@@ -11,11 +11,6 @@ conda env create -f environment.yml
 conda activate mdmtaskweb
 ```
 
-## Command line usage
+## Command line usage [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/RUBi-ZA/MD-TASK/mdmtask-dev?filepath=example%2Fmdmtaskweb_tutorial.ipynb)
+
 The scripts are located in the root directory of the project. To run the scripts, ensure that the conda environment is activated. 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/RUBi-ZA/MD-TASK/mdmtask-dev?filepath=example%2Fmdmtaskweb_tutorial.ipynb)
-
-## Web server URL and tool documentation
-[MDM-TASK-web](https://mdmtaskweb.rubi.ru.ac.za)
-
-[MD-TASK docs](http://md-task.readthedocs.io/en/latest/index.html)
