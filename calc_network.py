@@ -25,8 +25,6 @@ from Bio.PDB import PDBParser
 from Bio.PDB.mmcifio import MMCIFIO
 import matplotlib.pyplot as plt
 import matplotlib
-import igraph as ig
-import numba as nb
 
 from lib.cli import CLI
 from lib.utils import Logger
