@@ -4,8 +4,10 @@ Take a look at our web application [MDM-TASK-web](https://mdmtaskweb.rubi.ru.ac.
 Web server tools for MD-TASK and MODE-TASK.
 
 ## Installation
+```
 conda create --name mdmtask --file requirements.txt
 conda activate mdmtask
+```
 
 ## Usage
 The scripts are located in the root directory of the project. To run the scripts, ensure that the conda environment is activated. 
