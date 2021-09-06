@@ -12,6 +12,7 @@ Calculates Dynamic Cross Correlations from MD data
 __version__ = 1.2
 __date__ = "15th November 2020"
 
+import sys
 import math
 import argparse
 import numpy as np
@@ -146,4 +147,5 @@ if __name__ == "__main__":
     parser.add_argument("--title", help="Title for heatmap", default="Protein")
     parser.add_argument("--prefix", default="correlation",
                         help="Prefix for output files")
+    log.info("Using Python {}\n".format(sys.version))
     CLI(parser, main, log)
