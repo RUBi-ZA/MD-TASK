@@ -210,7 +210,7 @@ if __name__ == "__main__":
     parser.add_argument("trajectory", help="Trajectory file")
     parser.add_argument("--topology", required=True,
             help="Topology PDB file for the initial state co-ordinate file (required)")
-    parser.add_argument("--step", default=1, type=int, required=True,
+    parser.add_argument("--step", default=1, type=int, required=False,
             help="Size of step when iterating through trajectory frames")
     parser.add_argument("--final", help="Final state co-ordinate file (required)", required=True)
     parser.add_argument("--perturbations", type=int, default=250,
