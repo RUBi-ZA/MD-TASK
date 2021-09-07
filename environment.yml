@@ -4,6 +4,7 @@ channels:
   - bioconda
   - defaults
 dependencies:
+  - python=3.6.13
   - _libgcc_mutex=0.1=conda_forge
   - _openmp_mutex=4.5=1_gnu
   - argon2-cffi=20.1.0=py36h8f6f2f9_2
@@ -120,4 +121,3 @@ dependencies:
   - zeromq=4.3.4=h9c3ff4c_1
   - zipp=3.5.0=pyhd8ed1ab_0
   - zlib=1.2.11=h516909a_1010
-prefix: /home/olivier/bin/anaconda/envs/env36
