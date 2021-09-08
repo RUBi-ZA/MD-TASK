@@ -29,7 +29,7 @@ def parse_traj(traj, topology=None, step=1, selected_atoms=["CA"], lazy_load=Fal
     for frame in traj:
         for atom in frame.topology.atoms:
             if atom.name in selected_atoms:
-                res = atom.residue.resSeq
+                res = atom.residue.index
 
                 ac = frame.xyz[0, atom.index]
                 co_ords = [ac[0], ac[1], ac[2]]
