@@ -1,3 +1,7 @@
 # enforce correct line endings for shell and batch files.
 * text eol=lf
 *.bat text eol=crlf
+*.xtc binary
+*.dcd binary
+*.nc binary
+*.trr

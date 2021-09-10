@@ -1,16 +1,18 @@
-name: env36
+name: py38
 channels:
   - conda-forge
   - bioconda
   - defaults
 dependencies:
-  - seaborn
-  - python=3.6
-  - networkx=2.3
-  - matplotlib
-  - biopython
-  - mdtraj
+  - python=3.8
   - pandas
-  - nb_conda
+  - seaborn
+  - jupyterlab=2.1.5
+  - mdtraj
+  - pyemma
   - nglview
-prefix: /home/olivier/bin/anaconda/envs/env36
+  - ipywidgets==7.5.1
+  - pandoc
+  - networkx=2.6.1
+  - biopython
+prefix: /home/olivier/bin/anaconda/envs/py38
