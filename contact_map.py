@@ -46,7 +46,7 @@ def plot_network(g, ebunch, contact_map, discardplot=False, node_size=2900,
     Plots a network
     """
     # Re-order nodes
-    tmp = pd.DataFrame(ebunch, dtype=np.float64)
+    tmp = pd.DataFrame(ebunch)
     order = pd.Series([int(i[3:-2]) for i in tmp.loc[:, 1].tolist()]).sort_values().index
     ebunch = tmp.iloc[order, :].values
     # Prepare node and edge attributes
