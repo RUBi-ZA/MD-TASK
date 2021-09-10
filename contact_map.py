@@ -60,8 +60,8 @@ def plot_network(g, ebunch, contact_map, discardplot=False, node_size=2900,
         layout = nx.layout.shell_layout(g, nlist=[ebunch[0], [i[1] for i in ebunch]])
         edgewidths = [g[i][j]['weight']*edgewidth_factor for i, j in edges]
 
-        nx.draw_networkx(g, pos=layout, edges=edges, node_color=node_colors,
-                         edge_color='lightgrey', edge_labels=True, node_size=node_size,
+        nx.draw_networkx(g, pos=layout, node_color=node_colors,
+                         edge_color='lightgrey', node_size=node_size,
                          width=edgewidths, with_labels=True, font_family='serif',
                          font_size=node_fontsize)
         nx.draw_networkx_edge_labels(g, pos=layout, alpha=1,
