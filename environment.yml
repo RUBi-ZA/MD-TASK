@@ -7,7 +7,6 @@ dependencies:
   - python=3.8
   - pandas
   - seaborn
-  - jupyterlab=2.1.5
   - mdtraj
   - nglview
   - ipywidgets==7.5.1
