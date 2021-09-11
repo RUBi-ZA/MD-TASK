@@ -88,7 +88,6 @@ def calc_shortest_path(p_graph, prefix=None, generate_plots=True):
         plt.ylabel('L', fontsize=16)
         plt.savefig("%s_avg_L.png" % prefix, dpi=300, bbox_inches='tight')
         plt.close()
-    # avg_l_per_node.to_csv(f"{prefix}_avg_L.dat", header=False, index=False)
     return avg_l_per_node
 
 def calc_centrality(p_graph, c_func, frameidx=None,

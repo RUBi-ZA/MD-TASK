@@ -28,7 +28,7 @@ __date__ = "20th July 2021"
 
 def get_chain_labels(topology_filename):
     """Extracts chain labels
-    Inpur:
+    Input:
      topology filename: self-explanatory
     Output:
      list of chain labels in the topology filename
@@ -40,7 +40,7 @@ def get_chain_labels(topology_filename):
                 chains.append(line[21])
     return chains
 
-def plot_network(g, ebunch, contact_map, discardplot=False, node_size=2900,
+def plot_network(graph, ebunch, contact_map, discardplot=False, node_size=2900,
                  node_fontsize=9.5, edgewidth_factor=10, edgelabel_fontsize=8):
     """
     Plots a network
@@ -50,25 +50,25 @@ def plot_network(g, ebunch, contact_map, discardplot=False, node_size=2900,
     order = pd.Series([int(i[3:-2]) for i in tmp.loc[:, 1].tolist()]).sort_values().index
     ebunch = tmp.iloc[order, :].values
     # Prepare node and edge attributes
-    edges = g.edges()
+    edges = graph.edges()
     node_colors = []
-    for node in g.nodes():
+    for _ in graph.nodes():
         node_colors.append('#B1DF61')
     # Start plotting
     if discardplot is False:
         plt.figure(figsize=[6.5, 6.5], dpi=450)
-        layout = nx.layout.shell_layout(g, nlist=[ebunch[0], [i[1] for i in ebunch]])
-        edgewidths = [g[i][j]['weight']*edgewidth_factor for i, j in edges]
+        layout = nx.layout.shell_layout(graph, nlist=[ebunch[0], [i[1] for i in ebunch]])
+        edgewidths = [graph[i][j]['weight']*edgewidth_factor for i, j in edges]
 
-        nx.draw_networkx(g, pos=layout, node_color=node_colors,
+        nx.draw_networkx(graph, pos=layout, node_color=node_colors,
                          edge_color='lightgrey', node_size=node_size,
                          width=edgewidths, with_labels=True, font_family='serif',
                          font_size=node_fontsize)
-        nx.draw_networkx_edge_labels(g, pos=layout, alpha=1,
+        nx.draw_networkx_edge_labels(graph, pos=layout, alpha=1,
                                      font_size=edgelabel_fontsize,
                                      font_family='serif',
                                      bbox={'facecolor':'white', 'alpha':0},
-                                     edge_labels={(i, j): round(g[i][j]['weight'], 3)
+                                     edge_labels={(i, j): round(graph[i][j]['weight'], 3)
                                                   for i, j, k in ebunch},
                                      rotate=False)
         plt.margins(0.065)
@@ -76,7 +76,7 @@ def plot_network(g, ebunch, contact_map, discardplot=False, node_size=2900,
         plt.axis('off')
         plt.savefig(contact_map, pad_inches="tight")
 
-def main(args):
+def get_contact_map(args):
     """
     Main function
     """
@@ -99,7 +99,7 @@ def main(args):
     # Check chain correctness
     chains = get_chain_labels(args.topology)
     if args.chain not in chains or args.chain == " ":
-        error_msg = "ERROR: Incorrect chain label. The chain label has to be present in the topology file, and cannot be empty.\n"
+        error_msg = "ERROR: Chain label not found in topology file. It cannot be empty.\n"
         log(error_msg)
         raise ValueError(error_msg)
         sys.exit(1)
@@ -250,7 +250,7 @@ if __name__ == "__main__":
     START = datetime.now()
     log("Started at: %s\n" % str(START))
     # run script
-    main(ARGS)
+    get_contact_map(ARGS)
     END = datetime.now()
     TIME_TAKEN = format_seconds((END - START).seconds)
     log("Completed at: %s\n" % str(END))
