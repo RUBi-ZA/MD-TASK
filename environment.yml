@@ -1,4 +1,4 @@
-name: py38
+name: mdmtaskweb
 channels:
   - conda-forge
   - bioconda
