@@ -6,8 +6,16 @@ Take a look at our web application [MDM-TASK-web](https://mdmtaskweb.rubi.ru.ac.
 
 
 ## Installation
+1. Clone the MDM-TASK-web branch
+```
+git clone -b mdm-task-web https://github.com/RUBi-ZA/MD-TASK
+```
+Go inside the cloned MD-TASK folder and run the following to create the working environment named "mdmtaskweb"
 ```
 conda env create -f environment.yml
+```
+Activate the conda environment
+```
 conda activate mdmtaskweb
 ```
 The scripts are located in the root directory of the project. To run the scripts, ensure that the conda environment is activated. 
