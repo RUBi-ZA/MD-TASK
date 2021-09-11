@@ -21,6 +21,7 @@ Activate the conda environment
 ```
 conda activate mdmtaskweb
 ```
-Scripts are located in the root directory of the project. To run the scripts, ensure that the conda environment is activated. 
-
+ - Scripts are located in the src directory of the project. To run the scripts, ensure that the conda environment is activated. 
+ - Example topology and (short) trajectory files are in the data folder
+ - Click on the binder logo for a tutorial of the command line
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/RUBi-ZA/MD-TASK/mdmtask-dev?filepath=example%2Fmdmtaskweb_tutorial.ipynb)
