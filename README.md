@@ -1,12 +1,15 @@
 # MDM-TASK-web [![fair-software.eu](https://img.shields.io/badge/fair--software.eu-%E2%97%8F%20%20%E2%97%8F%20%20%E2%97%8B%20%20%E2%97%8F%20%20%E2%97%8B-orange)](https://fair-software.eu)
 
-Web server tools for MD-TASK and MODE-TASK.
+**MDM-TASK-web** is web server for MD-TASK and MODE-TASK and can be accessed here:
+[https://mdmtaskweb.rubi.ru.ac.za](https://mdmtaskweb.rubi.ru.ac.za)
 
-Take a look at our web application [MDM-TASK-web](https://mdmtaskweb.rubi.ru.ac.za/) and find the [BioRxiv article here](https://www.biorxiv.org/content/10.1101/2021.01.29.428734v1)
-
+If you use MDM-TASK-web in your work, please cite the following:
+ - [MDM-TASK-web: MD-TASK and MODE-TASK web server for analyzing protein dynamics](https://doi.org/10.1016/j.csbj.2021.08.043)
+ - [MD-TASK: a software suite for analyzing molecular dynamics trajectories](https://dx.doi.org/10.1093%2Fbioinformatics%2Fbtx349)
+ - [MODE-TASK: large-scale protein motion tools](https://doi.org/10.1093/bioinformatics/bty427)
 
 ## Installation
-1. Clone the MDM-TASK-web branch
+Clone the MDM-TASK-web branch
 ```
 git clone -b mdm-task-web https://github.com/RUBi-ZA/MD-TASK
 ```
@@ -18,6 +21,6 @@ Activate the conda environment
 ```
 conda activate mdmtaskweb
 ```
-The scripts are located in the root directory of the project. To run the scripts, ensure that the conda environment is activated. 
+Scripts are located in the root directory of the project. To run the scripts, ensure that the conda environment is activated. 
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/RUBi-ZA/MD-TASK/mdmtask-dev?filepath=example%2Fmdmtaskweb_tutorial.ipynb)
