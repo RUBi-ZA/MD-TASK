@@ -119,6 +119,7 @@ def main(args):
     log.info("Plotting heat map...\n")
     plot_map(correlation, args.title, args.prefix)
     write_correlation(correlation, args.prefix)
+    return correlation
 
 log = Logger()
 
