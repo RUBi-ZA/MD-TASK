@@ -4,13 +4,14 @@ channels:
   - bioconda
   - defaults
 dependencies:
-  - python=3.8
-  - pandas
-  - seaborn
-  - mdtraj
-  - nglview
-  - ipywidgets==7.5.1
-  - pandoc
   - networkx=2.6.1
   - biopython
-prefix: /home/olivier/bin/anaconda/envs/py38
+  - ipywidgets==7.5.1
+  - seaborn
+  - pandoc
+  - mdtraj
+  - nglview
+  - python=3.8
+  - pandas
+  - scikit-learn
+prefix: /home/olivier/bin/anaconda/envs/mdmtaskweb
