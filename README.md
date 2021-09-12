@@ -23,4 +23,4 @@ conda activate mdmtaskweb
  - Example topology and (short) trajectory files are in the data folder
  - Click on the binder logo for a tutorial of the command line
  
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/RUBi-ZA/MD-TASK/mdmtask-dev?filepath=example%2Fmdmtaskweb_tutorial.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/RUBi-ZA/MD-TASK/mdmtask-dev?filepath=tutorial%2Fmdmtaskweb_tutorial.ipynb)
