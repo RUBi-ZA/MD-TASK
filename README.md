@@ -5,7 +5,6 @@
 If you use MDM-TASK-web in your work, please cite the following:
  - [MDM-TASK-web: MD-TASK and MODE-TASK web server for analyzing protein dynamics](https://doi.org/10.1016/j.csbj.2021.08.043)
  - [MD-TASK: a software suite for analyzing molecular dynamics trajectories](https://dx.doi.org/10.1093%2Fbioinformatics%2Fbtx349)
- - [MODE-TASK: large-scale protein motion tools](https://doi.org/10.1093/bioinformatics/bty427)
 
 ## Installation
 Clone the MDM-TASK-web branch
