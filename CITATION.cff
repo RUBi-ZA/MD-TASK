@@ -1,0 +1,6 @@
+# YAML 1.2
+---
+authors: 
+cff-version: "1.1.0"
+message: "Please use the following citation when using MDM-TASK-web: https://doi.org/10.1016/j.csbj.2021.08.043"
+...

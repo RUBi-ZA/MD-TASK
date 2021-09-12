@@ -11,4 +11,4 @@ cp $BIN_DIR/example/* .
 echo ""
 echo "#### TEST PERTURBATION RESPONSE SCANNING ####"
 echo ""
-python $BIN_DIR/prs.py --initial initial.xyz --final final.xyz --perturbations 20 --step 200 --prefix result --topology example_small.pdb example_small.dcd
+python $BIN_DIR/prs.py --final final.pdb --perturbations 20 --step 200 --prefix result --topology example_small.pdb example_small.xtc

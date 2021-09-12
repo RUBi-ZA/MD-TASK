@@ -1,0 +1,16 @@
+name: mdmtaskweb
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - python=3.8
+  - pandas
+  - seaborn
+  - mdtraj
+  - nglview
+  - ipywidgets==7.5.1
+  - pandoc
+  - networkx=2.6.1
+  - biopython
+prefix: /home/olivier/bin/anaconda/envs/py38

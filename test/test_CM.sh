@@ -9,7 +9,7 @@ BIN_DIR=../..
 cp $BIN_DIR/example/* .
 
 echo ""
-echo "#### R IGRAPH - CONTACT MAP ####"
+echo "#### CONTACT MAP ####"
 echo ""
 
 python $BIN_DIR/contact_map.py --residue ASP31 --topology wt.pdb wt.dcd

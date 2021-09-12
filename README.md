@@ -1,30 +1,26 @@
-[![Build Status](https://travis-ci.com/RUBi-ZA/MD-TASK.svg?branch=master)](https://travis-ci.com/RUBi-ZA/MD-TASK)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/ece0a51e7cf4436abf71795051f4ee7b)](https://www.codacy.com/gh/RUBi-ZA/MD-TASK?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=RUBi-ZA/MD-TASK&amp;utm_campaign=Badge_Grade)
+# MDM-TASK-web [![fair-software.eu](https://img.shields.io/badge/fair--software.eu-%E2%97%8F%20%20%E2%97%8F%20%20%E2%97%8B%20%20%E2%97%8F%20%20%E2%97%8B-orange)](https://fair-software.eu)
 
-Take a look at our web application [MDM-TASK-web](https://mdmtaskweb.rubi.ru.ac.za/) and find the [BioRxiv article here](https://www.biorxiv.org/content/10.1101/2021.01.29.428734v1)
+**MDM-TASK-web** is web server for MD-TASK and MODE-TASK and can be accessed here: [https://mdmtaskweb.rubi.ru.ac.za](https://mdmtaskweb.rubi.ru.ac.za)
 
-# MD-TASK
-
-A suite of Python scripts that have been developed to analyze molecular dynamics trajectories. Detailed documentation on how to install and use MD-TASK can be found on our [ReadTheDocs](http://md-task.readthedocs.io/en/latest/index.html) site.
+If you use MDM-TASK-web in your work, please cite the following:
+ - [MDM-TASK-web: MD-TASK and MODE-TASK web server for analyzing protein dynamics](https://doi.org/10.1016/j.csbj.2021.08.043)
+ - [MD-TASK: a software suite for analyzing molecular dynamics trajectories](https://dx.doi.org/10.1093%2Fbioinformatics%2Fbtx349)
 
 ## Installation
-
-*Download the project:*
-```bash
-git clone https://github.com/RUBi-ZA/MD-TASK.git
-cd MD-TASK
+Clone the MDM-TASK-web branch
 ```
-*Install dependencies and set up Python virtual environment:*
-```bash
-sudo apt-get install virtualenvwrapper python-dev libblas-dev liblapack-dev libatlas-base-dev gfortran libpng-dev libfreetype6-dev python-tk r-base
-sh install.sh
+git clone -b mdmtask-dev https://github.com/RUBi-ZA/MD-TASK
 ```
-*Install igraph package for R:*
-```bash
-R
-> install.packages("igraph")
+Go inside the cloned MD-TASK folder and run the following to create the working environment named "mdmtaskweb"
 ```
-
-## Usage
-
-The scripts are located in the root directory of the project. To run the scripts, ensure that the virtual environment is activated. For more info, find detailed documentation [here](http://md-task.readthedocs.io/en/latest/index.html).
+conda env create -f environment.yml
+```
+Activate the conda environment
+```
+conda activate mdmtaskweb
+```
+ - Scripts are located in the src directory of the project. To run the scripts, ensure that the conda environment is activated. 
+ - Example topology and (short) trajectory files are in the data folder
+ - Click on the binder logo for a tutorial of the command line
+ 
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/RUBi-ZA/MD-TASK/mdmtask-dev?filepath=tutorial%2Fmdmtaskweb_tutorial.ipynb)

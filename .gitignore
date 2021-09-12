@@ -1,6 +1,13 @@
 # Test directory
 test/out*
 test/timer
+*.dat
+*.cif
+*.csv
+
+# text examples
+example/pr1.pdb
+example/pr1.xtc
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
