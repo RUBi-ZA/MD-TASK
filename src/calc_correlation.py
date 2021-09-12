@@ -4,9 +4,7 @@ Calculates Dynamic Cross Correlations from MD data
 """
 #
 # Calculate correlation in MD trajectory
-#
 # Script distributed under GNU GPL 3.0
-#
 # Author: Caroline Ross
 
 __version__ = 1.2
