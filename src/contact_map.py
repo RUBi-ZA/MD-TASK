@@ -179,6 +179,7 @@ def get_contact_map(args):
     # Save contacts
     dframe = pd.DataFrame(ebunch)
     dframe.to_csv(csv_file, header=False, index=False)
+    return dframe
 
 SILENT = False
 STREAM = sys.stdout
