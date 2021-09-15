@@ -1,6 +1,27 @@
 # YAML 1.2
 ---
 authors: 
+  -
+    affiliation: "Research Unit in Bioinformatics, Rhodes University"
+    family-names: "Sheik Amamuddy"
+    given-names: Olivier
+    orcid: "https://orcid.org/https://orcid.org/0000-0002-1781-1382"
+  -
+    affiliation: "Research Unit in Bioinformatics, Rhodes University"
+    family-names: "Glenister"
+    given-names: Michael
+  -
+    affiliation: "Research Unit in Bioinformatics, Rhodes University"
+    family-names: "Tshabalala"
+    given-names: Thulani
+  -
+    affiliation: "Research Unit in Bioinformatics, Rhodes University"
+    family-names: "Tastan Bishop"
+    given-names: Özlem
 cff-version: "1.1.0"
-message: "Please use the following citation when using MDM-TASK-web: https://doi.org/10.1016/j.csbj.2021.08.043"
+date-released: 2 September 2021
+doi: "10.1016/j.csbj.2021.08.043"
+license: "GPL-3.0"
+message: "If you use this software, please cite it using these metadata."
+title: "MDM-TASK-web"
 ...

@@ -199,8 +199,10 @@ def main(args):
     for i in range(0, totalres):
         maxRHO[i] = numpy.amax(abs(RHO[i,:]))
 
-    numpy.savetxt("%s.csv" % args.prefix, maxRHO, delimiter=",", header=args.prefix)
+    numpy.savetxt("%s.csv" % args.prefix, maxRHO, delimiter=",", header="correlations", comments="")
+    shape = maxRHO.shape
     del maxRHO
+    return shape
 
 
 log = Logger()

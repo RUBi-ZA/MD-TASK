@@ -67,38 +67,5 @@ def plot_map(matrix, title, output_prefix, low=None, high=None,
     ax.set_xlabel("Residue index")
     ax.set_ylabel("Residue index")
     ax.invert_yaxis() 
-    # fig, ax = plt.subplots()
-
-    # colors = [(cm.seismic(i)) for i in xrange(250,0,-1)]
-    
-    # new_map = matplotlib.colors.LinearSegmentedColormap.from_list('new_map', colors, N=300)
-    # if low or high:
-    #     heatmap = ax.pcolor(matrix, cmap=map_type, vmin=low, vmax=high)
-    # else:    
-    #     heatmap = ax.pcolor(matrix, cmap=map_type)
-
-    # fig = plt.gcf()
-    # ax.set_frame_on(False)
-    # ax.grid(False)
-
-    # plt.xticks(rotation=90)
-
-    # # Turn off all the ticks
-    # ax = plt.gca()
-    # for t in ax.xaxis.get_major_ticks():
-    #     t.tick1On = False
-    #     t.tick2On = False
-    #     t.label.set_fontsize(8) 
-
-    # for t in ax.yaxis.get_major_ticks():
-    #     t.tick1On = False
-    #     t.tick2On = False
-    #     t.label.set_fontsize(8) 
-    
-    # if axes:
-    #     plt.xlabel('Chain A Residue Index', fontsize=12)
-    #     plt.ylabel('Chain B Residue Index', fontsize=12)
-
-    # cbar = plt.colorbar(heatmap, orientation="vertical")
     plt.savefig('%s.png' % output_prefix, bbox_inches="tight", dpi=300)
     plt.close('all')
