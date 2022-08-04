@@ -14,7 +14,7 @@ cd MD-TASK
 ```
 *Use the provided yml to create a conda environment:*
 ```bash
-conda env create -f md-task. yml
+conda env create -f md-task.yml
 ```
 *OR*
 ```
