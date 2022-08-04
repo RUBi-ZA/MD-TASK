@@ -17,8 +17,7 @@ cd MD-TASK
 conda env create -f md-task.yml
 ```
 *OR*
-```
-```
+
 *Install dependencies and set up Python virtual environment:*
 ```bash
 sudo apt-get install virtualenvwrapper python-dev libblas-dev liblapack-dev libatlas-base-dev gfortran libpng-dev libfreetype6-dev python-tk r-base
