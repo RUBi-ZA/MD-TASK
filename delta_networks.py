@@ -101,7 +101,7 @@ def main(args):
         plt.subplots(figsize=(30, 3))
         plot(1, 1, y_data, y_data_std, args.initial_x, args.title, args.x_label, args.y_label)
 
-    plt.savefig("%s.png" % args.prefix, dpi=300, bbox_inches='tight')
+    plt.savefig("%s.png" % args.prefix, dpi=300, bbox_inches='tight',format="png")
     plt.close()
 
 

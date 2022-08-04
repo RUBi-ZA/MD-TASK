@@ -46,7 +46,7 @@ def plot_map(correlation, title, output_prefix, x_labels, y_labels):
     plt.ylabel("Residue Index", fontsize=12)
 
     cbar = plt.colorbar(heatmap, orientation="vertical")
-    plt.savefig('%s.png' % output_prefix, dpi=300)
+    plt.savefig('%s.png' % output_prefix, dpi=300,format="png")
     plt.close('all')
 
 

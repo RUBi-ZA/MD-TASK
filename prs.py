@@ -166,10 +166,10 @@ def main(args):
             for line_index, initial_line in enumerate(initial_lines):
                 final_line = final_lines.readline()
 
-                if line_index >= 2 and res_index < totalres:
+                if line_index >= 1 and res_index < totalres:
                     initial_res = initial_line.strip().split()
 
-                    if initial_res[0] == "CA":
+                    if(len(initial_res[0]) == 4):
                         final_res = final_line.strip().split()
 
                         initial[res_index,] = initial_res[1:]

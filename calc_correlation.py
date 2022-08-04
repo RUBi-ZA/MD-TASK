@@ -29,7 +29,7 @@ def parse_traj(traj, topology=None, step=1, selected_atoms=["CA"], lazy_load=Fal
     for frame in traj:
         for atom in frame.topology.atoms:
             if atom.name in selected_atoms:
-                res = atom.residue.index
+                res = atom.residue.resSeq
 
                 ac = frame.xyz[0, atom.index]
                 co_ords = [ac[0], ac[1], ac[2]]
@@ -116,7 +116,7 @@ def plot_map(correlation, title, output_prefix):
     plt.ylabel("Residue Index", fontsize=12)
 
     plt.colorbar(heatmap, orientation="vertical")
-    plt.savefig('%s.png' % output_prefix, dpi=300)
+    plt.savefig('%s.png' % output_prefix, dpi=300,format="png")
     plt.close('all')
 
 

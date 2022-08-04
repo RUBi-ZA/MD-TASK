@@ -68,9 +68,9 @@ def calc_shortest_paths(traj, traj_name, total_frames, args):
             prefix = "%s_%d" % (".".join(traj_name.split(".")[:-1]), frame.time)
 
             pg = construct_graph(frame, args.ligands, prefix, args.threshold, args.discard_graphs)
-
-            calc_shortest_path( pg, prefix, args.generate_plots, args.xmgrace )
-
+            
+            calc_shortest_path(pg, prefix, args.generate_plots, args.xmgrace)
+            
         except nx.exception.NetworkXNoPath as nex:
             log.error("type=orphan_node:frame=%d:message=%s. Try increasing the threshold.\n" % (current + 1, str(nex)))
 
@@ -79,10 +79,11 @@ def calc_shortest_paths(traj, traj_name, total_frames, args):
 
 
 def calc_shortest_path(protein_graph, prefix, generate_plots=True, xmgrace=False):
+
     num_nodes = len(protein_graph.nodes())
     nodes_axis = range(1, num_nodes + 1)
 
-    path_dict = nx.all_pairs_shortest_path_length(protein_graph)
+    path_dict = dict(nx.all_pairs_shortest_path_length(protein_graph))
     dj_path_matrix = np.zeros((num_nodes, num_nodes))
 
     for i in range(num_nodes):
@@ -93,7 +94,6 @@ def calc_shortest_path(protein_graph, prefix, generate_plots=True, xmgrace=False
                 raise nx.exception.NetworkXNoPath("\nERROR::type=orphan_node:message=No link between %d and %d:exception=%s\n" % (i, j, str(ke)))
 
     np.savetxt("%s_L.dat" % prefix, dj_path_matrix)
-
     avg_L_per_node = np.sum(dj_path_matrix, axis=0)/(num_nodes - 1)
 
     if generate_plots:
@@ -101,20 +101,19 @@ def calc_shortest_path(protein_graph, prefix, generate_plots=True, xmgrace=False
         plt.title("%s L" % prefix, fontsize=18)
         plt.xlabel('Node Indices', fontsize=16)
         plt.ylabel('L', fontsize=16)
-        plt.savefig("%s_L.png" % prefix, dpi=300, bbox_inches='tight')
+        plt.savefig("%s_L.png" % prefix, dpi=300, bbox_inches='tight',format="png")
         plt.close()
 
     avg_L_per_node = avg_L_per_node.reshape(1, num_nodes)
     np.savetxt("%s_avg_L.dat" % prefix, avg_L_per_node)
-    if xmgrace:
-        dat2xmgrace(avg_L_per_node, prefix, "L", traj=traj)
+    # if xmgrace:
+    #     dat2xmgrace(avg_L_per_node, prefix, "L", traj=traj)
 
     return dj_path_matrix
 
 
 def calc_centralities(traj, traj_name, total_frames, args):
     log.info("Calculating betweenness centralities...\n")
-
     for current, frame in enumerate(traj):
         try:
             if total_frames:
@@ -144,7 +143,7 @@ def calc_BC(protein_graph, prefix, generate_plots=True):
         plt.title("%s BC" % prefix, fontsize=18)
         plt.xlabel('Node Indices', fontsize=16)
         plt.ylabel('BC', fontsize=16)
-        plt.savefig("%s_BC.png" % prefix, dpi=300, bbox_inches='tight')
+        plt.savefig("%s_BC.png" % prefix, dpi=300, bbox_inches='tight',format="png")
         plt.close()
 
     bc = bc.reshape(1, num_nodes)

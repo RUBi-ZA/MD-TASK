@@ -9,20 +9,22 @@ A suite of Python scripts that have been developed to analyze molecular dynamics
 
 *Download the project:*
 ```bash
-git clone https://github.com/RUBi-ZA/MD-TASK.git
+git clone -b md-task-python3.9  https://github.com/RUBi-ZA/MD-TASK.git
 cd MD-TASK
+```
+*Use the provided yml to create a conda environment:*
+```bash
+conda env create -f md-task. yml
+```
+*OR*
+```
 ```
 *Install dependencies and set up Python virtual environment:*
 ```bash
 sudo apt-get install virtualenvwrapper python-dev libblas-dev liblapack-dev libatlas-base-dev gfortran libpng-dev libfreetype6-dev python-tk r-base
 sh install.sh
 ```
-*Install igraph package for R:*
-```bash
-R
-> install.packages("igraph")
-```
 
 ## Usage
 
-The scripts are located in the root directory of the project. To run the scripts, ensure that the virtual environment is activated. For more info, find detailed documentation [here](http://md-task.readthedocs.io/en/latest/index.html).
+The scripts are located in the root directory of the project. To run the scripts, ensure that the virtual/conda environment is activated. For more info, find detailed documentation [here](http://md-task.readthedocs.io/en/latest/index.html).
