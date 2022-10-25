@@ -109,4 +109,3 @@ dependencies:
   - xz=5.2.5=h7f8727e_1
   - zlib=1.2.12=h7f8727e_2
   - zstd=1.5.2=ha4553b6_0
-prefix: /home/alsanyaz/anaconda3/envs/md-task
