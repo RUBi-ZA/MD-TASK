@@ -97,19 +97,18 @@ def plot_map(correlation, title, output_prefix):
     ax.set_frame_on(False)
     ax.grid(False)
 
-    plt.xticks(rotation=90)
+    plt.xticks(rotation=90, fontsize=8)
 
     # Turn off all the ticks
     ax = plt.gca()
     for t in ax.xaxis.get_major_ticks():
         t.tick1line.set_visible = False
         t.tick2line.set_visible = False
-        t.label.set_fontsize(8)
 
     for t in ax.yaxis.get_major_ticks():
         t.tick1line.set_visible = False
         t.tick2line.set_visible = False
-        t.label.set_fontsize(8)
+    _ = plt.yticks(fontsize=8)
 
     plt.title(title, fontsize=16)
     plt.xlabel('Residue Index', fontsize=12)

@@ -31,7 +31,7 @@ def plot_network(g, ebunch, contact_map, discardplot=False, node_size=2900,
     """
     Plots a network
     """
-    tmp = pd.DataFrame(ebunch, dtype=np.float64)
+    tmp = pd.DataFrame(ebunch)
     order = pd.Series([int(i[3:-2]) for i in tmp.loc[:, 1].tolist()]).sort_values().index
     ebunch = tmp.iloc[order, :].values
     edges = g.edges()
@@ -142,7 +142,7 @@ def main(args):
     log("Generating contact map: %s...\n" % contact_map)
 
     _ = nx.Graph()
-    ebunch = list(map(lambda x: [center, x[0][1], round(x[1]/float(nframes), 3)], list(contacts.items())))
+    ebunch = [[center, x[0][1], round(x[1]/float(nframes), 3)] for x in list(contacts.items())]
     _.add_weighted_edges_from(ebunch)
 
     plot_network(_, ebunch, contact_map, discardplot=discardplot,
