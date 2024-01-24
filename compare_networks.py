@@ -19,7 +19,7 @@ import matplotlib.pyplot as plt
 
 
 def plot_comparison(reference, alternative, reference_label, alternative_label, prefix="compare", y_label=None, ylim=None):
-    difference = alternative - reference
+    difference = reference - alternative
 
     num_nodes = reference.shape[0]
     node_axis = range(1, num_nodes + 1)
@@ -36,7 +36,7 @@ def plot_comparison(reference, alternative, reference_label, alternative_label, 
     lines.append(plt.plot(node_axis, alternative, "red", label=alternative_label)[0])
 
     plt.legend(handles=lines)
-    plt.title("%s vs %s (%s)" % (alternative_label, reference_label, y_label), fontsize=18)
+    plt.title("%s vs %s (%s)" % (reference_label, alternative_label, y_label), fontsize=18)
     plt.xlabel('Residue Numbers', fontsize=16)
     plt.ylabel(y_label, fontsize=16)
 
@@ -46,7 +46,7 @@ def plot_comparison(reference, alternative, reference_label, alternative_label, 
 
     line, = plt.plot(node_axis, difference, "red", label="$\Delta$%s" % y_label)
     plt.legend(handles=[line])
-    plt.title("%s - %s ($\Delta$%s)" % (alternative_label, reference_label, y_label), fontsize=18)
+    plt.title("%s - %s ($\Delta$%s)" % (reference_label, alternative_label, y_label), fontsize=18)
     plt.xlabel('Residue Numbers', fontsize=16)
     plt.ylabel("$\Delta$%s" % y_label, fontsize=16)
 
@@ -56,7 +56,7 @@ def plot_comparison(reference, alternative, reference_label, alternative_label, 
 
     filename = "%s_comp.png" % prefix
     log.info("Generate plot: %s\n" % filename)
-    plt.savefig(filename, dpi=300, bbox_inches='tight')
+    plt.savefig(filename, dpi=300, bbox_inches='tight',format="png")
     plt.close()
 
 

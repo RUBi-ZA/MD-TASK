@@ -29,7 +29,7 @@ def parse_traj(traj, topology=None, step=1, selected_atoms=["CA"], lazy_load=Fal
     for frame in traj:
         for atom in frame.topology.atoms:
             if atom.name in selected_atoms:
-                res = atom.residue.index
+                res = atom.residue.resSeq
 
                 ac = frame.xyz[0, atom.index]
                 co_ords = [ac[0], ac[1], ac[2]]
@@ -97,26 +97,25 @@ def plot_map(correlation, title, output_prefix):
     ax.set_frame_on(False)
     ax.grid(False)
 
-    plt.xticks(rotation=90)
+    plt.xticks(rotation=90, fontsize=8)
 
     # Turn off all the ticks
     ax = plt.gca()
     for t in ax.xaxis.get_major_ticks():
         t.tick1line.set_visible = False
         t.tick2line.set_visible = False
-        t.label.set_fontsize(8)
 
     for t in ax.yaxis.get_major_ticks():
         t.tick1line.set_visible = False
         t.tick2line.set_visible = False
-        t.label.set_fontsize(8)
+    _ = plt.yticks(fontsize=8)
 
     plt.title(title, fontsize=16)
     plt.xlabel('Residue Index', fontsize=12)
     plt.ylabel("Residue Index", fontsize=12)
 
     plt.colorbar(heatmap, orientation="vertical")
-    plt.savefig('%s.png' % output_prefix, dpi=300)
+    plt.savefig('%s.png' % output_prefix, dpi=300,format="png")
     plt.close('all')
 
 
@@ -153,8 +152,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
     #custom arguments
-    parser.add_argument("--trajectory", help="Trajectory file")
-    parser.add_argument("--topology", help="Referencce PDB file (must contain the same number of atoms as the trajectory)")
+    parser.add_argument("--trajectory", help="Trajectory file", required=True)
+    parser.add_argument("--topology", help="Referencce PDB file (must contain the same number of atoms as the trajectory)", required=True)
     parser.add_argument("--step", help="Size of the step to take when iterating the the trajectory frames", type=int)
     parser.add_argument("--lazy-load", help="Iterate through trajectory, loading one frame into memory at a time (memory-efficient for large trajectories)", action='store_true', default=False)
 

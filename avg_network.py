@@ -129,7 +129,7 @@ def main(args):
                 y_label=args.y_label, ylim=ylim
             )
 
-        plt.savefig("%s_avg.png" % prefix, dpi=300, bbox_inches='tight')
+        plt.savefig("%s_avg.png" % prefix, dpi=300, bbox_inches='tight',format="png")
         plt.close()
 
 
