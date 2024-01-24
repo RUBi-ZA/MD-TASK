@@ -152,8 +152,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
     #custom arguments
-    parser.add_argument("--trajectory", help="Trajectory file")
-    parser.add_argument("--topology", help="Referencce PDB file (must contain the same number of atoms as the trajectory)")
+    parser.add_argument("--trajectory", help="Trajectory file", required=True)
+    parser.add_argument("--topology", help="Referencce PDB file (must contain the same number of atoms as the trajectory)", required=True)
     parser.add_argument("--step", help="Size of the step to take when iterating the the trajectory frames", type=int)
     parser.add_argument("--lazy-load", help="Iterate through trajectory, loading one frame into memory at a time (memory-efficient for large trajectories)", action='store_true', default=False)
 
