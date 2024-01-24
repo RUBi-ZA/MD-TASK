@@ -65,7 +65,7 @@ def calc_shortest_paths(traj, traj_name, total_frames, args):
             else:
                 log.info("Progress: %d frames completed\r" % (current + 1))
 
-            prefix = "%s_%d" % (".".join(traj_name.split(".")[:-1]), frame.time)
+            prefix = "%s_%d" % (".".join(traj_name.split(".")[:-1]), frame.time[0])
 
             pg = construct_graph(frame, args.ligands, prefix, args.threshold, args.discard_graphs)
             
@@ -121,7 +121,7 @@ def calc_centralities(traj, traj_name, total_frames, args):
             else:
                 log.info("Progress: %d frames completed\r" % (current + 1))
 
-            prefix = "%s_%d" % (".".join(traj_name.split(".")[:-1]), frame.time)
+            prefix = "%s_%d" % (".".join(traj_name.split(".")[:-1]), frame.time[0])
 
             pg = construct_graph(frame, args.ligands, prefix, args.threshold, args.discard_graphs)
 
