@@ -17,6 +17,11 @@ cd MD-TASK
 sudo apt-get install virtualenvwrapper python-dev libblas-dev liblapack-dev libatlas-base-dev gfortran libpng-dev libfreetype6-dev python-tk r-base
 sh install.sh
 ```
+*Install igraph package for R:*
+```bash
+R
+> install.packages("igraph")
+```
 
 ## Usage
 
