@@ -26,7 +26,7 @@ or you can use the provided YAML file:
 
 ```bash
 conda env create -f md-task.yml
-conda activate mdtask
+conda activate md-task
 ```
 
 ## Usage
