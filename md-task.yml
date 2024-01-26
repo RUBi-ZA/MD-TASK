@@ -1,4 +1,4 @@
-name: mdtask
+name: md-task
 channels:
   - defaults
 dependencies:
