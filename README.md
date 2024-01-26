@@ -18,8 +18,8 @@ cd MD-TASK
 You can either run:
 
 ```bash
-conda create -n mdtask pandas conda-forge::matplotlib conda-forge::natsort anaconda::networkx conda-forge::mdtraj
-conda activate mdtask
+conda create -n md-task pandas conda-forge::matplotlib conda-forge::natsort anaconda::networkx conda-forge::mdtraj
+conda activate md-task
 ```
 
 or you can use the provided YAML file:
