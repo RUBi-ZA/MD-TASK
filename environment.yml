@@ -1,4 +1,4 @@
-name: mdmtaskweb
+name: mdm
 channels:
   - conda-forge
   - bioconda
@@ -6,13 +6,12 @@ channels:
 dependencies:
   - networkx=2.6.1
   - biopython
-  - ipywidgets
+  - ipywidgets>=7.0
   - seaborn
   - pandoc
   - mdtraj
-  - nglview
+  - nglview=3.0.8
   - python=3.8
   - pandas
   - scikit-learn
   - matplotlib-base=3.5.1
-prefix: /home/olivier/bin/anaconda/envs/mdmtaskweb

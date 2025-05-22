@@ -1,9 +1,13 @@
 # Test directory
 test/out*
 test/timer
+test/*.png
+test/*.txt
+test/*.npy
 *.dat
 *.cif
 *.csv
+*.xyz
 
 # text examples
 example/pr1.pdb
