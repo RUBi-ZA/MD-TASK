@@ -6,7 +6,7 @@ channels:
 dependencies:
   - networkx=2.6.1
   - biopython
-  - ipywidgets>=7.0
+  - ipywidgets=8.1.1
   - seaborn
   - pandoc
   - mdtraj
