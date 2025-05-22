@@ -16,3 +16,4 @@ dependencies:
   - scikit-learn
   - seaborn
   - conda-forge::jupyterlab
+  - nodejs
