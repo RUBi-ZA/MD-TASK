@@ -1,17 +1,17 @@
-name: mdm
+name: mdmtaskweb
 channels:
   - conda-forge
   - bioconda
   - defaults
 dependencies:
-  - networkx=2.6.1
   - biopython
   - ipywidgets=8.1.1
-  - seaborn
-  - pandoc
+  - matplotlib-base=3.5.1
   - mdtraj
   - nglview=3.0.8
-  - python=3.8
+  - networkx=2.6.1
   - pandas
+  - pandoc
+  - python=3.8
   - scikit-learn
-  - matplotlib-base=3.5.1
+  - seaborn
